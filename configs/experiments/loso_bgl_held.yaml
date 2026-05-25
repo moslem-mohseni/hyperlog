@@ -1,0 +1,70 @@
+# LOSO fold: BGL held out, train on HDFS + Thunderbird.
+
+defaults: []
+
+run:
+  name: loso-bgl-held-qwen25
+  experiment: phase4-loso-core
+  fold: bgl_held
+  seeds: [42, 1337, 2024, 31415, 27182]
+
+protocol:
+  held_out_system: bgl
+  train_sources: [hdfs, thunderbird]
+  strip_target_labels: true
+
+model:
+  decoder: qwen2.5-1.5b
+  bert_path: bert-base-uncased
+  max_content_len: 64
+  max_sequence_lines: 128
+  quantize_4bit: true
+  projector:
+    depth: 2
+    dropout: 0.1
+  head:
+    dropout: 0.1
+  lora:
+    r: 16
+    alpha: 32
+    dropout: 0.05
+
+data:
+  raw_root: data/raw
+  splits_dir: splits
+
+trainer:
+  micro_batch_size: 4
+  grad_accum_steps: 4
+  class_weight_cap: 10.0
+  compute_dtype: bfloat16
+
+stages:
+  - name: projector_warmup
+    n_epochs: 1
+    lr: 5.0e-4
+    grad_clip_norm: 1.0
+  - name: joint_qlora
+    n_epochs: 2
+    lr: 5.0e-5
+    weight_decay: 0.01
+    grad_clip_norm: 1.0
+  - name: end_to_end_refine
+    n_epochs: 1
+    lr: 5.0e-6
+    weight_decay: 0.01
+    grad_clip_norm: 0.5
+
+kill_switch:
+  enable_domain_adversarial: false
+  lambda_domain: 0.0
+  enable_self_supervised_target: false
+  self_sup_lambda: 0.0
+  self_sup_sample_fraction: 0.05
+
+mlflow:
+  experiment: phase4-loso-core
+  tracking_uri: file:./mlruns
+
+vram_budget_gib: 22.0
+leakage_strict: true

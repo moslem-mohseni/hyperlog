@@ -70,6 +70,7 @@ dev = [
 [project.scripts]
 hylog-train = "hylog.cli.train:main"
 hylog-predict = "hylog.cli.predict:main"
+hylog-loso = "hylog.cli.loso:main"
 
 [project.urls]
 Homepage = "https://github.com/moslem-mohseni/hyperlog"
@@ -130,6 +131,7 @@ module = [
     "accelerate.*",
     "hydra.*",
     "omegaconf.*",
+    "scipy.*",
 ]
 ignore_missing_imports = true
 
@@ -140,6 +142,16 @@ ignore_missing_imports = true
 module = [
     "hylog.models.*",
     "hylog.evaluation.metrics",
+    "hylog.evaluation.confusion_renderer",
+    "hylog.evaluation.cross_system",
+    "hylog.evaluation.curves",
+    "hylog.evaluation.bootstrap",
+    "hylog.evaluation.statistical_tests",
+    "hylog.evaluation.ood_distance",
+    "hylog.evaluation.run_manifest",
+    "hylog.training.domain_adversarial",
+    "hylog.training.self_supervised",
+    "hylog.cli.loso",
 ]
 disable_error_code = [
     "no-any-return",
@@ -148,6 +160,8 @@ disable_error_code = [
     "arg-type",
     "no-untyped-call",
     "type-arg",
+    "unused-ignore",
+    "no-untyped-def",
 ]
 
 [tool.pytest.ini_options]

@@ -1,0 +1,108 @@
+# Canonical published cross-system numbers for the LOSO head-to-head table.
+#
+# Every entry is sourced from the linked paper. Values are recorded
+# verbatim from the paper's tables; deviations during HyLog's
+# re-evaluation are tracked in reports/phase4/cross_system.md.
+#
+# Schema (validated by tests/unit/test_evaluation/test_baseline_comparison.py):
+#   baselines:
+#     - method: <str>
+#       paper_link: <url>
+#       year: <int>
+#       protocol: <str>                # one-line description of their setting
+#       per_fold:                       # explicit per-held-out-system numbers
+#         <system_name>:
+#           f1: <float | null>
+#           precision: <float | null>
+#           recall: <float | null>
+#       macro_f1: <float | null>        # macro-averaged F1 across folds
+
+baselines:
+  - method: MetaLog
+    paper_link: https://dl.acm.org/doi/10.1145/3597503.3639205
+    year: 2024
+    protocol: |
+      Meta-learning over four log systems. Requires a small amount of
+      labelled target-system data (few-label, NOT zero-label).
+    per_fold:
+      HDFS:
+        f1: 0.949
+        precision: null
+        recall: null
+      BGL:
+        f1: 0.978
+        precision: null
+        recall: null
+      Thunderbird:
+        f1: 0.940
+        precision: null
+        recall: null
+      OpenStack:
+        f1: 0.941
+        precision: null
+        recall: null
+    macro_f1: 0.952
+
+  - method: ZeroLog
+    paper_link: https://arxiv.org/abs/2511.05862
+    year: 2025
+    protocol: |
+      System-agnostic representation meta-learning with unsupervised
+      adversarial domain adaptation. Zero target labels. Reports
+      ">80% F1" averaged across three public systems.
+    per_fold:
+      HDFS:
+        f1: null
+        precision: null
+        recall: null
+      BGL:
+        f1: null
+        precision: null
+        recall: null
+      Thunderbird:
+        f1: null
+        precision: null
+        recall: null
+    macro_f1: 0.80
+
+  - method: Few-to-Zero-Label MetaLog
+    paper_link: https://arxiv.org/abs/2507.19806
+    year: 2025
+    protocol: |
+      Meta-learning extension of MetaLog that operates under the
+      zero-label target-system constraint.
+    per_fold:
+      HDFS:
+        f1: null
+        precision: null
+        recall: null
+      BGL:
+        f1: null
+        precision: null
+        recall: null
+      Thunderbird:
+        f1: null
+        precision: null
+        recall: null
+    macro_f1: null
+
+  - method: Bridging the Gap (LLM transfer)
+    paper_link: https://arxiv.org/abs/2412.15445
+    year: 2024
+    protocol: |
+      Cross-system log-based anomaly detection using meta-learning over
+      LLM embeddings. Requires labelled target data.
+    per_fold:
+      HDFS:
+        f1: null
+        precision: null
+        recall: null
+      BGL:
+        f1: null
+        precision: null
+        recall: null
+      Thunderbird:
+        f1: null
+        precision: null
+        recall: null
+    macro_f1: null
