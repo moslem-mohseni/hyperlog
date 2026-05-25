@@ -1,0 +1,111 @@
+name: GPU smoke
+
+# Runs on a self-hosted GPU runner with the `gpu` label. The runner is
+# expected to have:
+#   - NVIDIA driver compatible with CUDA 12.x
+#   - Python 3.11+
+#   - 8 GB+ VRAM
+#
+# The job is opt-in (workflow_dispatch + tag pushes only) so a missing
+# self-hosted runner does not block PR merges.
+
+on:
+  workflow_dispatch:
+    inputs:
+      skip_pytest:
+        description: "Skip the pytest stage (faster smoke loop)"
+        required: false
+        default: "false"
+  push:
+    tags:
+      - "v*"
+
+concurrency:
+  group: gpu-smoke-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  smoke:
+    name: GPU smoke
+    runs-on: [self-hosted, linux, gpu]
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Probe NVIDIA driver
+        run: nvidia-smi || true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install pinned dependencies
+        run: |
+          python -m pip install --upgrade pip wheel setuptools
+          python -m pip install -r requirements-lock.txt
+          python -m pip install -e . --no-deps
+
+      - name: Verify install
+        run: bash scripts/verify_install.sh
+
+      - name: Run reproduce_all (skip pytest if requested)
+        env:
+          SKIP_TESTS: ${{ inputs.skip_pytest && '1' || '0' }}
+        run: bash scripts/reproduce_all.sh
+
+      - name: Smoke training step (1 step)
+        run: |
+          python - <<'PY'
+          # A one-step training smoke -- loads the tiny test fixtures and
+          # runs a single QLoRA optimizer step on CPU/GPU. Verifies that
+          # bitsandbytes + peft + transformers all line up on the runner.
+          import torch
+          from transformers import LlamaConfig, LlamaForCausalLM, BertConfig, BertModel
+          from hylog.models.hylog_core import HyLogCore, HyLogCoreConfig, HyLogLoraConfig
+          from hylog.models.decoder import DecoderSpec
+          from hylog.models.encoder import EncoderConfig, LogLineEncoder
+
+          bert = BertModel(BertConfig(hidden_size=32, num_hidden_layers=2,
+                                       num_attention_heads=2, intermediate_size=64,
+                                       vocab_size=200, max_position_embeddings=128))
+          llama = LlamaForCausalLM(LlamaConfig(hidden_size=64, num_hidden_layers=2,
+                                                num_attention_heads=2, num_key_value_heads=2,
+                                                intermediate_size=128, vocab_size=256))
+          spec = DecoderSpec(name='smoke', hf_path='smoke', hidden_size=64,
+                             total_parameters_millions=0.1, family='qwen2')
+          class FakeBertTok:
+              def __call__(self, lines, **k):
+                  ids = [[1] + [(ord(c) % 195) + 5 for c in l[:14]] + [2] for l in lines]
+                  m = max(len(x) for x in ids)
+                  ids = [x + [0] * (m - len(x)) for x in ids]
+                  return {"input_ids": torch.tensor(ids), "attention_mask": torch.tensor([[1 if t else 0 for t in x] for x in ids])}
+          class FakeLlamaTok:
+              pad_token = "<p>"; eos_token = "</s>"; pad_token_id = 0; eos_token_id = 1
+              def __call__(self, *a, **k):
+                  return {"input_ids": torch.tensor([[1]]), "attention_mask": torch.tensor([[1]])}
+          enc = LogLineEncoder(EncoderConfig(max_content_len=16), bert_model=bert, tokenizer=FakeBertTok())
+          model = HyLogCore(
+              HyLogCoreConfig(decoder_name='smoke', quantize_4bit=False,
+                              projector_depth=1, lora=HyLogLoraConfig(r=2, alpha=4),
+                              max_sequence_lines=4),
+              encoder=enc, decoder=llama, decoder_tokenizer=FakeLlamaTok(),
+              decoder_spec=spec, device='cpu',
+          )
+          tokenized = enc.tokenize(['a b', 'c d'])
+          logits = model(line_inputs=tokenized, sequence_lengths=[1, 1])
+          loss = torch.nn.functional.cross_entropy(logits, torch.tensor([0, 1]))
+          loss.backward()
+          print(f'smoke OK, loss={loss.item():.4f}')
+          PY
+
+      - name: Upload reproduction reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase7-reports
+          path: reports/phase7/
+          if-no-files-found: ignore
+          retention-days: 14

@@ -104,6 +104,9 @@ configs/local/
 reports/phase4/runs/
 reports/phase5/runs/
 reports/phase6/runs/
+reports/phase7/sample_*/
+reports/phase7/reproduction.json
+reports/phase7/verify_install.json
 
 # Upstream sources vendored for parity inspection only (Phase 2A).
 # Reclonable via scripts/feasibility_check.{ps1,sh}.

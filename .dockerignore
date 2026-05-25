@@ -1,0 +1,54 @@
+# Trim the build context aggressively so docker builds stay fast.
+.git/
+.github/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# Tests are not needed in the runtime image; CI builds a separate
+# test image when needed.
+tests/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+
+# IDE + OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Per-run artefacts (regenerated at runtime).
+mlruns/
+mlartifacts/
+data/raw/
+data/processed/
+data/cache/
+models/checkpoints/
+outputs/
+reports/phase4/runs/
+reports/phase5/runs/
+reports/phase6/runs/
+*.log
+
+# Third-party vendored sources (clone fresh in the container if needed).
+third_party/
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Local config overrides
+configs/local/
+*.local.yaml
+*.local.yml
+
+# Initial materials are heavy and not needed at runtime.
+docs/00_initial_materials/
+
+# Release payloads.
+.release_*.json
