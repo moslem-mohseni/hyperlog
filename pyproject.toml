@@ -160,6 +160,12 @@ module = [
     "hylog.cli.ablation",
     "hylog.evaluation.ablation",
     "hylog.evaluation.cliffs_delta",
+    "hylog.inference.server",
+    "hylog.inference.auth",
+    "hylog.inference.rate_limit",
+    "hylog.inference.drift",
+    "hylog.inference.predictor",
+    "hylog.inference.schemas",
 ]
 disable_error_code = [
     "no-any-return",

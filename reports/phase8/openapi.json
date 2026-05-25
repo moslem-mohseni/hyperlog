@@ -1,0 +1,621 @@
+{
+  "components": {
+    "schemas": {
+      "CalibrationInfo": {
+        "additionalProperties": false,
+        "description": "Calibration metadata echoed on every response.",
+        "properties": {
+          "fitted_on": {
+            "description": "Free-form identifier of the calibration set.",
+            "title": "Fitted On",
+            "type": "string"
+          },
+          "method": {
+            "enum": [
+              "none",
+              "temperature_scaling",
+              "platt_scaling",
+              "vector_scaling"
+            ],
+            "title": "Method",
+            "type": "string"
+          },
+          "platt_a": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Platt A"
+          },
+          "platt_b": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Platt B"
+          },
+          "temperature": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Temperature"
+          }
+        },
+        "required": [
+          "method",
+          "fitted_on"
+        ],
+        "title": "CalibrationInfo",
+        "type": "object"
+      },
+      "DriftSummary": {
+        "additionalProperties": false,
+        "description": "GET /v1/drift response. Reports the Phase-8 drift KS-test status.",
+        "properties": {
+          "drift_detected": {
+            "title": "Drift Detected",
+            "type": "boolean"
+          },
+          "drift_threshold": {
+            "title": "Drift Threshold",
+            "type": "number"
+          },
+          "ks_p_value": {
+            "title": "Ks P Value",
+            "type": "number"
+          },
+          "ks_statistic": {
+            "title": "Ks Statistic",
+            "type": "number"
+          },
+          "n_observed": {
+            "title": "N Observed",
+            "type": "integer"
+          },
+          "n_reference": {
+            "title": "N Reference",
+            "type": "integer"
+          },
+          "observed_summary": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "title": "Observed Summary",
+            "type": "object"
+          },
+          "reference_summary": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "title": "Reference Summary",
+            "type": "object"
+          }
+        },
+        "required": [
+          "n_observed",
+          "n_reference",
+          "ks_statistic",
+          "ks_p_value",
+          "drift_threshold",
+          "drift_detected",
+          "reference_summary",
+          "observed_summary"
+        ],
+        "title": "DriftSummary",
+        "type": "object"
+      },
+      "ErrorResponse": {
+        "additionalProperties": false,
+        "description": "4xx / 5xx body. Deliberately strips any echo of the request to\nprevent log-injection-by-error (Phase-8 \u00a711.9).",
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "string"
+          },
+          "error": {
+            "title": "Error",
+            "type": "string"
+          },
+          "request_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Request Id"
+          }
+        },
+        "required": [
+          "error",
+          "detail"
+        ],
+        "title": "ErrorResponse",
+        "type": "object"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "HealthResponse": {
+        "additionalProperties": false,
+        "description": "GET /healthz response.",
+        "properties": {
+          "model_version": {
+            "title": "Model Version",
+            "type": "string"
+          },
+          "status": {
+            "default": "ok",
+            "enum": [
+              "ok",
+              "degraded"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "uptime_seconds": {
+            "title": "Uptime Seconds",
+            "type": "number"
+          }
+        },
+        "required": [
+          "model_version",
+          "uptime_seconds"
+        ],
+        "title": "HealthResponse",
+        "type": "object"
+      },
+      "LogSequenceIn": {
+        "additionalProperties": false,
+        "description": "One log sequence in the request body.",
+        "properties": {
+          "id": {
+            "description": "Client-supplied identifier; echoed back on response.",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Id",
+            "type": "string"
+          },
+          "lines": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 256,
+            "minItems": 1,
+            "title": "Lines",
+            "type": "array"
+          }
+        },
+        "required": [
+          "id",
+          "lines"
+        ],
+        "title": "LogSequenceIn",
+        "type": "object"
+      },
+      "ModelInfo": {
+        "additionalProperties": false,
+        "description": "GET /v1/model-info response.",
+        "properties": {
+          "calibration": {
+            "$ref": "#/components/schemas/CalibrationInfo"
+          },
+          "decoder_name": {
+            "title": "Decoder Name",
+            "type": "string"
+          },
+          "encoder_name": {
+            "title": "Encoder Name",
+            "type": "string"
+          },
+          "intended_use": {
+            "title": "Intended Use",
+            "type": "string"
+          },
+          "limitations": {
+            "title": "Limitations",
+            "type": "string"
+          },
+          "model_version": {
+            "title": "Model Version",
+            "type": "string"
+          },
+          "quantize_4bit": {
+            "title": "Quantize 4Bit",
+            "type": "boolean"
+          },
+          "schema_version": {
+            "title": "Schema Version",
+            "type": "integer"
+          },
+          "selective_threshold": {
+            "title": "Selective Threshold",
+            "type": "number"
+          },
+          "trained_on": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Trained On",
+            "type": "array"
+          }
+        },
+        "required": [
+          "model_version",
+          "schema_version",
+          "decoder_name",
+          "encoder_name",
+          "quantize_4bit",
+          "selective_threshold",
+          "calibration",
+          "trained_on",
+          "intended_use",
+          "limitations"
+        ],
+        "title": "ModelInfo",
+        "type": "object"
+      },
+      "PredictRequest": {
+        "additionalProperties": false,
+        "description": "Top-level POST /v1/predict payload.",
+        "properties": {
+          "sequences": {
+            "items": {
+              "$ref": "#/components/schemas/LogSequenceIn"
+            },
+            "maxItems": 64,
+            "minItems": 1,
+            "title": "Sequences",
+            "type": "array"
+          }
+        },
+        "required": [
+          "sequences"
+        ],
+        "title": "PredictRequest",
+        "type": "object"
+      },
+      "PredictResponse": {
+        "additionalProperties": false,
+        "description": "Top-level response. Matches docs/ROADMAP.md \u00a711.7 exactly.",
+        "properties": {
+          "calibration": {
+            "$ref": "#/components/schemas/CalibrationInfo"
+          },
+          "model_version": {
+            "minLength": 1,
+            "title": "Model Version",
+            "type": "string"
+          },
+          "sequences": {
+            "items": {
+              "$ref": "#/components/schemas/SequencePrediction"
+            },
+            "title": "Sequences",
+            "type": "array"
+          }
+        },
+        "required": [
+          "model_version",
+          "sequences",
+          "calibration"
+        ],
+        "title": "PredictResponse",
+        "type": "object"
+      },
+      "SequencePrediction": {
+        "additionalProperties": false,
+        "description": "One sequence's prediction in the response.",
+        "properties": {
+          "abstain_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Abstain Reason"
+          },
+          "confidence": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Confidence",
+            "type": "number"
+          },
+          "decision": {
+            "enum": [
+              "normal",
+              "anomaly",
+              "abstain"
+            ],
+            "title": "Decision",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "p_anomaly": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "P Anomaly",
+            "type": "number"
+          },
+          "p_anomaly_calibrated": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "P Anomaly Calibrated",
+            "type": "number"
+          }
+        },
+        "required": [
+          "id",
+          "p_anomaly",
+          "p_anomaly_calibrated",
+          "decision",
+          "confidence"
+        ],
+        "title": "SequencePrediction",
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "description": "REST inference for the HyLog hybrid SLM log anomaly detector. Auth: X-API-Key. Body schema documented at /openapi.json.",
+    "title": "HyLog Inference Service",
+    "version": "0.8.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/healthz": {
+      "get": {
+        "operationId": "healthz_healthz_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Healthz",
+        "tags": [
+          "meta"
+        ]
+      }
+    },
+    "/v1/drift": {
+      "get": {
+        "operationId": "drift_endpoint_v1_drift_get",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-API-Key",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DriftSummary"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "summary": "Drift Endpoint",
+        "tags": [
+          "meta"
+        ]
+      }
+    },
+    "/v1/model-info": {
+      "get": {
+        "operationId": "model_info_v1_model_info_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelInfo"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Model Info",
+        "tags": [
+          "meta"
+        ]
+      }
+    },
+    "/v1/predict": {
+      "post": {
+        "operationId": "predict_v1_predict_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-API-Key",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PredictRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PredictResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "summary": "Predict",
+        "tags": [
+          "inference"
+        ]
+      }
+    }
+  }
+}
