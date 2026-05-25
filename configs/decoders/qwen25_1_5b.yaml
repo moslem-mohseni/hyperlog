@@ -1,0 +1,8 @@
+# Qwen-2.5-1.5B — primary backbone (roadmap §1.1).
+name: qwen2.5-1.5b
+hf_path: Qwen/Qwen2.5-1.5B
+hidden_size: 1536
+total_parameters_millions: 1540.0
+family: qwen2
+instruct_variant: false
+lora_target_modules: ["q_proj", "k_proj", "v_proj", "o_proj"]

@@ -1,0 +1,8 @@
+# Qwen-2.5-1.5B-Instruct — primary backbone, instruct variant.
+name: qwen2.5-1.5b-instruct
+hf_path: Qwen/Qwen2.5-1.5B-Instruct
+hidden_size: 1536
+total_parameters_millions: 1540.0
+family: qwen2
+instruct_variant: true
+lora_target_modules: ["q_proj", "k_proj", "v_proj", "o_proj"]

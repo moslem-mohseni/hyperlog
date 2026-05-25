@@ -1,0 +1,62 @@
+# HyLog core experiment on HDFS (roadmap §Phase 3).
+#
+# In-domain F1 target: >= Phase-2 LogLLM-on-HDFS F1 - 1.0
+# (HyLog's headline run that retires LogLLM's Llama-7B for Qwen-2.5-1.5B).
+
+defaults: []
+
+run:
+  name: hylog-hdfs-qwen25-1.5b
+  experiment: phase3-hylog-hdfs
+  seeds: [42, 1337, 2024, 31415, 27182]
+
+model:
+  decoder: qwen2.5-1.5b
+  bert_path: bert-base-uncased
+  max_content_len: 64
+  max_sequence_lines: 128
+  quantize_4bit: true
+  projector:
+    depth: 2
+    dropout: 0.1
+  head:
+    dropout: 0.1
+  lora:
+    r: 16
+    alpha: 32
+    dropout: 0.05
+    # target_modules: null -> use decoder spec default ([q,k,v,o]_proj for Qwen).
+
+data:
+  dataset: hdfs
+  raw_dir: data/raw/hdfs
+  splits_path: splits/hdfs.json
+
+trainer:
+  micro_batch_size: 4
+  grad_accum_steps: 4
+  class_weight_cap: 10.0
+  compute_dtype: bfloat16
+
+stages:
+  - name: projector_warmup
+    n_epochs: 1
+    lr: 5.0e-4
+    weight_decay: 0.0
+    grad_clip_norm: 1.0
+  - name: joint_qlora
+    n_epochs: 2
+    lr: 5.0e-5
+    weight_decay: 0.01
+    grad_clip_norm: 1.0
+  - name: end_to_end_refine
+    n_epochs: 1
+    lr: 5.0e-6
+    weight_decay: 0.01
+    grad_clip_norm: 0.5
+
+mlflow:
+  experiment: phase3-hylog-hdfs
+  tracking_uri: file:./mlruns
+
+vram_budget_gib: 22.0  # 24 GB GPU minus headroom (roadmap Phase 3 checklist).

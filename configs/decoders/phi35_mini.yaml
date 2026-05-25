@@ -1,0 +1,9 @@
+# Phi-3.5-mini-instruct — secondary backbone (roadmap §1.1).
+name: phi-3.5-mini
+hf_path: microsoft/Phi-3.5-mini-instruct
+hidden_size: 3072
+total_parameters_millions: 3820.0
+family: phi3
+instruct_variant: true
+# Phi-3 fuses Q, K, V into qkv_proj; o_proj remains separate.
+lora_target_modules: ["qkv_proj", "o_proj"]
