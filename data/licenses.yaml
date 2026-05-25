@@ -1,0 +1,52 @@
+# License attribution for log datasets HyLog uses or evaluates against.
+#
+# HyLog does NOT redistribute the raw data; the download_data scripts fetch
+# archives from the upstream mirrors at run time. This file is the canonical
+# source for the auto-emitted data/LICENSES.txt notice.
+
+datasets:
+  - name: HDFS
+    upstream: https://github.com/logpai/loghub
+    upstream_v2: https://github.com/logpai/loghub-2.0
+    citation: |
+      Xu, W., Huang, L., Fox, A., Patterson, D., & Jordan, M. (2009).
+      Detecting Large-Scale System Problems by Mining Console Logs.
+      In Proceedings of SOSP 2009.
+    redistribution: |
+      The HDFS dataset is distributed by logpai under research-use terms.
+      HyLog does not redistribute the raw archive.
+
+  - name: BGL
+    upstream: https://www.usenix.org/cfdr-data
+    citation: |
+      Oliner, A., & Stearley, J. (2007). What Supercomputers Say: A Study of
+      Five System Logs. In Proceedings of DSN 2007.
+    redistribution: |
+      The BGL dataset is distributed by USENIX CFDR for research purposes;
+      redistribution within research artifacts is permitted with citation.
+
+  - name: Thunderbird
+    upstream: https://www.usenix.org/cfdr-data
+    citation: |
+      Oliner, A., & Stearley, J. (2007). What Supercomputers Say.
+      Proceedings of DSN 2007.
+    redistribution: |
+      The Thunderbird dataset is distributed by USENIX CFDR for research
+      purposes; redistribution within research artifacts is permitted with
+      citation.
+
+  - name: OpenStack
+    upstream: https://github.com/logpai/loghub
+    citation: |
+      He, S., Zhu, J., He, P., & Lyu, M. R. (2020). Loghub: A Large Collection
+      of System Log Datasets towards Automated Log Analytics. arXiv:2008.06448.
+    redistribution: |
+      The OpenStack logs are distributed by logpai under research-use terms.
+
+  - name: Loghub-2.0
+    upstream: https://github.com/logpai/loghub-2.0
+    citation: |
+      Jiang, Z. et al. (2024). A Large-scale Evaluation for Log Parsing
+      Techniques: How Far are We? ISSTA 2024.
+    redistribution: |
+      Loghub-2.0 is the source-of-truth for re-annotated splits used by HyLog.

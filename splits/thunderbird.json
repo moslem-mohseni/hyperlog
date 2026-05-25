@@ -1,0 +1,32 @@
+{
+  "dataset": "thunderbird",
+  "groups": {
+    "thunderbird_win_0": "train",
+    "thunderbird_win_1": "train",
+    "thunderbird_win_2": "val",
+    "thunderbird_win_3": "train"
+  },
+  "ratios": {
+    "test": 0.1,
+    "train": 0.8,
+    "val": 0.1
+  },
+  "schema_version": 1,
+  "stats": {
+    "test": {
+      "anomalies": 0,
+      "anomaly_fraction": 0.0,
+      "count": 0
+    },
+    "train": {
+      "anomalies": 3,
+      "anomaly_fraction": 1.0,
+      "count": 3
+    },
+    "val": {
+      "anomalies": 1,
+      "anomaly_fraction": 1.0,
+      "count": 1
+    }
+  }
+}

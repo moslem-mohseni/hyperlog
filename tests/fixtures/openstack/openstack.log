@@ -1,0 +1,100 @@
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:00.000 2500 INFO nova.compute.manager [-] [instance: inst-00000000-0000-0000-0000-000000000000] Starting instance
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:01.123 2500 INFO nova.virt.libvirt.driver [-] [instance: inst-00000000-0000-0000-0000-000000000000] VM Resumed (Lifecycle Event)
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:02.246 2500 WARN nova.compute.manager [-] [instance: inst-00000000-0000-0000-0000-000000000000] Periodic task failed
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:03.369 2500 INFO nova.virt.libvirt.driver [-] [instance: inst-00000000-0000-0000-0000-000000000000] Took 1.23 seconds to spawn the instance
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:04.492 2500 ERROR nova.compute.manager [-] [instance: inst-00000000-0000-0000-0000-000000000000] Instance failed network setup
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:05.615 2500 INFO nova.compute.manager [-] [instance: inst-00000000-0000-0000-0000-000000000000] Starting instance
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:06.738 2500 INFO nova.virt.libvirt.driver [-] [instance: inst-00000000-0000-0000-0000-000000000000] VM Resumed (Lifecycle Event)
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:07.861 2500 WARN nova.compute.manager [-] [instance: inst-00000000-0000-0000-0000-000000000000] Periodic task failed
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:08.984 2500 INFO nova.virt.libvirt.driver [-] [instance: inst-00000000-0000-0000-0000-000000000000] Took 1.23 seconds to spawn the instance
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:09.1107 2500 ERROR nova.compute.manager [-] [instance: inst-00000000-0000-0000-0000-000000000000] Instance failed network setup
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:10.1230 2500 INFO nova.compute.manager [-] [instance: inst-00000000-0000-0000-0000-000000000000] Starting instance
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:11.1353 2500 INFO nova.virt.libvirt.driver [-] [instance: inst-00000000-0000-0000-0000-000000000000] VM Resumed (Lifecycle Event)
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:12.1476 2500 WARN nova.compute.manager [-] [instance: inst-00000000-0000-0000-0000-000000000000] Periodic task failed
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:13.1599 2500 INFO nova.virt.libvirt.driver [-] [instance: inst-00000000-0000-0000-0000-000000000000] Took 1.23 seconds to spawn the instance
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:14.1722 2500 ERROR nova.compute.manager [-] [instance: inst-00000000-0000-0000-0000-000000000000] Instance failed network setup
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:15.1845 2500 INFO nova.compute.manager [-] [instance: inst-00000000-0000-0000-0000-000000000000] Starting instance
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:16.1968 2500 INFO nova.virt.libvirt.driver [-] [instance: inst-00000000-0000-0000-0000-000000000000] VM Resumed (Lifecycle Event)
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:17.2091 2500 WARN nova.compute.manager [-] [instance: inst-00000000-0000-0000-0000-000000000000] Periodic task failed
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:18.2214 2500 INFO nova.virt.libvirt.driver [-] [instance: inst-00000000-0000-0000-0000-000000000000] Took 1.23 seconds to spawn the instance
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:19.2337 2500 ERROR nova.compute.manager [-] [instance: inst-00000000-0000-0000-0000-000000000000] Instance failed network setup
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:20.000 2500 INFO nova.virt.libvirt.driver [-] [instance: inst-00000001-000d-0007-0003-00000000000b] VM Resumed (Lifecycle Event)
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:21.123 2501 WARN nova.compute.manager [-] [instance: inst-00000001-000d-0007-0003-00000000000b] Periodic task failed
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:22.246 2502 INFO nova.virt.libvirt.driver [-] [instance: inst-00000001-000d-0007-0003-00000000000b] Took 1.23 seconds to spawn the instance
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:23.369 2503 ERROR nova.compute.manager [-] [instance: inst-00000001-000d-0007-0003-00000000000b] Instance failed network setup
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:24.492 2504 INFO nova.compute.manager [-] [instance: inst-00000001-000d-0007-0003-00000000000b] Starting instance
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:25.615 2505 INFO nova.virt.libvirt.driver [-] [instance: inst-00000001-000d-0007-0003-00000000000b] VM Resumed (Lifecycle Event)
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:26.738 2506 WARN nova.compute.manager [-] [instance: inst-00000001-000d-0007-0003-00000000000b] Periodic task failed
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:27.861 2507 INFO nova.virt.libvirt.driver [-] [instance: inst-00000001-000d-0007-0003-00000000000b] Took 1.23 seconds to spawn the instance
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:28.984 2508 ERROR nova.compute.manager [-] [instance: inst-00000001-000d-0007-0003-00000000000b] Instance failed network setup
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:29.1107 2509 INFO nova.compute.manager [-] [instance: inst-00000001-000d-0007-0003-00000000000b] Starting instance
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:30.1230 2510 INFO nova.virt.libvirt.driver [-] [instance: inst-00000001-000d-0007-0003-00000000000b] VM Resumed (Lifecycle Event)
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:31.1353 2511 WARN nova.compute.manager [-] [instance: inst-00000001-000d-0007-0003-00000000000b] Periodic task failed
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:32.1476 2512 INFO nova.virt.libvirt.driver [-] [instance: inst-00000001-000d-0007-0003-00000000000b] Took 1.23 seconds to spawn the instance
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:33.1599 2513 ERROR nova.compute.manager [-] [instance: inst-00000001-000d-0007-0003-00000000000b] Instance failed network setup
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:34.1722 2514 INFO nova.compute.manager [-] [instance: inst-00000001-000d-0007-0003-00000000000b] Starting instance
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:35.1845 2515 INFO nova.virt.libvirt.driver [-] [instance: inst-00000001-000d-0007-0003-00000000000b] VM Resumed (Lifecycle Event)
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:36.1968 2516 WARN nova.compute.manager [-] [instance: inst-00000001-000d-0007-0003-00000000000b] Periodic task failed
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:37.2091 2517 INFO nova.virt.libvirt.driver [-] [instance: inst-00000001-000d-0007-0003-00000000000b] Took 1.23 seconds to spawn the instance
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:38.2214 2518 ERROR nova.compute.manager [-] [instance: inst-00000001-000d-0007-0003-00000000000b] Instance failed network setup
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:39.2337 2519 INFO nova.compute.manager [-] [instance: inst-00000001-000d-0007-0003-00000000000b] Starting instance
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:40.000 2500 WARN nova.compute.manager [-] [instance: inst-00000002-001a-000e-0006-000000000016] Periodic task failed
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:41.123 2502 INFO nova.virt.libvirt.driver [-] [instance: inst-00000002-001a-000e-0006-000000000016] Took 1.23 seconds to spawn the instance
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:42.246 2504 ERROR nova.compute.manager [-] [instance: inst-00000002-001a-000e-0006-000000000016] Instance failed network setup
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:43.369 2506 INFO nova.compute.manager [-] [instance: inst-00000002-001a-000e-0006-000000000016] Starting instance
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:44.492 2508 INFO nova.virt.libvirt.driver [-] [instance: inst-00000002-001a-000e-0006-000000000016] VM Resumed (Lifecycle Event)
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:45.615 2510 WARN nova.compute.manager [-] [instance: inst-00000002-001a-000e-0006-000000000016] Periodic task failed
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:46.738 2512 INFO nova.virt.libvirt.driver [-] [instance: inst-00000002-001a-000e-0006-000000000016] Took 1.23 seconds to spawn the instance
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:47.861 2514 ERROR nova.compute.manager [-] [instance: inst-00000002-001a-000e-0006-000000000016] Instance failed network setup
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:48.984 2516 INFO nova.compute.manager [-] [instance: inst-00000002-001a-000e-0006-000000000016] Starting instance
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:49.1107 2518 INFO nova.virt.libvirt.driver [-] [instance: inst-00000002-001a-000e-0006-000000000016] VM Resumed (Lifecycle Event)
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:50.1230 2520 WARN nova.compute.manager [-] [instance: inst-00000002-001a-000e-0006-000000000016] Periodic task failed
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:51.1353 2522 INFO nova.virt.libvirt.driver [-] [instance: inst-00000002-001a-000e-0006-000000000016] Took 1.23 seconds to spawn the instance
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:52.1476 2524 ERROR nova.compute.manager [-] [instance: inst-00000002-001a-000e-0006-000000000016] Instance failed network setup
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:53.1599 2526 INFO nova.compute.manager [-] [instance: inst-00000002-001a-000e-0006-000000000016] Starting instance
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:54.1722 2528 INFO nova.virt.libvirt.driver [-] [instance: inst-00000002-001a-000e-0006-000000000016] VM Resumed (Lifecycle Event)
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:55.1845 2530 WARN nova.compute.manager [-] [instance: inst-00000002-001a-000e-0006-000000000016] Periodic task failed
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:56.1968 2532 INFO nova.virt.libvirt.driver [-] [instance: inst-00000002-001a-000e-0006-000000000016] Took 1.23 seconds to spawn the instance
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:57.2091 2534 ERROR nova.compute.manager [-] [instance: inst-00000002-001a-000e-0006-000000000016] Instance failed network setup
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:58.2214 2536 INFO nova.compute.manager [-] [instance: inst-00000002-001a-000e-0006-000000000016] Starting instance
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:59.2337 2538 INFO nova.virt.libvirt.driver [-] [instance: inst-00000002-001a-000e-0006-000000000016] VM Resumed (Lifecycle Event)
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:00.000 2500 INFO nova.virt.libvirt.driver [-] [instance: inst-00000003-0027-0015-0009-000000000021] Took 1.23 seconds to spawn the instance
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:01.123 2503 ERROR nova.compute.manager [-] [instance: inst-00000003-0027-0015-0009-000000000021] Instance failed network setup
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:02.246 2506 INFO nova.compute.manager [-] [instance: inst-00000003-0027-0015-0009-000000000021] Starting instance
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:03.369 2509 INFO nova.virt.libvirt.driver [-] [instance: inst-00000003-0027-0015-0009-000000000021] VM Resumed (Lifecycle Event)
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:04.492 2512 WARN nova.compute.manager [-] [instance: inst-00000003-0027-0015-0009-000000000021] Periodic task failed
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:05.615 2515 INFO nova.virt.libvirt.driver [-] [instance: inst-00000003-0027-0015-0009-000000000021] Took 1.23 seconds to spawn the instance
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:06.738 2518 ERROR nova.compute.manager [-] [instance: inst-00000003-0027-0015-0009-000000000021] Instance failed network setup
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:07.861 2521 INFO nova.compute.manager [-] [instance: inst-00000003-0027-0015-0009-000000000021] Starting instance
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:08.984 2524 INFO nova.virt.libvirt.driver [-] [instance: inst-00000003-0027-0015-0009-000000000021] VM Resumed (Lifecycle Event)
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:09.1107 2527 WARN nova.compute.manager [-] [instance: inst-00000003-0027-0015-0009-000000000021] Periodic task failed
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:10.1230 2530 INFO nova.virt.libvirt.driver [-] [instance: inst-00000003-0027-0015-0009-000000000021] Took 1.23 seconds to spawn the instance
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:11.1353 2533 ERROR nova.compute.manager [-] [instance: inst-00000003-0027-0015-0009-000000000021] Instance failed network setup
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:12.1476 2536 INFO nova.compute.manager [-] [instance: inst-00000003-0027-0015-0009-000000000021] Starting instance
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:13.1599 2539 INFO nova.virt.libvirt.driver [-] [instance: inst-00000003-0027-0015-0009-000000000021] VM Resumed (Lifecycle Event)
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:14.1722 2542 WARN nova.compute.manager [-] [instance: inst-00000003-0027-0015-0009-000000000021] Periodic task failed
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:15.1845 2545 INFO nova.virt.libvirt.driver [-] [instance: inst-00000003-0027-0015-0009-000000000021] Took 1.23 seconds to spawn the instance
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:16.1968 2548 ERROR nova.compute.manager [-] [instance: inst-00000003-0027-0015-0009-000000000021] Instance failed network setup
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:17.2091 2551 INFO nova.compute.manager [-] [instance: inst-00000003-0027-0015-0009-000000000021] Starting instance
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:18.2214 2554 INFO nova.virt.libvirt.driver [-] [instance: inst-00000003-0027-0015-0009-000000000021] VM Resumed (Lifecycle Event)
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:19.2337 2557 WARN nova.compute.manager [-] [instance: inst-00000003-0027-0015-0009-000000000021] Periodic task failed
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:20.000 2500 ERROR nova.compute.manager [-] [instance: inst-00000004-0034-001c-000c-00000000002c] Instance failed network setup
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:21.123 2504 INFO nova.compute.manager [-] [instance: inst-00000004-0034-001c-000c-00000000002c] Starting instance
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:22.246 2508 INFO nova.virt.libvirt.driver [-] [instance: inst-00000004-0034-001c-000c-00000000002c] VM Resumed (Lifecycle Event)
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:23.369 2512 WARN nova.compute.manager [-] [instance: inst-00000004-0034-001c-000c-00000000002c] Periodic task failed
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:24.492 2516 INFO nova.virt.libvirt.driver [-] [instance: inst-00000004-0034-001c-000c-00000000002c] Took 1.23 seconds to spawn the instance
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:25.615 2520 ERROR nova.compute.manager [-] [instance: inst-00000004-0034-001c-000c-00000000002c] Instance failed network setup
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:26.738 2524 INFO nova.compute.manager [-] [instance: inst-00000004-0034-001c-000c-00000000002c] Starting instance
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:27.861 2528 INFO nova.virt.libvirt.driver [-] [instance: inst-00000004-0034-001c-000c-00000000002c] VM Resumed (Lifecycle Event)
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:28.984 2532 WARN nova.compute.manager [-] [instance: inst-00000004-0034-001c-000c-00000000002c] Periodic task failed
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:29.1107 2536 INFO nova.virt.libvirt.driver [-] [instance: inst-00000004-0034-001c-000c-00000000002c] Took 1.23 seconds to spawn the instance
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:30.1230 2540 ERROR nova.compute.manager [-] [instance: inst-00000004-0034-001c-000c-00000000002c] Instance failed network setup
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:31.1353 2544 INFO nova.compute.manager [-] [instance: inst-00000004-0034-001c-000c-00000000002c] Starting instance
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:32.1476 2548 INFO nova.virt.libvirt.driver [-] [instance: inst-00000004-0034-001c-000c-00000000002c] VM Resumed (Lifecycle Event)
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:33.1599 2552 WARN nova.compute.manager [-] [instance: inst-00000004-0034-001c-000c-00000000002c] Periodic task failed
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:34.1722 2556 INFO nova.virt.libvirt.driver [-] [instance: inst-00000004-0034-001c-000c-00000000002c] Took 1.23 seconds to spawn the instance
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:35.1845 2560 ERROR nova.compute.manager [-] [instance: inst-00000004-0034-001c-000c-00000000002c] Instance failed network setup
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:36.1968 2564 INFO nova.compute.manager [-] [instance: inst-00000004-0034-001c-000c-00000000002c] Starting instance
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:37.2091 2568 INFO nova.virt.libvirt.driver [-] [instance: inst-00000004-0034-001c-000c-00000000002c] VM Resumed (Lifecycle Event)
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:38.2214 2572 WARN nova.compute.manager [-] [instance: inst-00000004-0034-001c-000c-00000000002c] Periodic task failed
+nova-compute.log.2017-05-16_13:53:08 2017-05-16 00:00:39.2337 2576 INFO nova.virt.libvirt.driver [-] [instance: inst-00000004-0034-001c-000c-00000000002c] Took 1.23 seconds to spawn the instance

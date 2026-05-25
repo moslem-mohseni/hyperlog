@@ -1,0 +1,38 @@
+{
+  "dataset": "hdfs",
+  "groups": {
+    "blk_-1000000000": "train",
+    "blk_-1000007919": "train",
+    "blk_-1000015838": "val",
+    "blk_-1000023757": "train",
+    "blk_-1000031676": "train",
+    "blk_-1000039595": "train",
+    "blk_-1000047514": "train",
+    "blk_-1000055433": "train",
+    "blk_-1000063352": "train",
+    "blk_-1000071271": "test"
+  },
+  "ratios": {
+    "test": 0.1,
+    "train": 0.8,
+    "val": 0.1
+  },
+  "schema_version": 1,
+  "stats": {
+    "test": {
+      "anomalies": 1,
+      "anomaly_fraction": 1.0,
+      "count": 1
+    },
+    "train": {
+      "anomalies": 3,
+      "anomaly_fraction": 0.375,
+      "count": 8
+    },
+    "val": {
+      "anomalies": 0,
+      "anomaly_fraction": 0.0,
+      "count": 1
+    }
+  }
+}

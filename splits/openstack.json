@@ -1,0 +1,33 @@
+{
+  "dataset": "openstack",
+  "groups": {
+    "inst-00000000-0000-0000-0000-000000000000": "train",
+    "inst-00000001-000d-0007-0003-00000000000b": "train",
+    "inst-00000002-001a-000e-0006-000000000016": "train",
+    "inst-00000003-0027-0015-0009-000000000021": "test",
+    "inst-00000004-0034-001c-000c-00000000002c": "val"
+  },
+  "ratios": {
+    "test": 0.1,
+    "train": 0.8,
+    "val": 0.1
+  },
+  "schema_version": 1,
+  "stats": {
+    "test": {
+      "anomalies": 0,
+      "anomaly_fraction": 0.0,
+      "count": 1
+    },
+    "train": {
+      "anomalies": 2,
+      "anomaly_fraction": 0.666667,
+      "count": 3
+    },
+    "val": {
+      "anomalies": 1,
+      "anomaly_fraction": 1.0,
+      "count": 1
+    }
+  }
+}

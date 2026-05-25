@@ -83,6 +83,8 @@ multirun/
 # Logs
 *.log
 logs/
+# …but test fixtures are tracked even if they end in .log.
+!tests/fixtures/**/*.log
 
 # Notebooks
 .ipynb_checkpoints/

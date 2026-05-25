@@ -1,0 +1,37 @@
+{
+  "dataset": "bgl",
+  "groups": {
+    "bgl_win_0": "train",
+    "bgl_win_1": "train",
+    "bgl_win_2": "val",
+    "bgl_win_3": "train",
+    "bgl_win_4": "train",
+    "bgl_win_5": "val",
+    "bgl_win_6": "train",
+    "bgl_win_7": "train",
+    "bgl_win_8": "val"
+  },
+  "ratios": {
+    "test": 0.1,
+    "train": 0.8,
+    "val": 0.1
+  },
+  "schema_version": 1,
+  "stats": {
+    "test": {
+      "anomalies": 0,
+      "anomaly_fraction": 0.0,
+      "count": 0
+    },
+    "train": {
+      "anomalies": 6,
+      "anomaly_fraction": 1.0,
+      "count": 6
+    },
+    "val": {
+      "anomalies": 3,
+      "anomaly_fraction": 1.0,
+      "count": 3
+    }
+  }
+}

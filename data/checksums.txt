@@ -1,0 +1,14 @@
+# SHA-256 checksums for upstream dataset archives used by HyLog.
+#
+# Format: <sha256>  <relative-archive-path>
+#
+# Phase 1 ships this file as a placeholder. On first run of
+# scripts/download_data.{ps1,sh} the script computes the actual SHA-256 of
+# every downloaded archive and writes/updates this file. Subsequent
+# downloads verify against the recorded values so an upstream tamper or
+# truncation is caught at the pipeline boundary.
+#
+# Real values are intentionally NOT pre-baked into the repo: Loghub-2.0
+# archives have been re-released several times and the latest values are
+# the only ones a fresh run should trust. Refer to upstream commit history
+# at https://github.com/logpai/loghub-2.0 for provenance.

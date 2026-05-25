@@ -1,0 +1,100 @@
+081101 200000 100 INFO dfs.DataNode$DataXceiver: Receiving block blk_-1000000000 src: /10.250.19.0:540 dest: /10.250.19.0:50010
+081102 200023 100 INFO dfs.DataNode$PacketResponder: Received block blk_-1000000000 of size 67108864 from /10.250.10.1
+081103 200046 100 INFO dfs.DataNode$DataXceiver: writeBlock blk_-1000000000 received exception java.io.IOException
+081104 200069 100 INFO dfs.FSNamesystem: BLOCK* NameSystem.allocateBlock: /user/root/output/blk_-1000000000
+081105 200092 100 WARN dfs.DataNode$DataXceiver: Got exception while serving blk_-1000000000 to /10.251.31.4
+081106 200115 100 INFO dfs.DataNode$DataXceiver: PacketResponder blk_-1000000000 2 Exception java.net.SocketTimeoutException
+081107 200138 100 INFO dfs.DataNode$DataXceiver: Receiving block blk_-1000000000 src: /10.250.19.6:54738 dest: /10.250.19.6:50010
+081108 200161 100 INFO dfs.DataNode$PacketResponder: Received block blk_-1000000000 of size 67108864 from /10.250.10.7
+081109 200184 100 INFO dfs.DataNode$DataXceiver: writeBlock blk_-1000000000 received exception java.io.IOException
+081101 200207 100 INFO dfs.FSNamesystem: BLOCK* NameSystem.allocateBlock: /user/root/output/blk_-1000000000
+081102 200100 100 INFO dfs.DataNode$PacketResponder: Received block blk_-1000007919 of size 67108864 from /10.250.10.10
+081103 200123 101 INFO dfs.DataNode$DataXceiver: writeBlock blk_-1000007919 received exception java.io.IOException
+081104 200146 102 INFO dfs.FSNamesystem: BLOCK* NameSystem.allocateBlock: /user/root/output/blk_-1000007919
+081105 200169 103 WARN dfs.DataNode$DataXceiver: Got exception while serving blk_-1000007919 to /10.251.31.13
+081106 200192 104 INFO dfs.DataNode$DataXceiver: PacketResponder blk_-1000007919 2 Exception java.net.SocketTimeoutException
+081107 200215 105 INFO dfs.DataNode$DataXceiver: Receiving block blk_-1000007919 src: /10.250.19.15:54615 dest: /10.250.19.15:50010
+081108 200238 106 INFO dfs.DataNode$PacketResponder: Received block blk_-1000007919 of size 67108864 from /10.250.10.16
+081109 200261 107 INFO dfs.DataNode$DataXceiver: writeBlock blk_-1000007919 received exception java.io.IOException
+081101 200284 108 INFO dfs.FSNamesystem: BLOCK* NameSystem.allocateBlock: /user/root/output/blk_-1000007919
+081102 200307 109 WARN dfs.DataNode$DataXceiver: Got exception while serving blk_-1000007919 to /10.251.31.19
+081103 200200 100 INFO dfs.DataNode$DataXceiver: writeBlock blk_-1000015838 received exception java.io.IOException
+081104 200223 102 INFO dfs.FSNamesystem: BLOCK* NameSystem.allocateBlock: /user/root/output/blk_-1000015838
+081105 200246 104 WARN dfs.DataNode$DataXceiver: Got exception while serving blk_-1000015838 to /10.251.31.22
+081106 200269 106 INFO dfs.DataNode$DataXceiver: PacketResponder blk_-1000015838 2 Exception java.net.SocketTimeoutException
+081107 200292 108 INFO dfs.DataNode$DataXceiver: Receiving block blk_-1000015838 src: /10.250.19.24:54492 dest: /10.250.19.24:50010
+081108 200315 110 INFO dfs.DataNode$PacketResponder: Received block blk_-1000015838 of size 67108864 from /10.250.10.25
+081109 200338 112 INFO dfs.DataNode$DataXceiver: writeBlock blk_-1000015838 received exception java.io.IOException
+081101 200361 114 INFO dfs.FSNamesystem: BLOCK* NameSystem.allocateBlock: /user/root/output/blk_-1000015838
+081102 200384 116 WARN dfs.DataNode$DataXceiver: Got exception while serving blk_-1000015838 to /10.251.31.28
+081103 200407 118 INFO dfs.DataNode$DataXceiver: PacketResponder blk_-1000015838 2 Exception java.net.SocketTimeoutException
+081104 200300 100 INFO dfs.FSNamesystem: BLOCK* NameSystem.allocateBlock: /user/root/output/blk_-1000023757
+081105 200323 103 WARN dfs.DataNode$DataXceiver: Got exception while serving blk_-1000023757 to /10.251.31.31
+081106 200346 106 INFO dfs.DataNode$DataXceiver: PacketResponder blk_-1000023757 2 Exception java.net.SocketTimeoutException
+081107 200369 109 INFO dfs.DataNode$DataXceiver: Receiving block blk_-1000023757 src: /10.250.19.33:54369 dest: /10.250.19.33:50010
+081108 200392 112 INFO dfs.DataNode$PacketResponder: Received block blk_-1000023757 of size 67108864 from /10.250.10.34
+081109 200415 115 INFO dfs.DataNode$DataXceiver: writeBlock blk_-1000023757 received exception java.io.IOException
+081101 200438 118 INFO dfs.FSNamesystem: BLOCK* NameSystem.allocateBlock: /user/root/output/blk_-1000023757
+081102 200461 121 WARN dfs.DataNode$DataXceiver: Got exception while serving blk_-1000023757 to /10.251.31.37
+081103 200484 124 INFO dfs.DataNode$DataXceiver: PacketResponder blk_-1000023757 2 Exception java.net.SocketTimeoutException
+081104 200507 127 INFO dfs.DataNode$DataXceiver: Receiving block blk_-1000023757 src: /10.250.19.39:541107 dest: /10.250.19.39:50010
+081105 200400 100 WARN dfs.DataNode$DataXceiver: Got exception while serving blk_-1000031676 to /10.251.31.40
+081106 200423 104 INFO dfs.DataNode$DataXceiver: PacketResponder blk_-1000031676 2 Exception java.net.SocketTimeoutException
+081107 200446 108 INFO dfs.DataNode$DataXceiver: Receiving block blk_-1000031676 src: /10.250.19.42:54246 dest: /10.250.19.42:50010
+081108 200469 112 INFO dfs.DataNode$PacketResponder: Received block blk_-1000031676 of size 67108864 from /10.250.10.43
+081109 200492 116 INFO dfs.DataNode$DataXceiver: writeBlock blk_-1000031676 received exception java.io.IOException
+081101 200515 120 INFO dfs.FSNamesystem: BLOCK* NameSystem.allocateBlock: /user/root/output/blk_-1000031676
+081102 200538 124 WARN dfs.DataNode$DataXceiver: Got exception while serving blk_-1000031676 to /10.251.31.46
+081103 200561 128 INFO dfs.DataNode$DataXceiver: PacketResponder blk_-1000031676 2 Exception java.net.SocketTimeoutException
+081104 200584 132 INFO dfs.DataNode$DataXceiver: Receiving block blk_-1000031676 src: /10.250.19.48:54984 dest: /10.250.19.48:50010
+081105 200607 136 INFO dfs.DataNode$PacketResponder: Received block blk_-1000031676 of size 67108864 from /10.250.10.49
+081106 200500 100 INFO dfs.DataNode$DataXceiver: PacketResponder blk_-1000039595 2 Exception java.net.SocketTimeoutException
+081107 200523 105 INFO dfs.DataNode$DataXceiver: Receiving block blk_-1000039595 src: /10.250.19.51:54123 dest: /10.250.19.51:50010
+081108 200546 110 INFO dfs.DataNode$PacketResponder: Received block blk_-1000039595 of size 67108864 from /10.250.10.52
+081109 200569 115 INFO dfs.DataNode$DataXceiver: writeBlock blk_-1000039595 received exception java.io.IOException
+081101 200592 120 INFO dfs.FSNamesystem: BLOCK* NameSystem.allocateBlock: /user/root/output/blk_-1000039595
+081102 200615 125 WARN dfs.DataNode$DataXceiver: Got exception while serving blk_-1000039595 to /10.251.31.55
+081103 200638 130 INFO dfs.DataNode$DataXceiver: PacketResponder blk_-1000039595 2 Exception java.net.SocketTimeoutException
+081104 200661 135 INFO dfs.DataNode$DataXceiver: Receiving block blk_-1000039595 src: /10.250.19.57:54861 dest: /10.250.19.57:50010
+081105 200684 140 INFO dfs.DataNode$PacketResponder: Received block blk_-1000039595 of size 67108864 from /10.250.10.58
+081106 200707 145 INFO dfs.DataNode$DataXceiver: writeBlock blk_-1000039595 received exception java.io.IOException
+081107 200600 100 INFO dfs.DataNode$DataXceiver: Receiving block blk_-1000047514 src: /10.250.19.60:540 dest: /10.250.19.60:50010
+081108 200623 106 INFO dfs.DataNode$PacketResponder: Received block blk_-1000047514 of size 67108864 from /10.250.10.61
+081109 200646 112 INFO dfs.DataNode$DataXceiver: writeBlock blk_-1000047514 received exception java.io.IOException
+081101 200669 118 INFO dfs.FSNamesystem: BLOCK* NameSystem.allocateBlock: /user/root/output/blk_-1000047514
+081102 200692 124 WARN dfs.DataNode$DataXceiver: Got exception while serving blk_-1000047514 to /10.251.31.64
+081103 200715 130 INFO dfs.DataNode$DataXceiver: PacketResponder blk_-1000047514 2 Exception java.net.SocketTimeoutException
+081104 200738 136 INFO dfs.DataNode$DataXceiver: Receiving block blk_-1000047514 src: /10.250.19.66:54738 dest: /10.250.19.66:50010
+081105 200761 142 INFO dfs.DataNode$PacketResponder: Received block blk_-1000047514 of size 67108864 from /10.250.10.67
+081106 200784 148 INFO dfs.DataNode$DataXceiver: writeBlock blk_-1000047514 received exception java.io.IOException
+081107 200807 154 INFO dfs.FSNamesystem: BLOCK* NameSystem.allocateBlock: /user/root/output/blk_-1000047514
+081108 200700 100 INFO dfs.DataNode$PacketResponder: Received block blk_-1000055433 of size 67108864 from /10.250.10.70
+081109 200723 107 INFO dfs.DataNode$DataXceiver: writeBlock blk_-1000055433 received exception java.io.IOException
+081101 200746 114 INFO dfs.FSNamesystem: BLOCK* NameSystem.allocateBlock: /user/root/output/blk_-1000055433
+081102 200769 121 WARN dfs.DataNode$DataXceiver: Got exception while serving blk_-1000055433 to /10.251.31.73
+081103 200792 128 INFO dfs.DataNode$DataXceiver: PacketResponder blk_-1000055433 2 Exception java.net.SocketTimeoutException
+081104 200815 135 INFO dfs.DataNode$DataXceiver: Receiving block blk_-1000055433 src: /10.250.19.75:54615 dest: /10.250.19.75:50010
+081105 200838 142 INFO dfs.DataNode$PacketResponder: Received block blk_-1000055433 of size 67108864 from /10.250.10.76
+081106 200861 149 INFO dfs.DataNode$DataXceiver: writeBlock blk_-1000055433 received exception java.io.IOException
+081107 200884 156 INFO dfs.FSNamesystem: BLOCK* NameSystem.allocateBlock: /user/root/output/blk_-1000055433
+081108 200907 163 WARN dfs.DataNode$DataXceiver: Got exception while serving blk_-1000055433 to /10.251.31.79
+081109 200800 100 INFO dfs.DataNode$DataXceiver: writeBlock blk_-1000063352 received exception java.io.IOException
+081101 200823 108 INFO dfs.FSNamesystem: BLOCK* NameSystem.allocateBlock: /user/root/output/blk_-1000063352
+081102 200846 116 WARN dfs.DataNode$DataXceiver: Got exception while serving blk_-1000063352 to /10.251.31.82
+081103 200869 124 INFO dfs.DataNode$DataXceiver: PacketResponder blk_-1000063352 2 Exception java.net.SocketTimeoutException
+081104 200892 132 INFO dfs.DataNode$DataXceiver: Receiving block blk_-1000063352 src: /10.250.19.84:54492 dest: /10.250.19.84:50010
+081105 200915 140 INFO dfs.DataNode$PacketResponder: Received block blk_-1000063352 of size 67108864 from /10.250.10.85
+081106 200938 148 INFO dfs.DataNode$DataXceiver: writeBlock blk_-1000063352 received exception java.io.IOException
+081107 200961 156 INFO dfs.FSNamesystem: BLOCK* NameSystem.allocateBlock: /user/root/output/blk_-1000063352
+081108 200984 164 WARN dfs.DataNode$DataXceiver: Got exception while serving blk_-1000063352 to /10.251.31.88
+081109 201007 172 INFO dfs.DataNode$DataXceiver: PacketResponder blk_-1000063352 2 Exception java.net.SocketTimeoutException
+081101 200900 100 INFO dfs.FSNamesystem: BLOCK* NameSystem.allocateBlock: /user/root/output/blk_-1000071271
+081102 200923 109 WARN dfs.DataNode$DataXceiver: Got exception while serving blk_-1000071271 to /10.251.31.91
+081103 200946 118 INFO dfs.DataNode$DataXceiver: PacketResponder blk_-1000071271 2 Exception java.net.SocketTimeoutException
+081104 200969 127 INFO dfs.DataNode$DataXceiver: Receiving block blk_-1000071271 src: /10.250.19.93:54369 dest: /10.250.19.93:50010
+081105 200992 136 INFO dfs.DataNode$PacketResponder: Received block blk_-1000071271 of size 67108864 from /10.250.10.94
+081106 201015 145 INFO dfs.DataNode$DataXceiver: writeBlock blk_-1000071271 received exception java.io.IOException
+081107 201038 154 INFO dfs.FSNamesystem: BLOCK* NameSystem.allocateBlock: /user/root/output/blk_-1000071271
+081108 201061 163 WARN dfs.DataNode$DataXceiver: Got exception while serving blk_-1000071271 to /10.251.31.97
+081109 201084 172 INFO dfs.DataNode$DataXceiver: PacketResponder blk_-1000071271 2 Exception java.net.SocketTimeoutException
+081101 201107 181 INFO dfs.DataNode$DataXceiver: Receiving block blk_-1000071271 src: /10.250.19.99:541107 dest: /10.250.19.99:50010
