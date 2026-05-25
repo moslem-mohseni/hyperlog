@@ -94,3 +94,4 @@ configs/local/
 
 # Initial materials (preserved but not in source path)
 # docs/00_initial_materials/ IS tracked — these are the project's seed documents.
+.release_*.json
