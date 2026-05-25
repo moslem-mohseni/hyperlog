@@ -2,7 +2,7 @@
 
 **Hybrid Small-Language-Model Pipeline for Cross-System Log Anomaly Detection with Calibrated Uncertainty**
 
-[![CI](https://github.com/moslem-mohseni-khah/hylog-lad/actions/workflows/ci.yml/badge.svg)](https://github.com/moslem-mohseni-khah/hylog-lad/actions/workflows/ci.yml)
+[![CI](https://github.com/moslem-mohseni/hyperlog/actions/workflows/ci.yml/badge.svg)](https://github.com/moslem-mohseni/hyperlog/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 
@@ -32,8 +32,8 @@ risk register, and success contract.
 
 ```powershell
 # Clone
-git clone https://github.com/moslem-mohseni-khah/hylog-lad.git
-cd hylog-lad
+git clone https://github.com/moslem-mohseni/hyperlog.git
+cd hyperlog
 
 # Create a virtual environment
 python -m venv .venv

@@ -72,9 +72,9 @@ hylog-train = "hylog.cli.train:main"
 hylog-predict = "hylog.cli.predict:main"
 
 [project.urls]
-Homepage = "https://github.com/moslem-mohseni-khah/hylog-lad"
-Repository = "https://github.com/moslem-mohseni-khah/hylog-lad"
-Issues = "https://github.com/moslem-mohseni-khah/hylog-lad/issues"
+Homepage = "https://github.com/moslem-mohseni/hyperlog"
+Repository = "https://github.com/moslem-mohseni/hyperlog"
+Issues = "https://github.com/moslem-mohseni/hyperlog/issues"
 
 [tool.setuptools]
 package-dir = { "" = "src" }
