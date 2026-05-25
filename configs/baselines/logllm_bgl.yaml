@@ -1,0 +1,56 @@
+# LogLLM reproduction config: BGL (HyLog Phase 2B).
+# Tolerance (docs/ROADMAP.md Phase 2B): F1 within +-2.0 absolute points
+# of the LogLLM-reported number on BGL.
+
+defaults: []
+
+run:
+  name: logllm-bgl-seed42
+  seed: 42
+
+model:
+  bert_path: bert-base-uncased
+  decoder_path: meta-llama/Meta-Llama-3-8B
+  max_content_len: 100
+  max_seq_len: 128
+  quantize_4bit: true
+  bert_lora:
+    r: 4
+    alpha: 32
+    dropout: 0.01
+  decoder_lora:
+    r: 8
+    alpha: 16
+    dropout: 0.1
+    target_modules: ["q_proj", "v_proj"]
+
+data:
+  dataset: bgl
+  raw_dir: data/raw/bgl
+  splits_path: splits/bgl.json
+  min_less_portion: 0.3
+
+trainer:
+  batch_size: 16
+  micro_batch_size: 4
+  scheduler_gamma: 0.7
+  grad_clip_norm: 1.0
+  log_every: 50
+
+stages:
+  - name: decoder_lora_only
+    n_epochs: 1
+    lr: 5.0e-4
+  - name: projector_only
+    n_epochs: 1
+    lr: 5.0e-4
+  - name: projector_and_encoder
+    n_epochs: 1
+    lr: 5.0e-5
+  - name: finetune_all
+    n_epochs: 2
+    lr: 5.0e-5
+
+mlflow:
+  experiment: phase2-logllm-bgl
+  tracking_uri: file:./mlruns

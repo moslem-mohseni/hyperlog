@@ -97,3 +97,7 @@ configs/local/
 # Initial materials (preserved but not in source path)
 # docs/00_initial_materials/ IS tracked — these are the project's seed documents.
 .release_*.json
+
+# Upstream sources vendored for parity inspection only (Phase 2A).
+# Reclonable via scripts/feasibility_check.{ps1,sh}.
+third_party/

@@ -1,0 +1,61 @@
+# LogLLM reproduction config: HDFS (HyLog Phase 2B).
+#
+# Hyperparameter values mirror the upstream defaults at
+# third_party/LogLLM/train.py:13-28 except for the dataset path, which we
+# point at the HDFS download produced by scripts/download_data.ps1.
+#
+# Tolerance (docs/ROADMAP.md Phase 2B): F1 reproduced within +-1.0 absolute
+# points of the LogLLM-reported number on HDFS.
+
+defaults: []
+
+run:
+  name: logllm-hdfs-seed42
+  seed: 42
+
+model:
+  bert_path: bert-base-uncased
+  decoder_path: meta-llama/Meta-Llama-3-8B
+  max_content_len: 100   # upstream train.py:27
+  max_seq_len: 128       # upstream train.py:28
+  quantize_4bit: true
+  bert_lora:
+    r: 4
+    alpha: 32
+    dropout: 0.01
+  decoder_lora:
+    r: 8
+    alpha: 16
+    dropout: 0.1
+    target_modules: ["q_proj", "v_proj"]
+
+data:
+  dataset: hdfs
+  raw_dir: data/raw/hdfs
+  splits_path: splits/hdfs.json
+  min_less_portion: 0.3   # upstream train.py:32
+
+trainer:
+  batch_size: 16          # upstream train.py:18
+  micro_batch_size: 4     # upstream train.py:19
+  scheduler_gamma: 0.7    # upstream train.py:77
+  grad_clip_norm: 1.0
+  log_every: 50
+
+stages:
+  - name: decoder_lora_only
+    n_epochs: 1
+    lr: 5.0e-4
+  - name: projector_only
+    n_epochs: 1
+    lr: 5.0e-4
+  - name: projector_and_encoder
+    n_epochs: 1
+    lr: 5.0e-5
+  - name: finetune_all
+    n_epochs: 2
+    lr: 5.0e-5
+
+mlflow:
+  experiment: phase2-logllm-hdfs
+  tracking_uri: file:./mlruns
