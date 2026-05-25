@@ -1,0 +1,2825 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>مرور ادبیات: تشخیص ناهنجاری لاگ با مدل‌های زبانی کوچک</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ===== VARIABLES ===== */
+    :root {
+      --primary:       #1a3a5c;
+      --primary-light: #2563a8;
+      --accent:        #0ea5e9;
+      --accent-dark:   #0284c7;
+      --success:       #10b981;
+      --danger:        #ef4444;
+      --warning:       #f59e0b;
+      --bg:            #f1f5f9;
+      --card:          #ffffff;
+      --text:          #0f172a;
+      --text-muted:    #64748b;
+      --border:        #e2e8f0;
+      --radius:        14px;
+      --shadow:        0 2px 8px rgba(0,0,0,0.07);
+    }
+
+    /* ===== RESET ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    ul, ol { list-style: none; }
+
+    /* ===== BASE ===== */
+    body {
+      font-family: 'Vazirmatn', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      direction: rtl;
+      text-align: right;
+      line-height: 1.85;
+      font-size: 15px;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      background: linear-gradient(145deg, #0f2744 0%, #1a3a5c 50%, #0369a1 100%);
+      color: #fff;
+      padding: 2.5rem 1.25rem 3rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .hero-content { position: relative; z-index: 1; }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 100px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.35rem 1rem;
+      margin-bottom: 1.25rem;
+      letter-spacing: 0.04em;
+    }
+    .hero h1 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      line-height: 1.4;
+      margin-bottom: 0.6rem;
+    }
+    .hero h2 {
+      font-size: 1rem;
+      font-weight: 400;
+      opacity: 0.82;
+      margin-bottom: 1.5rem;
+    }
+    .hero-sep {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      opacity: 0.5;
+      font-size: 1.1rem;
+      margin: 1rem 0;
+    }
+    .hero-desc {
+      font-size: 0.88rem;
+      opacity: 0.78;
+      line-height: 1.75;
+      max-width: 520px;
+      margin: 0 auto 1.75rem;
+    }
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+    }
+    .hero-stat-num { font-size: 2rem; font-weight: 800; }
+    .hero-stat-label { font-size: 0.75rem; opacity: 0.7; margin-top: 0.1rem; }
+
+    /* ===== STICKY NAV ===== */
+    .sticky-nav {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      white-space: nowrap;
+    }
+    .sticky-nav::-webkit-scrollbar { display: none; }
+    .sticky-nav-inner {
+      display: inline-flex;
+      min-width: 100%;
+    }
+    .sticky-nav a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.85rem 1rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      border-bottom: 2px solid transparent;
+      transition: color .2s, border-color .2s;
+      white-space: nowrap;
+    }
+    .sticky-nav a:hover { color: var(--accent-dark); border-bottom-color: var(--accent-dark); }
+    .sticky-nav a.active { color: var(--primary); border-bottom-color: var(--primary); }
+
+    /* ===== CONTAINER ===== */
+    .container { max-width: 780px; margin: 0 auto; padding: 1.5rem 1rem; }
+
+    /* ===== SECTION HEADER ===== */
+    .sec-header { margin: 2.25rem 0 1.1rem; }
+    .sec-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.28rem 0.85rem;
+      border-radius: 100px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      margin-bottom: 0.5rem;
+    }
+    .sec-header h2 { font-size: 1.35rem; font-weight: 800; line-height: 1.3; }
+    .sec-header p  { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.3rem; line-height: 1.6; }
+
+    /* ===== DIVIDER BARS ===== */
+    .sec-div { height: 3px; border-radius: 3px; margin: 2rem 0 1.5rem; }
+
+    /* ===== ACCORDION PAPER CARD ===== */
+    .paper-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 0.85rem;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .paper-card-head {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+      padding: 1.1rem 1.15rem 1rem;
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .paper-card-head:active { background: #f8fafc; }
+    .paper-num {
+      flex-shrink: 0;
+      width: 2.1rem;
+      height: 2.1rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #fff;
+      margin-top: 0.1rem;
+    }
+    .paper-title-wrap { flex: 1; min-width: 0; }
+    .paper-en  { font-size: 0.73rem; color: var(--text-muted); margin-bottom: 0.2rem; line-height: 1.4; }
+    .paper-fa  { font-size: 0.97rem; font-weight: 700; line-height: 1.5; }
+    .paper-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.5rem; }
+    .ptag {
+      font-size: 0.68rem;
+      padding: 0.18rem 0.55rem;
+      border-radius: 100px;
+      font-weight: 600;
+    }
+    .ptag-venue { background: #eff6ff; color: #1d4ed8; }
+    .ptag-year  { background: #f0fdf4; color: #15803d; }
+    .ptag-q1    { background: #fef9c3; color: #92400e; }
+    .ptag-star  { background: #fef3c7; color: #b45309; }
+    .ptag-top   { background: #fce7f3; color: #9d174d; }
+    .chevron {
+      flex-shrink: 0;
+      width: 1.2rem;
+      height: 1.2rem;
+      color: var(--text-muted);
+      transition: transform .25s;
+      margin-top: 0.2rem;
+    }
+    .paper-card.open .chevron { transform: rotate(180deg); }
+
+    /* ===== CARD BODY ===== */
+    .paper-body {
+      display: none;
+      padding: 0 1.15rem 1.25rem;
+    }
+    .paper-card.open .paper-body { display: block; }
+
+    .info-grid { margin-bottom: 0.9rem; }
+    .info-row {
+      display: flex;
+      gap: 0.5rem;
+      font-size: 0.82rem;
+      margin-bottom: 0.4rem;
+      align-items: flex-start;
+      line-height: 1.6;
+    }
+    .info-lbl { font-weight: 700; color: var(--text-muted); flex-shrink: 0; min-width: 4.2rem; }
+    .info-val { color: var(--text); word-break: break-word; }
+    .info-val a { color: var(--accent-dark); font-size: 0.77rem; }
+
+    .hr { height: 1px; background: var(--border); margin: 0.9rem 0; }
+
+    .block-title {
+      font-size: 0.73rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+    .abstract-box {
+      background: #f8fafc;
+      border-right: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      padding: 0.85rem 1rem;
+      font-size: 0.84rem;
+      line-height: 1.88;
+      color: #1e293b;
+    }
+    .conclusion-box {
+      background: #f0f9ff;
+      border-right: 3px solid #38bdf8;
+      border-radius: 0 10px 10px 0;
+      padding: 0.85rem 1rem;
+      font-size: 0.84rem;
+      line-height: 1.88;
+      color: #0c4a6e;
+    }
+
+    /* ===== PROS / CONS ===== */
+    .pc-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.7rem;
+      margin-top: 0.6rem;
+    }
+    @media (min-width: 560px) { .pc-grid { grid-template-columns: 1fr 1fr; } }
+
+    .pros-box, .cons-box {
+      border-radius: 10px;
+      padding: 0.9rem;
+    }
+    .pros-box { background: #f0fdf4; border: 1px solid #bbf7d0; }
+    .cons-box { background: #fff1f2; border: 1px solid #fecdd3; }
+    .pc-head {
+      font-size: 0.78rem;
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .pros-box .pc-head { color: #15803d; }
+    .cons-box .pc-head { color: #dc2626; }
+    .pc-list { padding: 0; }
+    .pc-list li {
+      font-size: 0.8rem;
+      line-height: 1.7;
+      padding-right: 1.25rem;
+      position: relative;
+      margin-bottom: 0.3rem;
+      color: var(--text);
+    }
+    .pros-box .pc-list li::before { content: '✓'; position:absolute; right:0; color:#15803d; font-weight:700; }
+    .cons-box .pc-list li::before { content: '✗'; position:absolute; right:0; color:#dc2626; font-weight:700; }
+
+    /* ===== PLAIN INFO CARD ===== */
+    .info-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.15rem;
+      margin-bottom: 0.85rem;
+      box-shadow: var(--shadow);
+    }
+    .info-card p { font-size: 0.88rem; line-height: 1.85; color: #374151; }
+    .info-card p + p { margin-top: 0.75rem; }
+
+    /* ===== SCOPE BOX ===== */
+    .scope-box {
+      background: linear-gradient(135deg,#f0f9ff,#e0f2fe);
+      border: 1px solid #bae6fd;
+      border-radius: var(--radius);
+      padding: 1.1rem 1.15rem;
+      margin-bottom: 0.85rem;
+    }
+    .scope-box h3 { font-size: 0.9rem; font-weight: 700; color: #0284c7; margin-bottom: 0.75rem; }
+    .scope-item { display: flex; align-items: flex-start; gap: 0.6rem; margin-bottom: 0.55rem; font-size: 0.86rem; }
+    .scope-num {
+      width: 1.5rem; height: 1.5rem; min-width: 1.5rem;
+      background: #0ea5e9; color: #fff;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.68rem; font-weight: 700;
+    }
+
+    /* ===== METHOD NOTE ===== */
+    .method-box {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: var(--radius);
+      padding: 1.1rem 1.15rem;
+      font-size: 0.86rem;
+      color: #78350f;
+      line-height: 1.85;
+    }
+    .method-box li { padding-right: 1.1rem; position: relative; margin-bottom: 0.35rem; }
+    .method-box li::before { content: '▸'; position:absolute; right:0; color:#b45309; }
+
+    /* ===== GAP CARDS ===== */
+    .gap-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.1rem 1.15rem;
+      margin-bottom: 0.8rem;
+      box-shadow: var(--shadow);
+      display: flex;
+      gap: 0.85rem;
+      align-items: flex-start;
+    }
+    .gap-letter {
+      flex-shrink: 0;
+      width: 2rem; height: 2rem;
+      background: var(--primary);
+      color: #fff;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.82rem; font-weight: 700;
+      margin-top: 0.05rem;
+    }
+    .gap-inner { flex: 1; }
+    .gap-title { font-size: 0.97rem; font-weight: 700; margin-bottom: 0.45rem; color: var(--text); }
+    .gap-text  { font-size: 0.83rem; line-height: 1.85; color: #374151; }
+
+    /* ===== COMPARISON TABLE ===== */
+    .table-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      margin: 0.5rem 0 1rem;
+      box-shadow: var(--shadow);
+    }
+    table { width: 100%; border-collapse: collapse; min-width: 620px; }
+    th {
+      background: var(--primary);
+      color: #fff;
+      padding: 0.7rem 0.85rem;
+      text-align: right;
+      font-size: 0.78rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    td {
+      padding: 0.65rem 0.85rem;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.78rem;
+      line-height: 1.65;
+      vertical-align: top;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:nth-child(even) td { background: #f8fafc; }
+    .star-row td { background: #fefce8 !important; }
+    .star-row td:first-child { font-weight: 700; }
+
+    /* ===== PROPOSAL BOX ===== */
+    .proposal-box {
+      background: linear-gradient(135deg, #0f2744, #0369a1);
+      color: #fff;
+      border-radius: var(--radius);
+      padding: 1.4rem 1.15rem;
+      margin: 0.75rem 0;
+    }
+    .proposal-box p { font-size: 0.87rem; line-height: 1.9; opacity: 0.95; }
+
+    /* ===== VENUE TABLE ===== */
+    .venue-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      margin-top: 0.75rem;
+      box-shadow: var(--shadow);
+    }
+
+    /* ===== GLOSSARY ===== */
+    .gloss-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+    @media (min-width: 480px) { .gloss-grid { grid-template-columns: 1fr 1fr; } }
+    .gloss-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 1rem;
+      box-shadow: var(--shadow);
+    }
+    .gloss-fa  { font-size: 0.97rem; font-weight: 700; color: var(--text); margin-bottom: 0.1rem; }
+    .gloss-en  { font-size: 0.72rem; color: var(--accent-dark); font-weight: 600; margin-bottom: 0.5rem; direction: ltr; text-align: left; }
+    .gloss-def { font-size: 0.8rem; color: var(--text-muted); line-height: 1.7; }
+
+    /* ===== FOOTER ===== */
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+      margin-top: 2rem;
+    }
+
+    /* ===== COLOR HELPERS ===== */
+    /* section pills */
+    .pill-a { background:#f3e8ff; color:#7c3aed; }
+    .pill-b { background:#e0f2fe; color:#0284c7; }
+    .pill-c { background:#d1fae5; color:#059669; }
+    .pill-d { background:#fef3c7; color:#d97706; }
+    .pill-e { background:#fee2e2; color:#dc2626; }
+    .pill-gaps { background:#ede9fe; color:#7c3aed; }
+    .pill-table { background:#e0f2fe; color:#0369a1; }
+    .pill-conc { background:#ccfbf1; color:#0f766e; }
+    .pill-gloss { background:#fef3c7; color:#b45309; }
+    /* dividers */
+    .div-a    { background: linear-gradient(to left,#7c3aed,#a855f7); }
+    .div-b    { background: linear-gradient(to left,#0ea5e9,#38bdf8); }
+    .div-c    { background: linear-gradient(to left,#10b981,#34d399); }
+    .div-d    { background: linear-gradient(to left,#f59e0b,#fbbf24); }
+    .div-e    { background: linear-gradient(to left,#ef4444,#f87171); }
+    .div-gaps { background: linear-gradient(to left,#8b5cf6,#a78bfa); }
+    .div-conc { background: linear-gradient(to left,#0f766e,#14b8a6); }
+    .div-gloss{ background: linear-gradient(to left,#b45309,#d97706); }
+    /* paper number backgrounds */
+    .num-a { background:#7c3aed; }
+    .num-b { background:#0ea5e9; }
+    .num-c { background:#10b981; }
+    .num-d { background:#f59e0b; }
+    .num-e { background:#ef4444; }
+    /* gloss card accent colors */
+    .gloss-card.c1 { border-top-color:#7c3aed; }
+    .gloss-card.c2 { border-top-color:#0ea5e9; }
+    .gloss-card.c3 { border-top-color:#10b981; }
+    .gloss-card.c4 { border-top-color:#f59e0b; }
+    .gloss-card.c5 { border-top-color:#ef4444; }
+    .gloss-card.c6 { border-top-color:#8b5cf6; }
+
+    /* ===== SCROLL TO TOP ===== */
+    .to-top {
+      position: fixed;
+      left: 1rem;
+      bottom: 1.5rem;
+      width: 2.6rem; height: 2.6rem;
+      background: var(--primary);
+      color: #fff;
+      border-radius: 50%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+      cursor: pointer;
+      z-index: 300;
+      font-size: 1.1rem;
+      border: none;
+      transition: background .2s;
+    }
+    .to-top.show { display: flex; }
+    .to-top:hover { background: var(--accent-dark); }
+
+    /* ===== RESPONSIVE TWEAKS ===== */
+    @media (max-width: 400px) {
+      .hero h1   { font-size: 1.35rem; }
+      .hero-stats { gap: 1.5rem; }
+      .hero-stat-num { font-size: 1.65rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ╔══════════════════════════════╗ -->
+<!-- ║           HERO               ║ -->
+<!-- ╚══════════════════════════════╝ -->
+<header class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">مرور ادبیات · ۲۵ مقاله</div>
+    <h1>مدل‌های زبانی کوچک و تنظیم دقیق<br>پارامتر‌-کارآمد</h1>
+    <h2>برای تشخیص ناهنجاری لاگ برون‌سیستمی</h2>
+    <div class="hero-sep">❖ &nbsp; ❖ &nbsp; ❖</div>
+    <p class="hero-desc">
+      یک مرور هدفمند از ۲۵ مقاله که خطوط پایه بنیادی و موج جدید روش‌های مبتنی بر مدل زبانی
+      برای تشخیص ناهنجاری لاگ (LAD) را پوشش می‌دهد.
+    </p>
+    <div class="hero-stats">
+      <div><div class="hero-stat-num">۲۵</div><div class="hero-stat-label">مقاله بررسی‌شده</div></div>
+      <div><div class="hero-stat-num">۵</div><div class="hero-stat-label">بخش موضوعی</div></div>
+      <div><div class="hero-stat-num">۹</div><div class="hero-stat-label">شکاف پژوهشی</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- ╔══════════════════════════════╗ -->
+<!-- ║        STICKY NAV            ║ -->
+<!-- ╚══════════════════════════════╝ -->
+<nav class="sticky-nav">
+  <div class="sticky-nav-inner">
+    <a href="#intro">📖 مقدمه</a>
+    <a href="#sec-a">🟣 الف</a>
+    <a href="#sec-b">🔵 ب</a>
+    <a href="#sec-c">🟢 ج</a>
+    <a href="#sec-d">🟡 د</a>
+    <a href="#sec-e">🔴 ه</a>
+    <a href="#gaps">🔍 شکاف‌ها</a>
+    <a href="#table">📊 جدول</a>
+    <a href="#conclusion">🎯 نتیجه</a>
+    <a href="#glossary">📚 واژگان</a>
+  </div>
+</nav>
+
+<!-- ╔══════════════════════════════╗ -->
+<!-- ║           MAIN               ║ -->
+<!-- ╚══════════════════════════════╝ -->
+<main class="container">
+
+  <!-- ── مقدمه ── -->
+  <section id="intro">
+    <div class="sec-header">
+      <div class="sec-pill pill-b">📖 مقدمه</div>
+      <h2>۱. مقدمه</h2>
+    </div>
+
+    <div class="scope-box">
+      <h3>🎯 محدوده پژوهش · سه موضوع مرتبط برای مقاله Q1</h3>
+      <div class="scope-item"><div class="scope-num">①</div><span>مدل‌های زبانی کوچک (≤۸ میلیارد پارامتر) برای لاگ‌ها</span></div>
+      <div class="scope-item"><div class="scope-num">②</div><span>تنظیم دقیق پارامتر-کارآمد (LoRA / QLoRA / آداپتور / پریفیکس تیونینگ)</span></div>
+      <div class="scope-item"><div class="scope-num">③</div><span>تعمیم برون‌سیستمی (HDFS، BGL، Thunderbird، OpenStack، Spirit، Hadoop)</span></div>
+    </div>
+
+    <div class="info-card">
+      <p>
+        این گزارش یک مرور ادبیات هدفمند از ۲۵ مقاله را گردآوری می‌کند که خطوط پایه بنیادی
+        (۲۰۱۷–۲۰۲۱) و موج جدید (۲۰۲۳–۲۰۲۶) روش‌های مبتنی بر مدل زبانی برای تشخیص ناهنجاری
+        لاگ (LAD) را پوشش می‌دهد.
+      </p>
+      <p>
+        هر ورودی مقاله شامل اطلاعات کامل کتابشناسی، لینک مستقیم به صفحه ناشر، خلاصه چکیده،
+        خلاصه نتیجه‌گیری، و تحلیل عمیق مزایا و معایب است. مرور با تحلیل شکاف‌های بین مقالات،
+        جدول مقایسه جامع، و توصیه‌ای برای موضع‌گیری یک مقاله Q1 پایان می‌یابد.
+      </p>
+    </div>
+
+    <div class="sec-header" style="margin-top:1.5rem;">
+      <div class="sec-pill pill-table">📝 یادداشت روش‌شناسی</div>
+      <h2>۲. یادداشت روش‌شناسی درباره چکیده‌ها</h2>
+    </div>
+    <div class="method-box">
+      <p>چکیده هر مقاله در یکی از دو شکل ارائه شده است:</p>
+      <ul style="margin-top:0.6rem;">
+        <li><strong>[عینی]</strong> — چکیده دقیقاً همانطور که در صفحه arXiv، IEEE Xplore، ACM یا ناشر چاپ شده بازتولید شده است.</li>
+        <li><strong>[بازسازی‌شده]</strong> — صفحه ناشر مستقیماً قابل دسترسی نبوده و چکیده از متن مقدماتی نویسندگان یا قطعه‌های نتایج جستجو بازسازی شده؛ هنگام استناد با نسخه اصلی ناشر تطبیق دهید.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- SECTION A: Foundational Baselines (Papers 1–5)    -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <section id="sec-a">
+    <div class="sec-div div-a"></div>
+    <div class="sec-header">
+      <div class="sec-pill pill-a">🟣 بخش الف</div>
+      <h2>بخش الف — خطوط پایه بنیادی</h2>
+      <p>مقالات ۱ تا ۵ · نقاط مرجع تاریخی که هر مقاله بعدی با آن‌ها مقایسه می‌شود</p>
+    </div>
+
+    <!-- PAPER 01 -->
+    <div class="paper-card" id="p01">
+      <div class="paper-card-head" onclick="toggle(this)">
+        <div class="paper-num num-a">۰۱</div>
+        <div class="paper-title-wrap">
+          <div class="paper-en">DeepLog: Anomaly Detection and Diagnosis from System Logs through Deep Learning</div>
+          <div class="paper-fa">دیپ‌لاگ: تشخیص و تشخیص علت ناهنجاری از لاگ‌های سیستم با یادگیری عمیق</div>
+          <div class="paper-tags">
+            <span class="ptag ptag-venue">ACM CCS 2017</span>
+            <span class="ptag ptag-year">رتبه‌الف</span>
+          </div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="paper-body">
+        <div class="info-grid">
+          <div class="info-row"><span class="info-lbl">نویسندگان</span><span class="info-val">Min Du, Feifei Li, Guineng Zheng, Vivek Srikumar</span></div>
+          <div class="info-row"><span class="info-lbl">کنفرانس</span><span class="info-val">ACM CCS 2017 — کنفرانس امنیتی رتبه‌الف</span></div>
+          <div class="info-row"><span class="info-lbl">لینک</span><span class="info-val"><a href="https://dl.acm.org/doi/10.1145/3133956.3134015" target="_blank">dl.acm.org ↗</a></span></div>
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">📄 چکیده</div>
+        <div class="abstract-box">
+          دیپ‌لاگ یک مدل شبکه عصبی عمیق مبتنی بر LSTM است که لاگ سیستم را به صورت یک دنباله زبان طبیعی مدل می‌کند.
+          این رویکرد به‌طور خودکار الگوهای طبیعی را از اجرای نرمال می‌آموزد و هنگامی که الگوهای لاگ از مدل آموزش‌دیده منحرف می‌شوند، ناهنجاری تشخیص می‌دهد.
+          همچنین از به‌روزرسانی تدریجی مدل به‌صورت آنلاین پشتیبانی می‌کند و جریان‌های کاری از لاگ‌ها می‌سازد تا تحلیل علت ریشه‌ای ممکن شود.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">🎯 خلاصه نتیجه‌گیری</div>
+        <div class="conclusion-box">
+          دیپ‌لاگ نشان می‌دهد که LSTM آموزش‌دیده فقط روی دنباله‌های کلید لاگ نرمال می‌تواند رویداد بعدی را پیش‌بینی کند؛ انحراف از بهترین پیش‌بینی‌ها به عنوان ناهنجاری علامت‌گذاری می‌شود.
+          ارزیابی گسترده روی HDFS و OpenStack از PCA، Invariant Mining و TF-IDF بهتر عمل می‌کند و از به‌روزرسانی آنلاین با بازخورد کاربر (تنها ۱٪ از HDFS برای آموزش کافی است) پشتیبانی می‌کند.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">⚖️ مزایا و معایب</div>
+        <div class="pc-grid">
+          <div class="pros-box">
+            <div class="pc-head">✓ مزایا</div>
+            <ul class="pc-list">
+              <li>اولین خط پایه قوی یادگیری عمیق که مرجع میدان شد</li>
+              <li>رویکرد بدون نظارت — نیازی به برچسب ناهنجاری نیست</li>
+              <li>به‌روزرسانی آنلاین با بازخورد کاربر</li>
+              <li>ساخت جریان کاری برای تحلیل علت ریشه‌ای</li>
+              <li>تنها ۱٪ از HDFS برای آموزش کافی است</li>
+            </ul>
+          </div>
+          <div class="cons-box">
+            <div class="pc-head">✗ معایب</div>
+            <ul class="pc-list">
+              <li>فقط روی کلیدهای لاگ کار می‌کند — محتوای معنایی دور انداخته می‌شود</li>
+              <li>وابستگی کامل به parser خارجی (Spell)</li>
+              <li>بدون قالب‌های جدید بدون آموزش مجدد نمی‌تواند کار کند</li>
+              <li>LSTM در وابستگی‌های بلند‌مدت ضعیف است</li>
+              <li>هیچ ارزیابی برون‌سیستمی ندارد</li>
+              <li>بدون کالیبراسیون یا تخمین عدم‌قطعیت</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAPER 02 -->
+    <div class="paper-card" id="p02">
+      <div class="paper-card-head" onclick="toggle(this)">
+        <div class="paper-num num-a">۰۲</div>
+        <div class="paper-title-wrap">
+          <div class="paper-en">LogAnomaly: Unsupervised Detection of Sequential and Quantitative Anomalies in Unstructured Logs</div>
+          <div class="paper-fa">لاگ‌انامالی: تشخیص بدون‌نظارت ناهنجاری‌های ترتیبی و کمّی در لاگ‌های بدون‌ساختار</div>
+          <div class="paper-tags">
+            <span class="ptag ptag-venue">IJCAI 2019</span>
+            <span class="ptag ptag-year">رتبه‌الف</span>
+          </div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="paper-body">
+        <div class="info-grid">
+          <div class="info-row"><span class="info-lbl">نویسندگان</span><span class="info-val">Weibin Meng, Ying Liu, Yichen Zhu, و همکاران (۱۱ نفر)</span></div>
+          <div class="info-row"><span class="info-lbl">کنفرانس</span><span class="info-val">IJCAI 2019 — کنفرانس رتبه‌الف هوش مصنوعی</span></div>
+          <div class="info-row"><span class="info-lbl">لینک</span><span class="info-val"><a href="https://www.ijcai.org/proceedings/2019/658" target="_blank">ijcai.org ↗</a></span></div>
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">📄 چکیده</div>
+        <div class="abstract-box">
+          لاگ‌انامالی چارچوبی است که جریان لاگ بدون‌ساختار را به صورت دنباله زبان طبیعی مدل می‌کند.
+          با استفاده از <strong>template2vec</strong> — روشی نوآورانه برای استخراج اطلاعات معنایی پنهان در قالب‌های لاگ —
+          می‌تواند همزمان ناهنجاری‌های ترتیبی و کمّی را تشخیص دهد و از هشدارهای کاذب ناشی از قالب‌های جدید جلوگیری کند.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">🎯 خلاصه نتیجه‌گیری</div>
+        <div class="conclusion-box">
+          template2vec از مترادف‌ها و متضادها (embedding دِ‌ال‌سی‌ای) بهره می‌برد تا قالب‌های معنایی مشابه را نزدیک هم قرار دهد؛
+          این هم هشدارهای کاذب را کاهش می‌دهد و هم قالب‌های دیده‌نشده را بین چرخه‌های آموزش مجدد می‌پذیرد.
+          مدل ترکیبی ترتیبی + کمّی از DeepLog و Invariant Mining بر روی یک داده واقعی ابری و HDFS بهتر عمل می‌کند.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">⚖️ مزایا و معایب</div>
+        <div class="pc-grid">
+          <div class="pros-box">
+            <div class="pc-head">✓ مزایا</div>
+            <ul class="pc-list">
+              <li>اولین قدم روشن فراتر از مدل‌سازی کلید-محور: embeddings معنایی</li>
+              <li>مدیریت قالب‌های دیده‌نشده بین چرخه‌های آموزش مجدد</li>
+              <li>تشخیص همزمان ناهنجاری ترتیبی و کمّی</li>
+              <li>اعتبارسنجی در محیط تولید با کاهش قابل اندازه‌گیری هشدار کاذب</li>
+            </ul>
+          </div>
+          <div class="cons-box">
+            <div class="pc-head">✗ معایب</div>
+            <ul class="pc-list">
+              <li>هنوز کاملاً وابسته به parser — شکنندگی pipeline از DeepLog به ارث برده</li>
+              <li>Embeddings استاتیک (بدون بازنمایی‌های زمینه‌ای مثل BERT)</li>
+              <li>معماری LSTM محدودیت‌های دیپ‌لاگ را دارد</li>
+              <li>هیچ آزمایش برون‌سیستمی نشده</li>
+              <li>فقط روی ۲ مجموعه داده ارزیابی شده</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAPER 03 -->
+    <div class="paper-card" id="p03">
+      <div class="paper-card-head" onclick="toggle(this)">
+        <div class="paper-num num-a">۰۳</div>
+        <div class="paper-title-wrap">
+          <div class="paper-en">LogBERT: Log Anomaly Detection via BERT</div>
+          <div class="paper-fa">لاگ‌بِرت: تشخیص ناهنجاری لاگ از طریق BERT</div>
+          <div class="paper-tags">
+            <span class="ptag ptag-venue">IJCNN 2021</span>
+            <span class="ptag ptag-year">arXiv:2103.04475</span>
+          </div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="paper-body">
+        <div class="info-grid">
+          <div class="info-row"><span class="info-lbl">نویسندگان</span><span class="info-val">Haixuan Guo, Shuhan Yuan, Xintao Wu</span></div>
+          <div class="info-row"><span class="info-lbl">کنفرانس</span><span class="info-val">IJCNN 2021</span></div>
+          <div class="info-row"><span class="info-lbl">لینک</span><span class="info-val"><a href="https://arxiv.org/abs/2103.04475" target="_blank">arxiv.org/abs/2103.04475 ↗</a></span></div>
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">📄 چکیده</div>
+        <div class="abstract-box">
+          LogBERT یک چارچوب خودنظارتی برای تشخیص ناهنجاری لاگ بر پایه BERT است.
+          این مدل الگوهای دنباله‌های نرمال لاگ را با دو وظیفه آموزشی خودنظارتی نوآورانه می‌آموزد:
+          پیش‌بینی کلید لاگ پوشیده‌شده و کمینه‌سازی حجم ابرکره به سبک Deep SVDD.
+          روی سه مجموعه داده از جمله HDFS، BGL و Thunderbird از روش‌های پیشین بهتر عمل می‌کند.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">🎯 خلاصه نتیجه‌گیری</div>
+        <div class="conclusion-box">
+          LogBERT یک رمزگذار Transformer را روی دنباله‌های نرمال با دو loss خودنظارتی آموزش می‌دهد:
+          پیش‌بینی کلید لاگ پوشیده‌شده و فاصله Deep-SVDD از مرکز ابرکره. بر روی HDFS، BGL و Thunderbird
+          از خطوط پایه LSTM از جمله DeepLog و LogAnomaly پیشی می‌گیرد.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">⚖️ مزایا و معایب</div>
+        <div class="pc-grid">
+          <div class="pros-box">
+            <div class="pc-head">✓ مزایا</div>
+            <ul class="pc-list">
+              <li>اولین خط پایه به سبک BERT پرکاربرد برای لاگ‌ها</li>
+              <li>زمینه دوطرفه ارتباطات بیشتری نسبت به اهداف next-event-only می‌گیرد</li>
+              <li>دو وظیفه خودنظارتی مفهوماً زیبا</li>
+              <li>پیاده‌سازی متن‌باز قابل بازتولید</li>
+            </ul>
+          </div>
+          <div class="cons-box">
+            <div class="pc-head">✗ معایب</div>
+            <ul class="pc-list">
+              <li>روی کلیدهای لاگ کار می‌کند — همان شکنندگی DeepLog</li>
+              <li>روی متن خام بدون‌ساختار کارایی ندارد</li>
+              <li>تنظیم دقیق کامل سنگین است؛ مسیر PEFT ارائه نمی‌دهد</li>
+              <li>F1 روی Thunderbird (~۷۹٪) به‌مراتب زیر مدل‌های LoRA جدید</li>
+              <li>هیچ آزمایش انتقال برون‌سیستمی نشده</li>
+              <li>تنظیم آستانه استاتیک</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAPER 04 -->
+    <div class="paper-card" id="p04">
+      <div class="paper-card-head" onclick="toggle(this)">
+        <div class="paper-num num-a">۰۴</div>
+        <div class="paper-title-wrap">
+          <div class="paper-en">LAnoBERT: System Log Anomaly Detection based on BERT Masked Language Model</div>
+          <div class="paper-fa">اِل‌انو‌بِرت: تشخیص ناهنجاری لاگ سیستم بر پایه مدل زبانی پوشیده BERT</div>
+          <div class="paper-tags">
+            <span class="ptag ptag-venue">arXiv 2021</span>
+            <span class="ptag ptag-year">arXiv:2111.09564</span>
+          </div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="paper-body">
+        <div class="info-grid">
+          <div class="info-row"><span class="info-lbl">نویسندگان</span><span class="info-val">Yukyung Lee, Jina Kim, Pilsung Kang</span></div>
+          <div class="info-row"><span class="info-lbl">کنفرانس</span><span class="info-val">arXiv:2111.09564 (2021)؛ توسعه‌یافته در مجلات ACM</span></div>
+          <div class="info-row"><span class="info-lbl">لینک</span><span class="info-val"><a href="https://arxiv.org/abs/2111.09564" target="_blank">arxiv.org/abs/2111.09564 ↗</a></span></div>
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">📄 چکیده [بازسازی‌شده]</div>
+        <div class="abstract-box">
+          LAnoBERT تجزیه لاگ را کاملاً حذف می‌کند. این مدل BERT را از صفر روی لاگ‌های نرمال با یادگیری زبانی پوشیده (MLM) آموزش می‌دهد،
+          سپس ناهنجاری‌ها را از طریق احتمال پیش‌بینی توکن‌های پوشیده‌شده امتیازدهی می‌کند.
+          بر این فرض است که زمینه لاگ‌های نرمال با لاگ‌های غیرعادی تفاوت دارد.
+          بهترین عملکرد را در میان خطوط پایه بدون نظارت روی HDFS و BGL ادعا می‌کند.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">🎯 خلاصه نتیجه‌گیری</div>
+        <div class="conclusion-box">
+          تشخیص ناهنجاری بدون نظارت و بدون تجزیه، قابل اجراست؛ رفتار با لاگ‌های خام به صورت زبان طبیعی
+          و استفاده از احتمالات MLM با برخی روش‌های با‌نظارت رقابت می‌کند، در حالی که اصلاً به برچسب نیاز ندارد.
+          در برخی موارد از روش‌های با‌نظارت نیز پیشی می‌گیرد.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">⚖️ مزایا و معایب</div>
+        <div class="pc-grid">
+          <div class="pros-box">
+            <div class="pc-head">✓ مزایا</div>
+            <ul class="pc-list">
+              <li>طراحی بدون تجزیه — مزیت عملی مهم</li>
+              <li>کاملاً بدون نظارت — فقط لاگ‌های نرمال نیاز است</li>
+              <li>سیگنال سطح توکن برای تفسیرپذیری</li>
+              <li>امکان‌پذیری آموزش MLM-only برای لاگ‌ها را نشان می‌دهد</li>
+            </ul>
+          </div>
+          <div class="cons-box">
+            <div class="pc-head">✗ معایب</div>
+            <ul class="pc-list">
+              <li>BERT را از صفر آموزش می‌دهد — گران و غیر پارامتر-کارآمد</li>
+              <li>نتایج گزارش‌شده روی Thunderbird گاهی قابل بازتولید نیست</li>
+              <li>بدون LoRA یا QLoRA</li>
+              <li>بدون انتقال برون‌سیستمی</li>
+              <li>ارزیابی محدود روی لاگ‌های امنیتی</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAPER 05 -->
+    <div class="paper-card" id="p05">
+      <div class="paper-card-head" onclick="toggle(this)">
+        <div class="paper-num num-a">۰۵</div>
+        <div class="paper-title-wrap">
+          <div class="paper-en">BERT-Log: Anomaly Detection for System Logs Based on Pre-trained Language Model</div>
+          <div class="paper-fa">بِرت-لاگ: تشخیص ناهنجاری لاگ‌های سیستم بر پایه مدل زبانی پیش‌آموزش‌دیده</div>
+          <div class="paper-tags">
+            <span class="ptag ptag-venue">Applied AI · Taylor &amp; Francis</span>
+            <span class="ptag ptag-year">2022 · Q2/Q3</span>
+          </div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="paper-body">
+        <div class="info-grid">
+          <div class="info-row"><span class="info-lbl">نویسندگان</span><span class="info-val">Song Chen و همکاران</span></div>
+          <div class="info-row"><span class="info-lbl">مجله</span><span class="info-val">Applied Artificial Intelligence — Taylor &amp; Francis، 2022</span></div>
+          <div class="info-row"><span class="info-lbl">لینک</span><span class="info-val"><a href="https://www.tandfonline.com/doi/full/10.1080/08839514.2022.2145642" target="_blank">tandfonline.com ↗</a></span></div>
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">📄 چکیده [بازسازی‌شده]</div>
+        <div class="abstract-box">
+          BERT پیش‌آموزش‌دیده در یک تنظیم طبقه‌بندی باینری با‌نظارت تنظیم دقیق می‌شود تا دنباله‌ها را به عنوان نرمال یا ناهنجار طبقه‌بندی کند.
+          از پنجره‌های لغزان روی پارتیشن‌های شناسه گره استفاده می‌کند تا خرابی‌ها را بومی‌سازی کند.
+          F1 معادل ۹۹.۴٪ روی BGL گزارش می‌دهد — بهبود ۱۹ درصدی نسبت به LogRobust.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">🎯 خلاصه نتیجه‌گیری</div>
+        <div class="conclusion-box">
+          پیش‌آموزش به علاوه تنظیم دقیق با‌نظارت BERT بهبود قابل توجهی در F1 نسبت به LogRobust، HitAnomaly، LogBERT، LAnoBERT، NeuralLog و A2Log
+          روی BGL ارائه می‌دهد. بردارهای معنایی از پیش‌آموزش بازنمایی‌های مؤثرتری نسبت به روش‌های بدون‌نظارت تولید می‌کنند.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">⚖️ مزایا و معایب</div>
+        <div class="pc-grid">
+          <div class="pros-box">
+            <div class="pc-head">✓ مزایا</div>
+            <ul class="pc-list">
+              <li>خط پایه قوی با‌نظارت با بردارهای معنایی</li>
+              <li>عملکرد بهتر از روش‌های کلید-محور روی BGL</li>
+              <li>بومی‌سازی گره برای اپراتورها عملاً مفید است</li>
+              <li>فراخوانی بالا (۹۹.۶٪) — حیاتی وقتی از دست دادن ناهنجاری هزینه دارد</li>
+            </ul>
+          </div>
+          <div class="cons-box">
+            <div class="pc-head">✗ معایب</div>
+            <ul class="pc-list">
+              <li>کاملاً با‌نظارت — نیاز به برچسب‌هایی که در تولید وجود ندارد</li>
+              <li>تنظیم دقیق کامل سنگین است</li>
+              <li>بدون آزمون برون‌سیستمی</li>
+              <li>بدون PEFT، بدون کالیبراسیون، بدون قابلیت zero-shot</li>
+              <li>ارزیابی متمرکز بر BGL</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- END SECTION A — more papers will be added in subsequent stages -->
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- SECTION B: Fine-Tuned LMs for Log AD (Papers 6–11)  -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <section id="sec-b">
+    <div class="sec-div div-b"></div>
+    <div class="sec-header">
+      <div class="sec-pill pill-b">🔵 بخش ب</div>
+      <h2>بخش ب — مدل‌های زبانی تنظیم‌شده برای تشخیص ناهنجاری لاگ</h2>
+      <p>مقالات ۶ تا ۱۱ · از دوره BERT تا دوره مدل‌های بزرگ زبانی مبتنی بر decoder</p>
+    </div>
+
+    <!-- PAPER 06 -->
+    <div class="paper-card" id="p06">
+      <div class="paper-card-head" onclick="toggle(this)">
+        <div class="paper-num num-b">۰۶</div>
+        <div class="paper-title-wrap">
+          <div class="paper-en">LogFiT: Log Anomaly Detection Using Fine-Tuned Language Models</div>
+          <div class="paper-fa">لاگ‌فیت: تشخیص ناهنجاری لاگ با مدل‌های زبانی تنظیم‌دقیق‌شده</div>
+          <div class="paper-tags">
+            <span class="ptag ptag-venue">IEEE TNSM 2024</span>
+            <span class="ptag ptag-q1">مجله Q1</span>
+            <span class="ptag ptag-star">★ کلیدی</span>
+          </div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="paper-body">
+        <div class="info-grid">
+          <div class="info-row"><span class="info-lbl">نویسندگان</span><span class="info-val">Crispin Almodovar, Fariza Sabrina, Sarvnaz Karimi, Salahuddin Azad</span></div>
+          <div class="info-row"><span class="info-lbl">مجله</span><span class="info-val">IEEE Transactions on Network and Service Management (TNSM) 2024 — مجله Q1</span></div>
+          <div class="info-row"><span class="info-lbl">لینک</span><span class="info-val"><a href="https://ieeexplore.ieee.org/document/10414427/" target="_blank">ieeexplore.ieee.org ↗</a></span></div>
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">📄 چکیده</div>
+        <div class="abstract-box">
+          LogFiT یک مدل تشخیص ناهنجاری لاگ نوآورانه است که نه از فرهنگ قالب‌های لاگ استفاده می‌کند و نه به داده‌های برچسب‌خورده نیاز دارد.
+          این مدل از یک مدل زبانی پیش‌آموزش‌دیده مبتنی بر BERT (نوع sentence-transformer) استفاده می‌کند که با پیش‌بینی توکن پوشیده‌شده روی لاگ‌های نرمال تنظیم دقیق می‌شود.
+          روی HDFS، BGL و Thunderbird از DeepLog و LogBERT در F1، دقت و فراخوانی پیشی می‌گیرد.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">🎯 خلاصه نتیجه‌گیری</div>
+        <div class="conclusion-box">
+          یک BERT پیش‌آموزش‌دیده (نوع sentence-transformer) با پیش‌بینی توکن پوشیده روی لاگ‌های نرمال تنظیم دقیق می‌شود؛
+          ناهنجاری‌ها هنگامی که دقت پیش‌بینی top-k از یک آستانه آموخته‌شده پایین‌تر می‌رود، علامت‌گذاری می‌شوند.
+          LogFiT از DeepLog و LogBERT پیشی می‌گیرد در حالی که بدون تجزیه (parser-free) و بدون برچسب (label-free) است.
+          <strong>⭐ این مقاله خط پایه اصلی برای مجله هدف (TNSM) است.</strong>
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">⚖️ مزایا و معایب</div>
+        <div class="pc-grid">
+          <div class="pros-box">
+            <div class="pc-head">✓ مزایا</div>
+            <ul class="pc-list">
+              <li>در مجله IEEE TNSM Q1 منتشر شده — همان هدف‌نشریه برنامه‌ریزی‌شده</li>
+              <li>بدون تجزیه — منبع اصلی شکنندگی pipeline حذف شده</li>
+              <li>بدون برچسب (خودنظارتی) — فرض داده واقع‌بینانه</li>
+              <li>مقاوم در برابر انحراف قالب</li>
+              <li>پکیج Python قابل بازتولید موجود است</li>
+            </ul>
+          </div>
+          <div class="cons-box">
+            <div class="pc-head">✗ معایب</div>
+            <ul class="pc-list">
+              <li>BERT encoder-only — نه یک SLM decoder جدید</li>
+              <li>بدون LoRA یا QLoRA</li>
+              <li>بدون آزمایش انتقال برون‌سیستمی — هر مجموعه داده جداگانه آموزش دیده</li>
+              <li>بدون کالیبراسیون یا پیش‌بینی انتخابی</li>
+              <li>تنظیم آستانه heuristic (top-k)</li>
+              <li>مدل‌های SLM decoder جدیدتر بررسی نشده</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAPER 07 -->
+    <div class="paper-card" id="p07">
+      <div class="paper-card-head" onclick="toggle(this)">
+        <div class="paper-num num-b">۰۷</div>
+        <div class="paper-title-wrap">
+          <div class="paper-en">LogPrompt: Prompt Engineering Towards Zero-Shot and Interpretable Log Analysis (Liu et al.)</div>
+          <div class="paper-fa">لاگ‌پرامپت: مهندسی پرامپت برای تحلیل لاگ بدون‌نمونه و تفسیرپذیر</div>
+          <div class="paper-tags">
+            <span class="ptag ptag-venue">ICPC 2024</span>
+            <span class="ptag ptag-year">رتبه‌الف SE</span>
+          </div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="paper-body">
+        <div class="info-grid">
+          <div class="info-row"><span class="info-lbl">نویسندگان</span><span class="info-val">Yilun Liu, Shimin Tao, Weibin Meng, Jingyu Wang و همکاران</span></div>
+          <div class="info-row"><span class="info-lbl">کنفرانس</span><span class="info-val">ICPC 2024 (Long Paper)؛ ICSE 2024 (Poster) — کنفرانس‌های رتبه‌الف SE</span></div>
+          <div class="info-row"><span class="info-lbl">لینک</span><span class="info-val"><a href="https://arxiv.org/abs/2308.07610" target="_blank">arxiv.org/abs/2308.07610 ↗</a></span></div>
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">📄 چکیده</div>
+        <div class="abstract-box">
+          LogPrompt یک رویکرد تحلیل لاگ بدون‌نمونه و تفسیرپذیر نوآورانه است که از LLM‌ها برای انجام وظایف تحلیل لاگ
+          از طریق مجموعه‌ای از استراتژی‌های پرامپت پیشرفته استفاده می‌کند.
+          عملکرد LLM را تا ۳۸۰.۷٪ نسبت به پرامپت‌های ساده بهبود می‌دهد.
+          روی ۹ مجموعه داده عمومی در وظایف تجزیه لاگ و تشخیص ناهنجاری لاگ آزمایش شده،
+          بدون هیچ فرایند آموزش درون‌دامنه‌ای، به عملکرد پیشرفته می‌رسد.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">🎯 خلاصه نتیجه‌گیری</div>
+        <div class="conclusion-box">
+          پرامپت‌های طراحی‌شده دقیق (خودپرامپت، زنجیره تفکر، درون-زمینه) ChatGPT را در تنظیمات آنلاین بدون‌نمونه
+          تا ۵۵.۹٪ از خطوط پایه با‌نظارت کامل بهتر می‌کند روی لاگ‌های دیده‌نشده.
+          ۶ متخصص ارشد (۱۰+ سال تجربه) توضیحات تولیدشده را بسیار مفید ارزیابی کردند.
+          افت عملکرد تا ۶۲.۵٪ در روش‌های استاندارد روی لاگ‌های دامنه جدید، انگیزه‌ای قوی برای تحقیق برون‌سیستمی ایجاد می‌کند.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">⚖️ مزایا و معایب</div>
+        <div class="pc-grid">
+          <div class="pros-box">
+            <div class="pc-head">✓ مزایا</div>
+            <ul class="pc-list">
+              <li>توانایی واقعی بدون‌نمونه — گلوگاه کمبود برچسب را برطرف می‌کند</li>
+              <li>خروجی‌های تفسیرپذیر تأییدشده توسط متخصصان حوزه</li>
+              <li>ارزیابی روی ۹ مجموعه داده پشتیبانی تجربی گسترده می‌دهد</li>
+              <li>افت ۶۲.۵٪ در روش‌های استاندارد یافته کلیدی برای کار برون‌سیستمی</li>
+            </ul>
+          </div>
+          <div class="cons-box">
+            <div class="pc-head">✗ معایب</div>
+            <ul class="pc-list">
+              <li>به ChatGPT/GPT-4 متکی است — منبع‌بسته، گران، ناسازگار با استقرار محلی</li>
+              <li>بدون مسیر SLM یا PEFT</li>
+              <li>تأخیر و هزینه هر استنتاج نگرانی عملیاتی ایجاد می‌کند</li>
+              <li>پرامپت درون‌زمینه به انتخاب نمونه‌های نمایشی حساس است</li>
+              <li>بدون کالیبراسیون یا امتناع</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAPER 08 -->
+    <div class="paper-card" id="p08">
+      <div class="paper-card-head" onclick="toggle(this)">
+        <div class="paper-num num-b">۰۸</div>
+        <div class="paper-title-wrap">
+          <div class="paper-en">LogPrompt: A Log-based Anomaly Detection Framework Using Prompts (Yang et al.)</div>
+          <div class="paper-fa">لاگ‌پرامپت: چارچوب تشخیص ناهنجاری مبتنی بر لاگ با استفاده از پرامپت (گروه یانگ)</div>
+          <div class="paper-tags">
+            <span class="ptag ptag-venue">IEEE IPCCC 2023</span>
+            <span class="ptag ptag-year">تیم متفاوت</span>
+          </div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="paper-body">
+        <div class="info-grid">
+          <div class="info-row"><span class="info-lbl">نویسندگان</span><span class="info-val">Yang و همکاران (تیم متفاوت از مقاله ۷)</span></div>
+          <div class="info-row"><span class="info-lbl">کنفرانس</span><span class="info-val">IEEE IPCCC / IJCNN 2023</span></div>
+          <div class="info-row"><span class="info-lbl">لینک</span><span class="info-val"><a href="https://ieeexplore.ieee.org/iel7/10190990/10190992/10191948.pdf" target="_blank">ieeexplore.ieee.org ↗</a></span></div>
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">📄 چکیده [بازسازی‌شده]</div>
+        <div class="abstract-box">
+          این مقاله چارچوبی پیشنهاد می‌دهد که از پرامپت‌ها برای هدایت یک مدل زبانی پیش‌آموزش‌دیده (PLM) استفاده می‌کند تا هم اطلاعات معنایی
+          و هم ترتیبی لاگ را یاد بگیرد و از آموزش از صفر اجتناب کند.
+          سه چالش اصلی موجود را برطرف می‌کند: نیاز به مجموعه داده‌های بزرگ برچسب‌خورده، مدل‌سازی جداگانه معنا یا ترتیب، و ناموازنه کلاس.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">🎯 خلاصه نتیجه‌گیری</div>
+        <div class="conclusion-box">
+          PLM تنظیم‌دقیق‌شده با پرامپت از DeepLog و LogAnomaly روی مجموعه‌های لاگ نامتوازن با برچسب‌های محدود بهتر عمل می‌کند؛
+          الگوهای معنایی و ترتیبی را همزمان می‌گیرد و وابستگی به داده‌های برچسب‌خورده را کاهش می‌دهد.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">⚖️ مزایا و معایب</div>
+        <div class="pc-grid">
+          <div class="pros-box">
+            <div class="pc-head">✓ مزایا</div>
+            <ul class="pc-list">
+              <li>نشان می‌دهد prompt-tuning به عنوان یک روش PEFT برای لاگ‌ها کار می‌کند</li>
+              <li>مدیریت ناموازنه کلاس</li>
+              <li>نیاز به برچسب را کاهش می‌دهد</li>
+            </ul>
+          </div>
+          <div class="cons-box">
+            <div class="pc-head">✗ معایب</div>
+            <ul class="pc-list">
+              <li>ارزیابی در مقیاس کوچک‌تر</li>
+              <li>نام‌گذاری با کار برجسته‌تر Liu و همکاران تداخل دارد</li>
+              <li>آزمایش برون‌سیستمی محدود</li>
+              <li>بدون کاوش SLM</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAPER 09 -->
+    <div class="paper-card" id="p09">
+      <div class="paper-card-head" onclick="toggle(this)">
+        <div class="paper-num num-b">۰۹</div>
+        <div class="paper-title-wrap">
+          <div class="paper-en">LogGPT: Log Anomaly Detection via GPT (Han et al.)</div>
+          <div class="paper-fa">لاگ‌جی‌پی‌تی: تشخیص ناهنجاری لاگ از طریق GPT (گروه هان)</div>
+          <div class="paper-tags">
+            <span class="ptag ptag-venue">IEEE BigData 2023</span>
+            <span class="ptag ptag-year">arXiv:2309.14482</span>
+          </div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="paper-body">
+        <div class="info-grid">
+          <div class="info-row"><span class="info-lbl">نویسندگان</span><span class="info-val">Xiao Han, Shuhan Yuan, Mohamed Trabelsi</span></div>
+          <div class="info-row"><span class="info-lbl">کنفرانس</span><span class="info-val">IEEE BigData 2023</span></div>
+          <div class="info-row"><span class="info-lbl">لینک</span><span class="info-val"><a href="https://arxiv.org/abs/2309.14482" target="_blank">arxiv.org/abs/2309.14482 ↗</a></span></div>
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">📄 چکیده</div>
+        <div class="abstract-box">
+          LogGPT چارچوبی نوآورانه است که از GPT برای تشخیص ناهنجاری لاگ استفاده می‌کند.
+          ابتدا GPT-2 را برای پیش‌بینی ورودی لاگ بعدی آموزش می‌دهد.
+          سپس برای پر کردن شکاف میان هدف آموزش (مدل‌سازی زبانی) و هدف استنتاج (تشخیص ناهنجاری)،
+          یک استراتژی تنظیم دقیق یادگیری تقویتی نوآورانه با Top-K reward مبتنی بر PPO پیشنهاد می‌دهد.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">🎯 خلاصه نتیجه‌گیری</div>
+        <div class="conclusion-box">
+          یک مدل GPT-2 ابتدا روی کلیدهای لاگ نرمال برای پیش‌بینی توکن بعدی پیش‌آموزش می‌بیند،
+          سپس با یادگیری تقویتی (PPO با Top-K reward) تنظیم دقیق می‌شود تا هدف آموزش و استنتاج هماهنگ شوند.
+          روی HDFS، BGL و Thunderbird از DeepLog و LogBERT بهتر عمل می‌کند.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">⚖️ مزایا و معایب</div>
+        <div class="pc-grid">
+          <div class="pros-box">
+            <div class="pc-head">✓ مزایا</div>
+            <ul class="pc-list">
+              <li>شکاف هدف آموزش-استنتاج را با راه‌حل RL اصولی برطرف می‌کند</li>
+              <li>معماری‌های decoder-only را به فضای LAD وارد می‌کند</li>
+              <li>نوآوری روش‌شناختی روشن</li>
+              <li>استفاده از PPO با Top-K reward طراحی‌شده دقیق</li>
+            </ul>
+          </div>
+          <div class="cons-box">
+            <div class="pc-head">✗ معایب</div>
+            <ul class="pc-list">
+              <li>روی GPT-2 ساخته شده — کوچک اما قدیمی</li>
+              <li>فقط روی کلیدهای لاگ — وابسته به parser</li>
+              <li>محتوای معنایی استفاده نمی‌شود</li>
+              <li>آموزش RL شکننده و حساس به هایپرپارامتر است</li>
+              <li>بدون LoRA/QLoRA؛ بدون تعمیم برون‌سیستمی</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAPER 10 -->
+    <div class="paper-card" id="p10">
+      <div class="paper-card-head" onclick="toggle(this)">
+        <div class="paper-num num-b">۱۰</div>
+        <div class="paper-title-wrap">
+          <div class="paper-en">LogGPT: Exploring ChatGPT for Log-Based Anomaly Detection (Qi et al.)</div>
+          <div class="paper-fa">لاگ‌جی‌پی‌تی: کاوش ChatGPT برای تشخیص ناهنجاری مبتنی بر لاگ (گروه چی)</div>
+          <div class="paper-tags">
+            <span class="ptag ptag-venue">ISSREW 2023</span>
+            <span class="ptag ptag-year">arXiv:2309.01189</span>
+          </div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="paper-body">
+        <div class="info-grid">
+          <div class="info-row"><span class="info-lbl">نویسندگان</span><span class="info-val">Jiaxing Qi, Shaohan Huang, Zhongzhi Luan, Hailong Yang, Depei Qian</span></div>
+          <div class="info-row"><span class="info-lbl">کنفرانس</span><span class="info-val">arXiv:2309.01189؛ ISSREW 2023 — کارگاه</span></div>
+          <div class="info-row"><span class="info-lbl">لینک</span><span class="info-val"><a href="https://arxiv.org/abs/2309.01189" target="_blank">arxiv.org/abs/2309.01189 ↗</a></span></div>
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">📄 چکیده [بازسازی‌شده]</div>
+        <div class="abstract-box">
+          این مقاله طراحی پرامپت ChatGPT برای تشخیص ناهنجاری لاگ روی مجموعه‌های BGL و Spirit را بررسی می‌کند.
+          با سه خط پایه یادگیری عمیق مقایسه می‌شود و هم روند مهندسی پرامپت و هم تفسیرپذیری دلایل تولیدشده را گزارش می‌دهد.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">🎯 خلاصه نتیجه‌گیری</div>
+        <div class="conclusion-box">
+          ChatGPT نتایج LAD امیدوارکننده‌ای نشان می‌دهد و دلایل تفسیرپذیر ارائه می‌دهد؛
+          توصیفات وظیفه مشخص‌تر و تزریق پرامپت کمک می‌کند.
+          این یافته‌ها بینش‌های اولیه‌ای درباره استفاده از مدل‌های مبتنی بر پرامپت مثل ChatGPT برای LAD فراهم می‌کنند.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">⚖️ مزایا و معایب</div>
+        <div class="pc-grid">
+          <div class="pros-box">
+            <div class="pc-head">✓ مزایا</div>
+            <ul class="pc-list">
+              <li>کاوش اولیه از LLM-as-detector</li>
+              <li>تفسیرپذیری دلایل را نشان می‌دهد</li>
+              <li>از مجموعه داده Spirit استفاده می‌کند (کمتر ارزیابی‌شده در ادبیات)</li>
+            </ul>
+          </div>
+          <div class="cons-box">
+            <div class="pc-head">✗ معایب</div>
+            <ul class="pc-list">
+              <li>وابسته به ChatGPT تجاری (هزینه، نگرانی‌های حریم خصوصی)</li>
+              <li>فقط سه مجموعه داده</li>
+              <li>بدون تنظیم دقیق، بدون SLM</li>
+              <li>محدوده بسیار اولیه و مقدماتی</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAPER 11 -->
+    <div class="paper-card" id="p11">
+      <div class="paper-card-head" onclick="toggle(this)">
+        <div class="paper-num num-b">۱۱</div>
+        <div class="paper-title-wrap">
+          <div class="paper-en">LogLLM: Log-based Anomaly Detection Using Large Language Models</div>
+          <div class="paper-fa">لاگ‌ال‌ال‌ام: تشخیص ناهنجاری مبتنی بر لاگ با استفاده از مدل‌های بزرگ زبانی</div>
+          <div class="paper-tags">
+            <span class="ptag ptag-venue">arXiv Nov 2024</span>
+            <span class="ptag ptag-star">★ کلیدی</span>
+          </div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="paper-body">
+        <div class="info-grid">
+          <div class="info-row"><span class="info-lbl">نویسندگان</span><span class="info-val">Wei Guan, Jian Cao, Shiyou Qian, Jianqi Gao, Chun Ouyang</span></div>
+          <div class="info-row"><span class="info-lbl">وضعیت</span><span class="info-val">arXiv:2411.08561 (نوامبر 2024)؛ در حال بررسی مجله (نسخه v3 ژانویه 2025)</span></div>
+          <div class="info-row"><span class="info-lbl">لینک</span><span class="info-val"><a href="https://arxiv.org/abs/2411.08561" target="_blank">arxiv.org/abs/2411.08561 ↗</a></span></div>
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">📄 چکیده</div>
+        <div class="abstract-box">
+          LogLLM یک چارچوب تشخیص ناهنجاری لاگ است که از LLM‌ها بهره می‌برد.
+          از BERT برای استخراج بردارهای معنایی از پیام‌های لاگ استفاده می‌کند، در حالی که از Llama — یک مدل decoder مبتنی بر Transformer —
+          برای طبقه‌بندی دنباله‌های لاگ استفاده می‌کند. یک projector برای هماهنگی فضاهای بازنمایی بردار BERT و Llama معرفی می‌کند.
+          برخلاف روش‌های متداول که به parser نیاز دارند، LogLLM با عبارات منظم پیش‌پردازش می‌کند.
+          از طریق یک رویه آموزشی سه‌مرحله‌ای نوآورانه آموزش می‌بیند.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">🎯 خلاصه نتیجه‌گیری</div>
+        <div class="conclusion-box">
+          LogLLM یک encoder BERT، یک projector آموخته‌شده و Llama را به عنوان طبقه‌بند ترکیب می‌کند؛
+          با QLoRA (4-bit) آموزش می‌بیند تا حافظه قابل مدیریت باشد. روی HDFS، BGL، Thunderbird، Liberty از NeuralLog، LogBERT،
+          LogFiT، LogRobust و HitAnomaly حتی روی لاگ‌های ناپایدار (انحراف قالب) بهتر عمل می‌کند.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">⚖️ مزایا و معایب</div>
+        <div class="pc-grid">
+          <div class="pros-box">
+            <div class="pc-head">✓ مزایا</div>
+            <ul class="pc-list">
+              <li>طراحی بدون parser</li>
+              <li>معماری ترکیبی encoder + decoder برای لاگ‌ها نوآورانه است</li>
+              <li>QLoRA یک pipeline چند میلیارد پارامتری را قابل اجرا می‌کند</li>
+              <li>آزمایش‌های صریح مقاومت در برابر انحراف قالب</li>
+              <li>ارزیابی روی چهار مجموعه داده؛ کد منبع قابل بازتولید</li>
+            </ul>
+          </div>
+          <div class="cons-box">
+            <div class="pc-head">✗ معایب</div>
+            <ul class="pc-list">
+              <li>حافظه هنوز زیاد است (Llama-7B در لبه فوقانی «کوچک»)</li>
+              <li>انتقال برون‌سیستمی محور اصلی ارزیابی نیست</li>
+              <li>کالیبراسیون و پیش‌بینی انتخابی مورد توجه قرار نگرفته</li>
+              <li>وضعیت پیش‌چاپ — هنوز مقاله Q1 نشده</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION C: Small Language Models & PEFT (Papers 12–15)   -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <section id="sec-c">
+    <div class="sec-div div-c"></div>
+    <div class="sec-header">
+      <div class="sec-pill pill-c">🟢 بخش ج</div>
+      <h2>بخش ج — مدل‌های زبانی کوچک و تنظیم دقیق پارامتر-کارآمد</h2>
+      <p>مقالات ۱۲ تا ۱۵ · SLM با LoRA / QLoRA / آداپتور — مستقیماً مرتبط با موضوع</p>
+    </div>
+
+    <!-- PAPER 12 -->
+    <div class="paper-card" id="p12">
+      <div class="paper-card-head" onclick="toggle(this)">
+        <div class="paper-num num-c">۱۲</div>
+        <div class="paper-title-wrap">
+          <div class="paper-en">LogTinyLLM: Tiny Large Language Models Based Contextual Log Anomaly Detection</div>
+          <div class="paper-fa">لاگ‌تاینی‌ال‌ال‌ام: تشخیص ناهنجاری لاگ زمینه‌ای با مدل‌های زبانی بسیار کوچک</div>
+          <div class="paper-tags">
+            <span class="ptag ptag-venue">arXiv Jul 2025</span>
+            <span class="ptag ptag-star">★ کلیدی</span>
+          </div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="paper-body">
+        <div class="info-grid">
+          <div class="info-row"><span class="info-lbl">نویسندگان</span><span class="info-val">Isaiah Thompson Ocansey, Ritwik Bhattacharya, Tanmay Sen</span></div>
+          <div class="info-row"><span class="info-lbl">وضعیت</span><span class="info-val">arXiv:2507.11071 (جولای 2025) — پیش‌چاپ، هدف: مجله امنیت/قابلیت اطمینان</span></div>
+          <div class="info-row"><span class="info-lbl">لینک</span><span class="info-val"><a href="https://arxiv.org/abs/2507.11071" target="_blank">arxiv.org/abs/2507.11071 ↗</a></span></div>
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">📄 چکیده</div>
+        <div class="abstract-box">
+          این مقاله تنظیم دقیق پارامتر-کارآمد — به‌خصوص LoRA و رویکردهای مبتنی بر آداپتور — را برای یافتن ناهنجاری‌های زمینه‌ای
+          در دنباله‌های لاگ در مجموعه‌های داده لاگ بزرگ پیشنهاد می‌کند. مدل‌های مختلف LLM کوچک (Tiny LLM) روی مجموعه داده Thunderbird مقایسه می‌شوند.
+          نتایج نشان می‌دهد که تنظیم دقیق مبتنی بر LoRA بهبود عملکردی ۱۸ تا ۱۹ درصدی نسبت به رویکرد تنظیم دقیق کامل مبتنی بر LogBERT ارائه می‌دهد.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">🎯 خلاصه نتیجه‌گیری</div>
+        <div class="conclusion-box">
+          روی Thunderbird، DeepSeek-R1-Distill-Qwen-1.5B با LoRA بهترین F1 (~۹۸.۵٪) را به دست می‌آورد.
+          TinyLlama-1.1B، Microsoft Phi-1.5 و OPT-1.3B نزدیک به هم هستند.
+          نوع آداپتور از LoRA ضعیف‌تر عمل می‌کند. پیکربندی‌های LoRA دقت بالای ۹۸٪ و فراخوانی ۹۴.۹-۹۶.۹٪ دارند.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">⚖️ مزایا و معایب</div>
+        <div class="pc-grid">
+          <div class="pros-box">
+            <div class="pc-head">✓ مزایا</div>
+            <ul class="pc-list">
+              <li>مستقیماً مرتبط: SLM های ۱.۱-۱.۵B + LoRA و آداپتور PEFT</li>
+              <li>چندین LLM کوچک مدرن head-to-head مقایسه شدند</li>
+              <li>بهبود بیش از ۱۸ درصدی F1 نسبت به تنظیم دقیق کامل LogBERT روی Thunderbird</li>
+              <li>قابل اجرا روی GPU های عادی</li>
+              <li>مقایسه ablation میان LoRA و آداپتور</li>
+            </ul>
+          </div>
+          <div class="cons-box">
+            <div class="pc-head">✗ معایب</div>
+            <ul class="pc-list">
+              <li>فقط یک مجموعه داده (Thunderbird) — بدون تعمیم برون‌سیستمی</li>
+              <li>بدون مقایسه با HDFS یا BGL</li>
+              <li>بدون QLoRA (فقط LoRA + آداپتور)</li>
+              <li>بدون کالیبراسیون یا عدم‌قطعیت</li>
+              <li>پیش‌چاپ — هنوز peer-reviewed نشده</li>
+              <li>مزیت نسبت به LogBERT تا حدی به دسترسی به متن خام نسبت داده می‌شود نه معماری</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAPER 13 -->
+    <div class="paper-card" id="p13">
+      <div class="paper-card-head" onclick="toggle(this)">
+        <div class="paper-num num-c">۱۳</div>
+        <div class="paper-title-wrap">
+          <div class="paper-en">Adapting Large Language Models for Parameter-Efficient Log Anomaly Detection</div>
+          <div class="paper-fa">تطبیق مدل‌های بزرگ زبانی برای تشخیص ناهنجاری لاگ پارامتر-کارآمد</div>
+          <div class="paper-tags">
+            <span class="ptag ptag-venue">PAKDD 2025</span>
+            <span class="ptag ptag-star">★ کلیدی</span>
+          </div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="paper-body">
+        <div class="info-grid">
+          <div class="info-row"><span class="info-lbl">نویسندگان</span><span class="info-val">Ying Fu Lim, Jiawen Zhu, Guansong Pang — دانشگاه مدیریت سنگاپور</span></div>
+          <div class="info-row"><span class="info-lbl">کنفرانس</span><span class="info-val">arXiv:2503.08045 (مارس 2025)؛ پذیرفته‌شده در PAKDD 2025 (peer-reviewed)</span></div>
+          <div class="info-row"><span class="info-lbl">لینک</span><span class="info-val"><a href="https://arxiv.org/abs/2503.08045" target="_blank">arxiv.org/abs/2503.08045 ↗</a></span></div>
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">📄 چکیده [بازسازی‌شده]</div>
+        <div class="abstract-box">
+          این کار کاوش عمیقی در تشخیص ناهنجاری لاگ مبتنی بر LLM انجام می‌دهد.
+          یک مقایسه جامع از دو رویکرد PEFT محبوب — LoRA و ReFT (تنظیم دقیق بازنمایی) — روی سه LLM پرکاربرد با اندازه‌های متفاوت:
+          RoBERTa، GPT-2 و Llama-3 ارائه می‌دهد.
+          روش‌های PEFT ماهیت منابع‌بر تنظیم دقیق کامل را با آموزش دادن تنها بخش بسیار کوچکی از پارامترها برطرف می‌کنند.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">🎯 خلاصه نتیجه‌گیری</div>
+        <div class="conclusion-box">
+          ReFT اعمال‌شده به Llama-3 قوی‌ترین نتایج را با F1 تا ۰.۹۹۸ روی مجموعه‌های داده لاگ چندمنبعی ارائه می‌دهد در حالی که کمتر از ۱٪ پارامترها به‌روزرسانی می‌شوند.
+          ReFT در اکثر تنظیمات از LoRA پیشی می‌گیرد، پیشنهاد می‌کند که مداخله در سطح بازنمایی
+          از تطبیق در فضای وزن برای لاگ‌ها مؤثرتر است.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">⚖️ مزایا و معایب</div>
+        <div class="pc-grid">
+          <div class="pros-box">
+            <div class="pc-head">✓ مزایا</div>
+            <ul class="pc-list">
+              <li>مطالعه کنترل‌شده مستقیم روش‌های PEFT برای LAD</li>
+              <li>معماری encoder (RoBERTa) در مقابل decoder (GPT-2، Llama-3) پوشش داده شده</li>
+              <li>LoRA در مقابل ReFT (تکنیک نادر برای لاگ‌ها) مقایسه شده</li>
+              <li>F1 ≈ ۰.۹۹۸ گزارش‌شده state-of-the-art است</li>
+              <li>در PAKDD 2025 peer-reviewed شده</li>
+            </ul>
+          </div>
+          <div class="cons-box">
+            <div class="pc-head">✗ معایب</div>
+            <ul class="pc-list">
+              <li>Llama-3 (8B) در مرز «کوچک» است</li>
+              <li>ارزیابی انتقال zero-shot برون‌سیستمی محدود</li>
+              <li>بدون کالیبراسیون یا امتناع</li>
+              <li>فقط ارزیابی درون-دامنه</li>
+              <li>مقایسه QLoRA-specific وجود ندارد</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAPER 14 -->
+    <div class="paper-card" id="p14">
+      <div class="paper-card-head" onclick="toggle(this)">
+        <div class="paper-num num-c">۱۴</div>
+        <div class="paper-title-wrap">
+          <div class="paper-en">AdaptiveLog: An Adaptive Log Analysis Framework with the Collaboration of Large and Small Language Model</div>
+          <div class="paper-fa">لاگ‌تطبیقی: چارچوب تحلیل لاگ تطبیقی با همکاری مدل زبانی بزرگ و کوچک</div>
+          <div class="paper-tags">
+            <span class="ptag ptag-venue">ACM TOSEM 2026</span>
+            <span class="ptag ptag-q1">مجله Q1</span>
+            <span class="ptag ptag-star">★ کلیدی</span>
+          </div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="paper-body">
+        <div class="info-grid">
+          <div class="info-row"><span class="info-lbl">نویسندگان</span><span class="info-val">Lipeng Ma, Weidong Yang, Yixuan Li, Bo Fei و همکاران</span></div>
+          <div class="info-row"><span class="info-lbl">مجله</span><span class="info-val">ACM Transactions on Software Engineering and Methodology (TOSEM) 2026، Vol.35، No.5 — Q1</span></div>
+          <div class="info-row"><span class="info-lbl">DOI</span><span class="info-val"><a href="https://arxiv.org/abs/2501.11031" target="_blank">arxiv.org/abs/2501.11031 ↗</a></span></div>
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">📄 چکیده [بازسازی‌شده]</div>
+        <div class="abstract-box">
+          AdaptiveLog یک چارچوب تحلیل لاگ است که بر همکاری یک LLM بزرگ و یک مدل زبانی کوچک (SLM) تمرکز دارد.
+          SLM موارد آسان‌تر را به صورت محلی مدیریت می‌کند؛ موارد سخت‌تر با بازیابی موردهای پرخطا به LLM واگذار می‌شوند تا استدلال LLM تقویت شود.
+          روی شش وظیفه مختلف از جمله تشخیص ناهنجاری و شناسایی خرابی ارزیابی شده.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">🎯 خلاصه نتیجه‌گیری</div>
+        <div class="conclusion-box">
+          AdaptiveLog نمونه‌های «آسان» لاگ را به یک SLM تنظیم‌دقیق‌شده و نمونه‌های «سخت» را به یک LLM هدایت می‌کند.
+          هدایت بر اساس عدم‌قطعیت SLM (استراتژی واگذاری آگاه از عدم‌قطعیت) انجام می‌شود.
+          برای استدلال LLM روی لاگ‌های سخت، موارد مرجع پرخطا را بازیابی می‌کند (ECR) و یادگیری درون‌زمینه ۵-shot استفاده می‌کند.
+          دقت state-of-the-art در AD و شناسایی خرابی با کاهش قابل توجه فراخوانی LLM.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">⚖️ مزایا و معایب</div>
+        <div class="pc-grid">
+          <div class="pros-box">
+            <div class="pc-head">✓ مزایا</div>
+            <ul class="pc-list">
+              <li>اولین چارچوب صریح همکاری LLM+SLM برای لاگ‌ها</li>
+              <li>هزینه و تأخیر را مستقیماً برطرف می‌کند</li>
+              <li>هدایت آگاه از عدم‌قطعیت — پیش‌بینی انتخابی در این دامنه</li>
+              <li>ارزیابی ۶ وظیفه در سیستم‌های نرم‌افزاری و دستگاه‌های شبکه</li>
+              <li>در مجله Q1 ACM TOSEM 2026 منتشر شده</li>
+            </ul>
+          </div>
+          <div class="cons-box">
+            <div class="pc-head">✗ معایب</div>
+            <ul class="pc-list">
+              <li>آستانه‌های هدایت مجموعه‌داده-خاص هستند</li>
+              <li>وابستگی به LLM خارجی (GPT-3.5/4) برای موارد سخت</li>
+              <li>تخمین عدم‌قطعیت logit-based و به‌طور رسمی کالیبره‌شده نیست</li>
+              <li>بدون کاوش QLoRA برای SLM</li>
+              <li>انتقال برون‌سیستمی محور ارزیابی اصلی نیست</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAPER 15 -->
+    <div class="paper-card" id="p15">
+      <div class="paper-card-head" onclick="toggle(this)">
+        <div class="paper-num num-c">۱۵</div>
+        <div class="paper-title-wrap">
+          <div class="paper-en">DP-FlogTinyLLM: Differentially Private Federated Log Anomaly Detection Using Tiny LLMs</div>
+          <div class="paper-fa">دی‌پی-فلاگ: تشخیص ناهنجاری لاگ فدراسیونی با حریم خصوصی دیفرانسیل با استفاده از LLM های کوچک</div>
+          <div class="paper-tags">
+            <span class="ptag ptag-venue">arXiv Apr 2026</span>
+            <span class="ptag ptag-year">پیش‌چاپ</span>
+          </div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="paper-body">
+        <div class="info-grid">
+          <div class="info-row"><span class="info-lbl">نویسندگان</span><span class="info-val">(ناشناس / همان خوشه نویسندگی LogTinyLLM)</span></div>
+          <div class="info-row"><span class="info-lbl">وضعیت</span><span class="info-val">arXiv:2604.19118 (آوریل 2026) — هنوز peer-reviewed نشده</span></div>
+          <div class="info-row"><span class="info-lbl">لینک</span><span class="info-val"><a href="https://arxiv.org/abs/2604.19118" target="_blank">arxiv.org/abs/2604.19118 ↗</a></span></div>
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">📄 چکیده [بازسازی‌شده]</div>
+        <div class="abstract-box">
+          LogTinyLLM را به یک تنظیم فدراسیونی با DP-SGD و محاسبه حریم خصوصی دیفرانسیل رِنی گسترش می‌دهد.
+          هر کلاینت آداپتورهای LoRA را به‌صورت محلی روی یک LLM کوچک (مثلاً DeepSeek-R1-Distill-Qwen-1.5B) آموزش می‌دهد
+          و زیر FedProx تجمیع می‌کند؛ تضمین‌های رسمی (ε,δ)-DP حاصل می‌شود در حالی که مدل‌ها زیر ۸ میلیارد پارامتر هستند.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">🎯 خلاصه نتیجه‌گیری</div>
+        <div class="conclusion-box">
+          DP-FlogTinyLLM از معیارسنج‌های فدراسیونی (FedAvg، FedProx بدون DP) روی Thunderbird و BGL پیشی می‌گیرد
+          در حالی که بودجه حریم خصوصی ردیابی‌شده حفظ می‌شود.
+          نشان می‌دهد که tiny-LLM + LoRA به استقرار توزیع‌شده و حافظ حریم خصوصی مقیاس می‌پذیرد.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">⚖️ مزایا و معایب</div>
+        <div class="pc-grid">
+          <div class="pros-box">
+            <div class="pc-head">✓ مزایا</div>
+            <ul class="pc-list">
+              <li>سه ویژگی مطلوب را ترکیب می‌کند: SLM، LoRA، حریم خصوصی دیفرانسیل فدراسیونی</li>
+              <li>با روند AIOps حافظ حریم خصوصی و on-prem هماهنگ است</li>
+              <li>تضمین رسمی (ε,δ)-DP</li>
+            </ul>
+          </div>
+          <div class="cons-box">
+            <div class="pc-head">✗ معایب</div>
+            <ul class="pc-list">
+              <li>فقط پیش‌چاپ — هنوز peer-reviewed نشده</li>
+              <li>فقط دو مجموعه داده ارزیابی شده</li>
+              <li>بدون انتقال برون‌سیستمی</li>
+              <li>کالیبراسیون و امتناع غایب هستند</li>
+              <li>بازتولیدپذیری نامشخص</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- SECTION D: Cross-System Generalization (Papers 16–20)         -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <section id="sec-d">
+    <div class="sec-div div-d"></div>
+    <div class="sec-header">
+      <div class="sec-pill pill-d">🟡 بخش د</div>
+      <h2>بخش د — تعمیم برون‌سیستمی</h2>
+      <p>مقالات ۱۶ تا ۲۰ · آموزش روی یک سیستم، آزمایش روی سیستم دیگر</p>
+    </div>
+
+    <!-- PAPER 16 -->
+    <div class="paper-card" id="p16">
+      <div class="paper-card-head" onclick="toggle(this)">
+        <div class="paper-num num-d">۱۶</div>
+        <div class="paper-title-wrap">
+          <div class="paper-en">MetaLog: Generalizable Cross-System Anomaly Detection from Logs with Meta-Learning</div>
+          <div class="paper-fa">متالاگ: تشخیص ناهنجاری لاگ تعمیم‌پذیر برون‌سیستمی با متا-یادگیری</div>
+          <div class="paper-tags">
+            <span class="ptag ptag-venue">ICSE 2024</span>
+            <span class="ptag ptag-year">CCF-A</span>
+            <span class="ptag ptag-star">★ کلیدی</span>
+          </div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="paper-body">
+        <div class="info-grid">
+          <div class="info-row"><span class="info-lbl">نویسندگان</span><span class="info-val">Chenyangguang Zhang, Tong Jia, Guopeng Shen, Pinyan Zhu, Ying Li</span></div>
+          <div class="info-row"><span class="info-lbl">کنفرانس</span><span class="info-val">ICSE 2024 — CCF-A، بهترین کنفرانس مهندسی نرم‌افزار</span></div>
+          <div class="info-row"><span class="info-lbl">لینک</span><span class="info-val"><a href="https://conf.researchr.org/details/icse-2024/icse-2024-research-track/205/MetaLog-Generalizable-Cross-System-Anomaly-Detection-from-Logs-with-Meta-Learning" target="_blank">ICSE 2024 ↗</a></span></div>
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">📄 چکیده</div>
+        <div class="abstract-box">
+          MetaLog یک رویکرد تشخیص ناهنجاری برون‌سیستمی تعمیم‌پذیر است که از پارادایم متا-یادگیری بهره می‌برد.
+          یک ماژول embedding معنایی جهانی-سازگار را برای به‌دست‌آوردن بردارهای embedding رویداد لاگ در یک فضای جهانی مشترک ادغام می‌کند.
+          روی چهار مجموعه داده لاگ عمومی (HDFS، BGL، OpenStack و Thunderbird) ارزیابی شده و با استفاده از تنها ۱٪ برچسب‌های لاگ سیستم هدف،
+          F1 بالای ۸۰٪ را به دست می‌آورد.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">🎯 خلاصه نتیجه‌گیری</div>
+        <div class="conclusion-box">
+          یک حلقه بیرونی به سبک MAML یک ستون فقرات (embedding معنایی + طبقه‌بند) آموزش می‌دهد
+          تا با استفاده از تنها ۱٪ برچسب سیستم هدف، به سیستم جدید تطبیق یابد.
+          در تمام انتقال‌های جفتی روی HDFS/BGL/OpenStack/Thunderbird، MetaLog با مدل‌های کاملاً با‌نظارت برابری می‌کند
+          و از LogTransfer و LogTAD تقریباً ۲۰ درصد بهتر عمل می‌کند.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">⚖️ مزایا و معایب</div>
+        <div class="pc-grid">
+          <div class="pros-box">
+            <div class="pc-head">✓ مزایا</div>
+            <ul class="pc-list">
+              <li>شکاف برون‌سیستمی را به صورت روشن برطرف می‌کند</li>
+              <li>در ICSE منتشر شده — برترین مجله مهندسی نرم‌افزار</li>
+              <li>نتیجه ۱٪ برچسب با F1 +۸۰٪</li>
+              <li>ارزیابی جفتی چهار مجموعه داده</li>
+              <li>embedding های جهانی‌سازگار توسط کارهای بعدی استفاده شده</li>
+            </ul>
+          </div>
+          <div class="cons-box">
+            <div class="pc-head">✗ معایب</div>
+            <ul class="pc-list">
+              <li>هنوز به برخی برچسب‌های سیستم هدف (۱٪) نیاز دارد</li>
+              <li>بدون ادغام SLM یا PEFT</li>
+              <li>به جای بازنمایی‌های LLM مدرن، به embedding های کلاسیک متکی است</li>
+              <li>هزینه محاسباتی متا-یادگیری بالا است</li>
+              <li>بدون کالیبراسیون</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAPER 17 -->
+    <div class="paper-card" id="p17">
+      <div class="paper-card-head" onclick="toggle(this)">
+        <div class="paper-num num-d">۱۷</div>
+        <div class="paper-title-wrap">
+          <div class="paper-en">ZeroLog: Zero-Label Generalizable Cross-System Log-based Anomaly Detection</div>
+          <div class="paper-fa">زِرولاگ: تشخیص ناهنجاری لاگ تعمیم‌پذیر برون‌سیستمی بدون برچسب</div>
+          <div class="paper-tags">
+            <span class="ptag ptag-venue">arXiv Nov 2025</span>
+            <span class="ptag ptag-star">★ کلیدی</span>
+          </div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="paper-body">
+        <div class="info-grid">
+          <div class="info-row"><span class="info-lbl">نویسندگان</span><span class="info-val">Xixuan Yang, Tong Jia و همکاران (گروه نانکای/پکن)</span></div>
+          <div class="info-row"><span class="info-lbl">وضعیت</span><span class="info-val">arXiv:2511.05862 (نوامبر 2025) — پیش‌چاپ هدف مجله Q1</span></div>
+          <div class="info-row"><span class="info-lbl">لینک</span><span class="info-val"><a href="https://arxiv.org/abs/2511.05862" target="_blank">arxiv.org/abs/2511.05862 ↗</a></span></div>
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">📄 چکیده [بازسازی‌شده]</div>
+        <div class="abstract-box">
+          ZeroLog تنظیم MetaLog را به یک رژیم کاملاً بدون‌برچسب روی سیستم هدف گسترش می‌دهد.
+          از embedding معنایی جهانی‌سازگار و تطبیق دامنه خصمانه میان دامنه‌های منبع و هدف
+          برای یادگیری بازنمایی‌های ویژگی سیستم-ناآگاه استفاده می‌کند.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">🎯 خلاصه نتیجه‌گیری</div>
+        <div class="conclusion-box">
+          بدون هیچ برچسب هدفی، ZeroLog از LogTransfer، LogTAD و حتی MetaLog (در تنظیمات تطبیق‌یافته بدون‌برچسب) به‌طور قابل توجهی پیشی می‌گیرد؛
+          نشان می‌دهد که آموزش خصمانه به علاوه سازگاری معنایی برای تشخیص ناهنجاری لاگ برون‌سیستمی کافی است.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">⚖️ مزایا و معایب</div>
+        <div class="pc-grid">
+          <div class="pros-box">
+            <div class="pc-head">✓ مزایا</div>
+            <ul class="pc-list">
+              <li>انتقال برون‌سیستمی واقعاً بدون‌برچسب — یکی از بزرگ‌ترین شکاف‌ها را می‌بندد</li>
+              <li>آزمایش‌های جفتی دقیق</li>
+              <li>ادبیات تطبیق دامنه را با لاگ‌ها پیوند می‌دهد</li>
+              <li>با واقعیت استقرار که برچسب‌ها ناموجودند همسو است</li>
+            </ul>
+          </div>
+          <div class="cons-box">
+            <div class="pc-head">✗ معایب</div>
+            <ul class="pc-list">
+              <li>پیش‌چاپ — هنوز peer-reviewed نشده</li>
+              <li>بدون backbone مبتنی بر LLM (فقط embedding های کلاسیک)</li>
+              <li>بدون کالیبراسیون</li>
+              <li>هزینه محاسباتی آموزش خصمانه</li>
+              <li>امتناع در نظر گرفته نشده</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAPER 18 -->
+    <div class="paper-card" id="p18">
+      <div class="paper-card-head" onclick="toggle(this)">
+        <div class="paper-num num-d">۱۸</div>
+        <div class="paper-title-wrap">
+          <div class="paper-en">FusionLog: Cross-System Log-based Anomaly Detection via Fusion of General and Proprietary Knowledge</div>
+          <div class="paper-fa">فیوژن‌لاگ: تشخیص ناهنجاری لاگ برون‌سیستمی از طریق ادغام دانش عمومی و اختصاصی</div>
+          <div class="paper-tags">
+            <span class="ptag ptag-venue">arXiv Nov 2025</span>
+            <span class="ptag ptag-year">همان گروه</span>
+          </div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="paper-body">
+        <div class="info-grid">
+          <div class="info-row"><span class="info-lbl">نویسندگان</span><span class="info-val">Xinlong Zhao, Tong Jia, Minghua He, Xixuan Yang, Ying Li</span></div>
+          <div class="info-row"><span class="info-lbl">وضعیت</span><span class="info-val">arXiv:2511.05878 (نوامبر 2025) — همان گروه ZeroLog/MetaLog</span></div>
+          <div class="info-row"><span class="info-lbl">لینک</span><span class="info-val"><a href="https://arxiv.org/abs/2511.05878" target="_blank">arxiv.org/abs/2511.05878 ↗</a></span></div>
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">📄 چکیده</div>
+        <div class="abstract-box">
+          FusionLog به‌صراحت دانش قابل انتقال عمومی (از سیستم‌های بالغ) را با دانش اختصاصی سیستم هدف
+          (استخراج‌شده از تعداد کمی لاگ نرمال و داده بدون‌برچسب هدف) از طریق متا-یادگیری ادغام می‌کند.
+          استدلال می‌کند که روش‌های مدل کوچک الگوهای اختصاصی را از دست می‌دهند در حالی که روش‌های مبتنی بر LLM
+          بسیار گران‌قیمت هستند — و یک مسیر میانی پیشنهاد می‌دهد.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">🎯 خلاصه نتیجه‌گیری</div>
+        <div class="conclusion-box">
+          FusionLog در همان بودجه برچسب کم، از MetaLog و خطوط پایه انتقال‌یادگیری پیشی می‌گیرد.
+          ماژول ادغام نوآورانه برای ترکیب دانش عمومی و اختصاصی معرفی می‌شود.
+          این مقاله همان کاری است که در بریف کاربر به عنوان «GeneralLog» توصیف شده.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">⚖️ مزایا و معایب</div>
+        <div class="pc-grid">
+          <div class="pros-box">
+            <div class="pc-head">✓ مزایا</div>
+            <ul class="pc-list">
+              <li>یک شکاف واقعی (عدم تطابق دانش عمومی در مقابل اختصاصی) را شناسایی می‌کند</li>
+              <li>چارچوب متا-یادگیری کارآمد از نظر برچسب باقی می‌ماند</li>
+              <li>ماژول ادغام نوآورانه</li>
+              <li>با نیاز عملی برای ترکیب پیش‌آموزش و تطبیق محلی هماهنگ است</li>
+            </ul>
+          </div>
+          <div class="cons-box">
+            <div class="pc-head">✗ معایب</div>
+            <ul class="pc-list">
+              <li>پیش‌چاپ — بدون ادغام LLM/SLM</li>
+              <li>کالیبراسیون غایب</li>
+              <li>ماتریس آزمایشی برون‌سیستمی جزئی است</li>
+              <li>هزینه محاسباتی متا-یادگیری</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAPER 19 -->
+    <div class="paper-card" id="p19">
+      <div class="paper-card-head" onclick="toggle(this)">
+        <div class="paper-num num-d">۱۹</div>
+        <div class="paper-title-wrap">
+          <div class="paper-en">Bridging the Gap: LLM-Powered Transfer Learning for Log Anomaly Detection in New Software Systems</div>
+          <div class="paper-fa">پر کردن شکاف: انتقال‌یادگیری تقویت‌شده با LLM برای تشخیص ناهنجاری لاگ در سیستم‌های نرم‌افزاری جدید</div>
+          <div class="paper-tags">
+            <span class="ptag ptag-venue">IEEE Xplore 2026</span>
+          </div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="paper-body">
+        <div class="info-grid">
+          <div class="info-row"><span class="info-lbl">نویسندگان</span><span class="info-val">تیم نانکای/IOPS</span></div>
+          <div class="info-row"><span class="info-lbl">مجله</span><span class="info-val">IEEE Xplore، 2026 (دسترسی زودهنگام از مجله/کنفرانس IEEE)</span></div>
+          <div class="info-row"><span class="info-lbl">لینک</span><span class="info-val"><a href="https://nkcs.iops.ai/wp-content/uploads/2026/01/Bridging_the_Gap_LLM-Powered_Transfer_Learning_for_Log_Anomaly_Detection_in_New_Software_Systems.pdf" target="_blank">nkcs.iops.ai ↗</a></span></div>
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">📄 چکیده [بازسازی‌شده]</div>
+        <div class="abstract-box">
+          یک طبقه‌بندی و تحلیل از روش‌های LAD برون‌سیستمی، شناسایی ۶ دسته با نقاط قوت و محدودیت‌های ثابت آن‌ها برای سیستم‌های جدید.
+          یک pipeline انتقال مبتنی بر LLM پیشنهاد می‌دهد که از embedding های پیش‌آموزش‌دیده برای تعمیم با آموزش مجدد حداقلی استفاده می‌کند.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">🎯 خلاصه نتیجه‌گیری</div>
+        <div class="conclusion-box">
+          embedding های معنایی مبتنی بر LLM ترکیب‌شده با انتقال سبک، عملکرد few-shot/zero-shot قوی روی سیستم‌های جدید ارائه می‌دهند
+          و از خطوط پایه انتقال کلاسیک مثل LogTransfer و LogTAD پیشی می‌گیرند.
+          مقاله به‌صراحت «بدون تطبیق‌پذیری برون‌سیستمی» را به عنوان ضعف مکرر دسته‌های قبلی نام می‌برد.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">⚖️ مزایا و معایب</div>
+        <div class="pc-grid">
+          <div class="pros-box">
+            <div class="pc-head">✓ مزایا</div>
+            <ul class="pc-list">
+              <li>مستقیماً سناریوی عملیاتی استقرار LAD روی سیستم کاملاً جدید را هدف می‌گیرد</li>
+              <li>از LLM برای بازنمایی معنایی استفاده می‌کند</li>
+              <li>بررسی صریح محدودیت‌های برون‌سیستمی در کنار پیشنهاد روش</li>
+              <li>انتشار اخیر (2026)</li>
+            </ul>
+          </div>
+          <div class="cons-box">
+            <div class="pc-head">✗ معایب</div>
+            <ul class="pc-list">
+              <li>انتشار اخیر، مواد بازتولید محدود</li>
+              <li>به مدل‌های embedding بزرگ متکی است</li>
+              <li>بدون ارزیابی SLM-specific</li>
+              <li>بدون کالیبراسیون</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAPER 20 -->
+    <div class="paper-card" id="p20">
+      <div class="paper-card-head" onclick="toggle(this)">
+        <div class="paper-num num-d">۲۰</div>
+        <div class="paper-title-wrap">
+          <div class="paper-en">From Few-Label to Zero-Label: Cross-System Log-Based Anomaly Detection with Meta-Learning</div>
+          <div class="paper-fa">از تعداد کم برچسب تا بدون‌برچسب: تشخیص ناهنجاری لاگ برون‌سیستمی با متا-یادگیری</div>
+          <div class="paper-tags">
+            <span class="ptag ptag-venue">arXiv Jul 2025</span>
+            <span class="ptag ptag-year">پیش‌چاپ</span>
+          </div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="paper-body">
+        <div class="info-grid">
+          <div class="info-row"><span class="info-lbl">نویسندگان</span><span class="info-val">گروه نانکای (ادامه/همراه MetaLog)</span></div>
+          <div class="info-row"><span class="info-lbl">وضعیت</span><span class="info-val">arXiv:2507.19806 (جولای 2025) — پیش‌چاپ</span></div>
+          <div class="info-row"><span class="info-lbl">لینک</span><span class="info-val"><a href="https://arxiv.org/abs/2507.19806" target="_blank">arxiv.org/abs/2507.19806 ↗</a></span></div>
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">📄 چکیده [بازسازی‌شده]</div>
+        <div class="abstract-box">
+          MetaLog را از few-label به یک رژیم برون‌سیستمی بدون‌برچسب تعمیم می‌دهد، سازگاری معنایی جهانی را حفظ می‌کند
+          و اهداف متا بیرونی‌حلقه را اضافه می‌کند تا مقاومت هنگام نبود برچسب هدف بهبود یابد.
+          شامل یک نظرسنجی از ۳۱۲ متخصص از ۳۶ کشور درباره انتظاراتشان از تشخیص ناهنجاری لاگ است.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">🎯 خلاصه نتیجه‌گیری</div>
+        <div class="conclusion-box">
+          بدون برچسب هدف، روش پیشنهادی از LogTransfer، LogTAD، ZeroLog روی انتقال‌های جفتی متعدد پیشی می‌گیرد.
+          نظرسنجی متخصصان نشان می‌دهد که انتظارات عملیاتی (مثلاً نرخ false-positive پایین، تفسیرپذیری، استقرار بدون‌برچسب)
+          هنوز توسط تحقیقات فعلی به‌خوبی پوشش داده نمی‌شوند.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">⚖️ مزایا و معایب</div>
+        <div class="pc-grid">
+          <div class="pros-box">
+            <div class="pc-head">✓ مزایا</div>
+            <ul class="pc-list">
+              <li>پل میان MetaLog و ZeroLog را می‌زند</li>
+              <li>ablation روشن از بودجه برچسب</li>
+              <li>از مجموعه‌های داده عمومی به‌صورت جفتی استفاده می‌کند</li>
+              <li>نظرسنجی ۳۱۲-نفره متخصص کمیاب در این حوزه را شامل می‌شود</li>
+            </ul>
+          </div>
+          <div class="cons-box">
+            <div class="pc-head">✗ معایب</div>
+            <ul class="pc-list">
+              <li>پیش‌چاپ — بدون LLM/SLM PEFT</li>
+              <li>کالیبراسیون غایب</li>
+              <li>زمان آموزش طولانی</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- SECTION E: Recent / Adjacent Work & Benchmarks (Papers 21–25)     -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <section id="sec-e">
+    <div class="sec-div div-e"></div>
+    <div class="sec-header">
+      <div class="sec-pill pill-e">🔴 بخش ه</div>
+      <h2>بخش ه — کارهای اخیر، مجاور و معیارسنجی</h2>
+      <p>مقالات ۲۱ تا ۲۵ · آستانه‌بندی تطبیقی، parser های LLM-محور، معیارسنجی‌ها و مرور سیستماتیک</p>
+    </div>
+
+    <!-- PAPER 21 -->
+    <div class="paper-card" id="p21">
+      <div class="paper-card-head" onclick="toggle(this)">
+        <div class="paper-num num-e">۲۱</div>
+        <div class="paper-title-wrap">
+          <div class="paper-en">ADALog: Adaptive Unsupervised Anomaly Detection in Logs with Self-attention Masked Language Model</div>
+          <div class="paper-fa">آدالاگ: تشخیص ناهنجاری بدون‌نظارت تطبیقی در لاگ‌ها با مدل زبانی پوشیده خودتوجه</div>
+          <div class="paper-tags">
+            <span class="ptag ptag-venue">arXiv May 2025</span>
+          </div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="paper-body">
+        <div class="info-grid">
+          <div class="info-row"><span class="info-lbl">نویسندگان</span><span class="info-val">Przemek Pospieszny, Wojciech Mormul, Karolina Szyndler, Sanjeev Kumar</span></div>
+          <div class="info-row"><span class="info-lbl">وضعیت</span><span class="info-val">arXiv:2505.13496 (مه 2025) — پیش‌چاپ</span></div>
+          <div class="info-row"><span class="info-lbl">لینک</span><span class="info-val"><a href="https://arxiv.org/abs/2505.13496" target="_blank">arxiv.org/abs/2505.13496 ↗</a></span></div>
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">📄 چکیده</div>
+        <div class="abstract-box">
+          ADALog یک چارچوب تشخیص ناهنجاری تطبیقی و بدون‌نظارت است که برای کاربرد عملی در محیط‌های متنوع طراحی شده.
+          برخلاف روش‌های سنتی که به تجزیه لاگ، وابستگی‌های ترتیبی سخت یا داده‌های برچسب‌خورده متکی هستند،
+          ADALog روی لاگ‌های بدون‌ساختار منفرد عمل می‌کند، روابط زمینه‌ای درون-لاگ را استخراج می‌کند،
+          و آستانه‌بندی تطبیقی مبتنی بر صدک (percentile-based) روی داده‌های نرمال انجام می‌دهد.
+          روی BGL، Thunderbird و Spirit ارزیابی شده.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">🎯 خلاصه نتیجه‌گیری</div>
+        <div class="conclusion-box">
+          تشخیص مبتنی بر MLM بدون parser با آستانه‌بندی صدک کالیبره‌شده فقط روی داده نرمال؛
+          روی BGL، Thunderbird و Spirit با خطوط پایه با‌نظارت و خودنظارتی برابری می‌کند یا از آن‌ها پیشی می‌گیرد.
+          آستانه‌بندی تطبیقی هدف مدیریت رفتار سیستم در حال تحول بدون تنظیم مجدد دستی را دارد.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">⚖️ مزایا و معایب</div>
+        <div class="pc-grid">
+          <div class="pros-box">
+            <div class="pc-head">✓ مزایا</div>
+            <ul class="pc-list">
+              <li>آستانه‌بندی تطبیقی شکلی ابتدایی از کالیبراسیون است</li>
+              <li>بدون parser؛ در دانه‌بندی لاگ-منفرد کار می‌کند (مفید برای streaming)</li>
+              <li>روی Spirit ارزیابی شده (کمتر رایج در ادبیات)</li>
+              <li>خط پایه قوی بدون‌نظارت</li>
+            </ul>
+          </div>
+          <div class="cons-box">
+            <div class="pc-head">✗ معایب</div>
+            <ul class="pc-list">
+              <li>BERT encoder-only — بدون کاوش SLM-decoder</li>
+              <li>بدون LoRA یا QLoRA</li>
+              <li>نه دقیقاً برون‌سیستمی (آموزش و آزمایش روی همان سیستم)</li>
+              <li>کالیبراسیون heuristic percentile، نه Platt یا temperature scaling</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAPER 22 -->
+    <div class="paper-card" id="p22">
+      <div class="paper-card-head" onclick="toggle(this)">
+        <div class="paper-num num-e">۲۲</div>
+        <div class="paper-title-wrap">
+          <div class="paper-en">LogParser-LLM: Advancing Efficient Log Parsing with Large Language Models</div>
+          <div class="paper-fa">تجزیه‌گر لاگ-ال‌ال‌ام: پیشبرد تجزیه لاگ کارآمد با مدل‌های بزرگ زبانی</div>
+          <div class="paper-tags">
+            <span class="ptag ptag-venue">ACM KDD 2024</span>
+            <span class="ptag ptag-year">رتبه‌الف</span>
+          </div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="paper-body">
+        <div class="info-grid">
+          <div class="info-row"><span class="info-lbl">نویسندگان</span><span class="info-val">Aoxiao Zhong, Dengyao Mo, Guiyang Liu, Jinbu Liu, Qingda Lu و همکاران</span></div>
+          <div class="info-row"><span class="info-lbl">کنفرانس</span><span class="info-val">ACM SIGKDD 2024 — رتبه‌الف</span></div>
+          <div class="info-row"><span class="info-lbl">لینک</span><span class="info-val"><a href="https://arxiv.org/abs/2408.13727" target="_blank">arxiv.org/abs/2408.13727 ↗</a></span></div>
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">📄 چکیده</div>
+        <div class="abstract-box">
+          LogParser-LLM یک parser لاگ نوآورانه است که با قابلیت‌های LLM ادغام می‌شود.
+          این ترکیب بینش‌های معنایی را با ظرافت‌های آماری در هم می‌آمیزد و نیاز به تنظیم hyperparameter
+          و داده‌های آموزشی برچسب‌خورده را حذف می‌کند. تجزیه آنلاین سریع از طریق یک درخت پیشوند + استخراج‌کننده قالب LLM با کمینه‌سازی
+          فراخوانی‌های LLM انجام می‌شود. در ارزیابی روی LogPub با میانگین ۳.۶ میلیون لاگ به ازای هر مجموعه داده در ۱۴ مجموعه داده،
+          تنها به میانگین ۲۷۲.۵ فراخوانی LLM نیاز دارد.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">🎯 خلاصه نتیجه‌گیری</div>
+        <div class="conclusion-box">
+          یک درخت پیشوند + استخراج‌کننده قالب LLM فراخوانی‌های LLM اضافی را کمینه می‌کند؛
+          از تجزیه آنلاین بدون hyperparameter tuning پشتیبانی می‌کند؛
+          یک معیار فاصله دانه‌بندی معرفی می‌کند و از parser های الگویی، عصبی و قبلی LLM-enhanced پیشی می‌گیرد.
+          ۹۰.۶٪ F1 برای دقت گروه‌بندی و ۸۱.۱٪ برای دقت تجزیه.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">⚖️ مزایا و معایب</div>
+        <div class="pc-grid">
+          <div class="pros-box">
+            <div class="pc-head">✓ مزایا</div>
+            <ul class="pc-list">
+              <li>انتشار در KDD رتبه‌الف</li>
+              <li>کارایی عملی (~۲۷۲ فراخوانی LLM به ازای ۳.۶M لاگ)</li>
+              <li>از تجزیه آنلاین پشتیبانی می‌کند</li>
+              <li>معیار ارزیابی جدید برای دانه‌بندی تجزیه</li>
+              <li>ارزیابی ۱۴ مجموعه داده (Loghub/LogPub)</li>
+            </ul>
+          </div>
+          <div class="cons-box">
+            <div class="pc-head">✗ معایب</div>
+            <ul class="pc-list">
+              <li>یک parser است، نه یک تشخیص‌دهنده ناهنجاری — باید با classifier ترکیب شود</li>
+              <li>برای بهترین نتایج به GPT-4 منبع‌بسته وابسته است</li>
+              <li>حساس به دانه‌بندی</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAPER 23 -->
+    <div class="paper-card" id="p23">
+      <div class="paper-card-head" onclick="toggle(this)">
+        <div class="paper-num num-e">۲۳</div>
+        <div class="paper-title-wrap">
+          <div class="paper-en">LLMParser: An Exploratory Study on Using Large Language Models for Log Parsing</div>
+          <div class="paper-fa">ال‌ال‌ام‌پارسر: مطالعه اکتشافی استفاده از LLM‌ها برای تجزیه لاگ</div>
+          <div class="paper-tags">
+            <span class="ptag ptag-venue">ICSE 2024</span>
+            <span class="ptag ptag-year">رتبه‌الف</span>
+          </div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="paper-body">
+        <div class="info-grid">
+          <div class="info-row"><span class="info-lbl">نویسندگان</span><span class="info-val">Zhihan Jiang, Jinyang Liu, Zhuangbin Chen, Yichen Li و همکاران</span></div>
+          <div class="info-row"><span class="info-lbl">کنفرانس</span><span class="info-val">ICSE 2024 — رتبه‌الف</span></div>
+          <div class="info-row"><span class="info-lbl">لینک</span><span class="info-val"><a href="https://arxiv.org/abs/2404.18001" target="_blank">arxiv.org/abs/2404.18001 ↗</a></span></div>
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">📄 چکیده [بازسازی‌شده]</div>
+        <div class="abstract-box">
+          یک مطالعه تجربی از چهار LLM — Flan-T5-small، Flan-T5-base، LLaMA-7B، ChatGLM-6B — روی تجزیه لاگ
+          در ۱۶ مجموعه داده سیستم متن‌باز. یادگیری few-shot، طراحی پرامپت و تأثیر پیش‌آموزش LLM برون‌سیستمی
+          روی دقت تجزیه لاگ را بررسی می‌کند.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">🎯 خلاصه نتیجه‌گیری</div>
+        <div class="conclusion-box">
+          LLMParser ها دقت تجزیه میانگین ۰.۹۶ به دست می‌آورند و از parser های قبلی پیشی می‌گیرند؛
+          LLM های کوچک (Flan-T5-base) می‌توانند با LLM های بزرگ‌تر برابری کنند یا از آن‌ها بهتر باشند؛
+          اندازه LLM همیشه کمک نمی‌کند؛ پیش‌آموزش روی لاگ‌های سیستم‌های دیگر گاهی آسیب می‌زند
+          (دقت گروه LLaMA تقریباً ۵۵٪ افت کرد).
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">⚖️ مزایا و معایب</div>
+        <div class="pc-grid">
+          <div class="pros-box">
+            <div class="pc-head">✓ مزایا</div>
+            <ul class="pc-list">
+              <li>مطالعه تجربی جامع</li>
+              <li>به‌صراحت SLM های کوچک (Flan-T5-small/base) را معیارسنجی می‌کند</li>
+              <li>یافته‌های ضدشهودی درباره انتقال پیش‌آموزش برون‌سیستمی</li>
+              <li>در ICSE منتشر شده؛ قابلیت بازتولید بالا</li>
+            </ul>
+          </div>
+          <div class="cons-box">
+            <div class="pc-head">✗ معایب</div>
+            <ul class="pc-list">
+              <li>فقط تجزیه — بدون ارزیابی تشخیص ناهنجاری</li>
+              <li>اندازه معیارسنجی کوچک (۲k لاگ به ازای مجموعه داده در برخی آزمایش‌ها)</li>
+              <li>دقت تجزیه را با F1 تشخیص ناهنجاری downstream جفت نمی‌کند</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAPER 24 -->
+    <div class="paper-card" id="p24">
+      <div class="paper-card-head" onclick="toggle(this)">
+        <div class="paper-num num-e">۲۴</div>
+        <div class="paper-title-wrap">
+          <div class="paper-en">LLM-Enhanced Log Anomaly Detection: A Comprehensive Benchmark of LLMs for Automated System Diagnostics</div>
+          <div class="paper-fa">تشخیص ناهنجاری لاگ تقویت‌شده با LLM: معیارسنجی جامع از LLM‌ها برای تشخیص خودکار مشکلات سیستم</div>
+          <div class="paper-tags">
+            <span class="ptag ptag-venue">arXiv Apr 2026</span>
+            <span class="ptag ptag-year">پیش‌چاپ</span>
+          </div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="paper-body">
+        <div class="info-grid">
+          <div class="info-row"><span class="info-lbl">نویسندگان</span><span class="info-val">Disha Patel</span></div>
+          <div class="info-row"><span class="info-lbl">وضعیت</span><span class="info-val">arXiv:2604.12218 (آوریل 2026) — پیش‌چاپ معیارسنجی</span></div>
+          <div class="info-row"><span class="info-lbl">لینک</span><span class="info-val"><a href="https://arxiv.org/abs/2604.12218" target="_blank">arxiv.org/abs/2604.12218 ↗</a></span></div>
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">📄 چکیده</div>
+        <div class="abstract-box">
+          یک مطالعه معیارسنجی جامع که هم روش‌های مبتنی بر LLM و هم روش‌های سنتی را برای تشخیص ناهنجاری لاگ
+          در چهار مجموعه داده عمومی پرکاربرد: HDFS، BGL، Thunderbird و Spirit ارزیابی می‌کند.
+          سه دسته روش: (۱) parser های لاگ کلاسیک + classifier های ML، (۲) مدل‌های transformer تنظیم‌دقیق‌شده (BERT، RoBERTa)،
+          و (۳) رویکردهای LLM مبتنی بر پرامپت (GPT-3.5، GPT-4، LLaMA-3) در تنظیمات zero-shot و few-shot ارزیابی می‌شوند.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">🎯 خلاصه نتیجه‌گیری</div>
+        <div class="conclusion-box">
+          مدل‌های transformer تنظیم‌دقیق‌شده F1 ۰.۹۶-۰.۹۹ به دست می‌آورند؛ LLM های مبتنی بر پرامپت ۰.۸۲-۰.۹۱ zero-shot — رقابتی بدون نیاز به برچسب.
+          راهنمای عملی: از Drain+RF برای throughput بالا/تأخیر کم؛ از LLaMA-3 محلی با SLCP برای استقرار حساس به هزینه و کمبود برچسب؛
+          از transformer تنظیم‌دقیق‌شده وقتی برچسب موجود است. کد بازتولیدپذیر منتشر شده.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">⚖️ مزایا و معایب</div>
+        <div class="pc-grid">
+          <div class="pros-box">
+            <div class="pc-head">✓ مزایا</div>
+            <ul class="pc-list">
+              <li>معیارسنجی چهار-مجموعه‌داده با کد بازتولیدپذیر</li>
+              <li>مقایسه در سه خانواده روش</li>
+              <li>معرفی Structured Log Context Prompting (SLCP)</li>
+              <li>بحث صریح trade-off هزینه-دقت-تأخیر</li>
+              <li>راهنمای عملی ساختاریافته برای استقرار</li>
+            </ul>
+          </div>
+          <div class="cons-box">
+            <div class="pc-head">✗ معایب</div>
+            <ul class="pc-list">
+              <li>پیش‌چاپ</li>
+              <li>انتقال برون‌سیستمی محور اصلی نیست</li>
+              <li>ارزیابی SLM-specific PEFT غایب است</li>
+              <li>کالیبراسیون/امتناع عمیقاً پرداخته نشده</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAPER 25 -->
+    <div class="paper-card" id="p25">
+      <div class="paper-card-head" onclick="toggle(this)">
+        <div class="paper-num num-e">۲۵</div>
+        <div class="paper-title-wrap">
+          <div class="paper-en">AIOps for Log Anomaly Detection in the Era of LLMs: A Systematic Literature Review</div>
+          <div class="paper-fa">AIOps برای تشخیص ناهنجاری لاگ در عصر LLM‌ها: یک مرور ادبیات سیستماتیک</div>
+          <div class="paper-tags">
+            <span class="ptag ptag-venue">ScienceDirect 2025</span>
+            <span class="ptag ptag-q1">Q1</span>
+            <span class="ptag ptag-star">★ کلیدی</span>
+          </div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="paper-body">
+        <div class="info-grid">
+          <div class="info-row"><span class="info-lbl">نویسندگان</span><span class="info-val">نویسندگان متعدد</span></div>
+          <div class="info-row"><span class="info-lbl">مجله</span><span class="info-val">ScienceDirect 2025 — خانواده Journal of Systems and Software — Q1</span></div>
+          <div class="info-row"><span class="info-lbl">لینک</span><span class="info-val"><a href="https://www.sciencedirect.com/science/article/pii/S2667305325001346" target="_blank">sciencedirect.com ↗</a></span></div>
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">📄 چکیده [بازسازی‌شده]</div>
+        <div class="abstract-box">
+          یک مرور ادبیات سیستماتیک از رویکردهای LAD در عصر LLM.
+          روش‌ها را دسته‌بندی می‌کند (encoder-based، decoder-based، ترکیبی، RAG) و مجموعه‌های داده متعارف
+          (HDFS، BGL، Thunderbird، OpenStack، Spirit) را تحلیل می‌کند.
+          محدودیت‌های عملی در حافظه، مقیاس‌پذیری، کالیبراسیون و سفارشی‌سازی را بررسی می‌کند.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">🎯 خلاصه نتیجه‌گیری</div>
+        <div class="conclusion-box">
+          LLM های پیش‌آموزش‌دیده و تنظیم‌دقیق‌شده نتایج LAD اخیر را تحت‌الشعاع قرار می‌دهند، اما نگرانی‌های عملی —
+          حافظه، سفارشی‌سازی دقت، تفسیرپذیری و تعمیم برون‌سیستمی — حل‌نشده باقی می‌مانند.
+          مرور، SLM + PEFT و RAG را به عنوان امیدوارکننده‌ترین جهت‌های کوتاه‌مدت شناسایی می‌کند.
+        </div>
+        <div class="hr"></div>
+        <div class="block-title">⚖️ مزایا و معایب</div>
+        <div class="pc-grid">
+          <div class="pros-box">
+            <div class="pc-head">✓ مزایا</div>
+            <ul class="pc-list">
+              <li>مقاله مرور مجله Q1</li>
+              <li>طبقه‌بندی ساختاریافته</li>
+              <li>شناسایی صریح شکاف‌ها</li>
+              <li>برای موضع‌گیری در بخش کارهای مرتبط مقاله مجله مفید است</li>
+            </ul>
+          </div>
+          <div class="cons-box">
+            <div class="pc-head">✗ معایب</div>
+            <ul class="pc-list">
+              <li>مرور است، نه روش</li>
+              <li>پوشش مقالات ۲۰۲۶ محدود</li>
+              <li>کالیبراسیون و امتناع فقط به‌طور خلاصه بحث شده</li>
+              <li>پوشش لاگ‌های امنیتی محدود</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- SECTION: Cross-Paper Research Gaps       -->
+  <!-- ══════════════════════════════════════════ -->
+  <section id="gaps">
+    <div class="sec-div div-gaps"></div>
+    <div class="sec-header">
+      <div class="sec-pill pill-gaps">🔍 شکاف‌های پژوهشی</div>
+      <h2>۳. شکاف‌های پژوهشی بین مقالات</h2>
+      <p>با ترکیب ۲۵ مقاله، شکاف‌های زیر مشخص می‌شوند — هر کدام یک محور نوآوری قابل دفاع برای مقاله Q1 هستند.</p>
+    </div>
+
+    <div class="gap-card">
+      <div class="gap-letter">الف</div>
+      <div class="gap-inner">
+        <div class="gap-title">تعمیم برون‌سیستمی بدون داده برچسب‌خورده</div>
+        <div class="gap-text">
+          MetaLog (ICSE 2024)، ZeroLog (arXiv 2025)، FusionLog (arXiv 2025) و کار few-label-to-zero-label (arXiv:2507.19806)
+          مسئله را تعریف می‌کنند اما به جای SLM های مدرن به embedding های کلاسیک متکی هستند.
+          روش‌های مبتنی بر LLM (LogLLM، LogFiT، LogTinyLLM، AdaptiveLog) تقریباً همگی فقط درون‌دامنه ارزیابی می‌شوند.
+          <strong>هیچ سیستم منتشرشده‌ای وجود ندارد که SLM زیر ۸ میلیارد پارامتر، LoRA/QLoRA و انتقال برون‌سیستمی کاملاً بدون‌برچسب را به‌صورت جفتی روی HDFS / BGL / Thunderbird / Spirit ترکیب کند. این بزرگ‌ترین فرصت است.</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="gap-card">
+      <div class="gap-letter">ب</div>
+      <div class="gap-inner">
+        <div class="gap-title">کالیبراسیون و کمیت‌سنجی عدم‌قطعیت</div>
+        <div class="gap-text">
+          به جز هدایت logit-based در AdaptiveLog و آستانه‌بندی صدک در ADALog، مقالات LAD خطای کالیبراسیون مورد انتظار (ECE)،
+          نمودارهای قابلیت اطمینان، امتیازات Brier یا مقیاس‌بندی دما/Platt را گزارش نمی‌دهند.
+          متخصصان برای مدیریت بودجه تریاژ به احتمالات کالیبره نیاز دارند.
+          <strong>هیچ‌کدام از ۲۵ مقاله ECE روی انتقال برون‌سیستمی گزارش نمی‌دهند.</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="gap-card">
+      <div class="gap-letter">ج</div>
+      <div class="gap-inner">
+        <div class="gap-title">پیش‌بینی انتخابی / امتناع</div>
+        <div class="gap-text">
+          AdaptiveLog (TOSEM 2026) تنها ورودی است که صراحتاً ورودی‌های نامطمئن را به تأخیر می‌اندازد،
+          و حتی در آنجا هدف واگذاری یک LLM است — نه یک انسان یا گزینه بدون تصمیم.
+          ادبیات پیش‌بینی انتخابی تصمیم‌نظری (طبقه‌بندی انتخابی کالیبره‌شده، S-MMCE / S-TLBCE، پروب‌های آنتروپی معنایی) به لاگ‌ها منتقل نشده.
+          <strong>یک پیش‌بینی‌کننده انتخابی با کنترل ریسک برای LAD برون‌سیستمی با تضمین α روی نرخ خطا باز است.</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="gap-card">
+      <div class="gap-letter">د</div>
+      <div class="gap-inner">
+        <div class="gap-title">کارایی محاسباتی روی سخت‌افزار عادی</div>
+        <div class="gap-text">
+          بسیاری از روش‌های اخیر مبتنی بر LLM (LogLLM با Llama-7B، AdaptiveLog با GPT-3.5/4) هنوز به بیش از ۲۴ گیگابایت
+          حافظه GPU یا دسترسی به API پولی نیاز دارند.
+          فقط LogTinyLLM و DP-FlogTinyLLM سخت‌افزار واقعاً عادی (SLM های ۱-۲B با LoRA) را هدف می‌گیرند.
+          <strong>تأخیر استنتاج، هزینه انرژی و قابلیت استقرار on-prem در سراسر این حوزه کم‌گزارش است.</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="gap-card">
+      <div class="gap-letter">ه</div>
+      <div class="gap-inner">
+        <div class="gap-title">استفاده خاص از مدل‌های زبانی کوچک</div>
+        <div class="gap-text">
+          به جز LogTinyLLM (SLM های ۱-۱.۵B)، AdaptiveLog (از SLM کوچک برای هدایت استفاده می‌کند) و DP-FlogTinyLLM،
+          SLM های متن‌باز مدرن (Qwen-2.5/3، Phi-3/4، Llama-3.2-1B/3B، Gemma-2-2B، DeepSeek-distilled)
+          اساساً برای LAD برون‌سیستمی بررسی‌نشده باقی مانده‌اند.
+          اکثر کارهای منتشرشده از encoder های قدیمی (BERT، RoBERTa) یا مدل‌های بزرگ‌تر (Llama-7B+، GPT-4) استفاده می‌کنند.
+        </div>
+      </div>
+    </div>
+
+    <div class="gap-card">
+      <div class="gap-letter">و</div>
+      <div class="gap-inner">
+        <div class="gap-title">لاگ‌های امنیتی در مقابل لاگ‌های عملیاتی</div>
+        <div class="gap-text">
+          معیارسنجی‌های عمومی (HDFS، BGL، Thunderbird، OpenStack، Spirit) رویدادهای عملیاتی/خرابی سیستم را ثبت می‌کنند.
+          مجموعه‌های داده لاگ مرتبط با نفوذ (auth.log، syslog تحت تمرینات MITRE ATT&CK، AIT-LDS، LANL Unified Host) به‌ندرت ارزیابی می‌شوند.
+          <strong>ادبیات فاقد تشخیص‌دهنده‌های مبتنی بر SLM ارزیابی‌شده روی لاگ‌های نفوذ برچسب‌دار با امتناع کالیبره است.</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="gap-card">
+      <div class="gap-letter">ز</div>
+      <div class="gap-inner">
+        <div class="gap-title">ablation جداکننده معنا از تجزیه</div>
+        <div class="gap-text">
+          بسیاری از ادعاهای SOTA دسترسی به محتوای معنایی (متن خام در مقابل کلیدهای لاگ) را با معماری مدل درهم می‌آمیزند.
+          برای مثال، بهبود ۱۸ درصدی LogTinyLLM نسبت به LogBERT تا حدی به این دلیل است که LogBERT روی کلیدها اما LogTinyLLM روی خطوط خام کار می‌کند.
+          <strong>یک ablation کنترل‌شده که هر عامل را جدا می‌کند (بازنمایی ورودی × اندازه مدل × روش PEFT) وجود ندارد.</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="gap-card">
+      <div class="gap-letter">ح</div>
+      <div class="gap-inner">
+        <div class="gap-title">مدیریت دنباله‌های طولانی</div>
+        <div class="gap-text">
+          LLM ها با فشار پنجره زمینه روی پنجره‌های لاگ طولانی مواجه می‌شوند؛
+          نحوه مدیریت دنباله‌های ۱۰۰۰-رویدادی با یک SLM با ۲۰۴۸ توکن یک سؤال مهندسی باز است.
+          استراتژی‌های پنجره لغزان بدون بررسی دقیق خلاصه‌سازی، رمزگذاری سلسله‌مراتبی یا بازیابی روی پنجره،
+          تغییر نکرده از DeepLog (2017) به کار برده می‌شوند.
+        </div>
+      </div>
+    </div>
+
+    <div class="gap-card">
+      <div class="gap-letter">ط</div>
+      <div class="gap-inner">
+        <div class="gap-title">استانداردسازی پروتکل برون‌سیستمی</div>
+        <div class="gap-text">
+          مقالات مختلف از تقسیم‌بندی‌های متفاوت (تصادفی در مقابل زمانی)، معیارهای مختلف (F1 سطح پنجره در مقابل سطح جلسه)
+          و parser های مختلف استفاده می‌کنند.
+          <strong>بازتولیدپذیری در MetaLog / ZeroLog / FusionLog به دلیل پروتکل‌های آزمایشی ناسازگار پایین است.</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- SECTION: Summary Comparison Table         -->
+  <!-- ══════════════════════════════════════════ -->
+  <section id="table">
+    <div class="sec-div" style="background:linear-gradient(to left,#1e3a5f,#2563a8);"></div>
+    <div class="sec-header">
+      <div class="sec-pill pill-table">📊 جدول مقایسه</div>
+      <h2>۴. جدول مقایسه جامع</h2>
+      <p>مقایسه کنار هم تمام ۲۵ مقاله — مقالات ★ برای مشارکت Q1 برنامه‌ریزی‌شده مستقیماً مرتبط‌ترین هستند.</p>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>مقاله (سال، مجله/کنفرانس)</th>
+            <th>مزایای کلیدی</th>
+            <th>معایب کلیدی</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>۱</td><td>DeepLog (2017، ACM CCS)</td><td>اولین خط پایه DL · بدون نظارت · بروزرسانی آنلاین · تشخیص علت ریشه</td><td>کلید-محور · وابسته به parser · بدون تعمیم برون‌سیستمی · بدون کالیبراسیون</td></tr>
+          <tr><td>۲</td><td>LogAnomaly (2019، IJCAI)</td><td>template2vec معنایی · مدیریت قالب جدید · ترتیبی + کمّی · اعتبارسنجی تولید</td><td>Embedding استاتیک · LSTM · بدون تعمیم برون‌سیستمی · فقط ۲ مجموعه داده</td></tr>
+          <tr><td>۳</td><td>LogBERT (2021، IJCNN)</td><td>اولین خط پایه BERT · زمینه دوطرفه · دو وظیفه خودنظارتی · پیاده‌سازی متن‌باز</td><td>کلید-محور · تنظیم دقیق کامل سنگین · بدون PEFT · بدون تعمیم برون‌سیستمی</td></tr>
+          <tr><td>۴</td><td>LAnoBERT (2021، arXiv)</td><td>بدون parser · کاملاً بدون نظارت · سیگنال سطح توکن</td><td>BERT از صفر گران است · بدون PEFT/SLM · بدون تعمیم برون‌سیستمی</td></tr>
+          <tr><td>۵</td><td>BERT-Log (2022، Taylor &amp; Francis)</td><td>خط پایه قوی با نظارت · بومی‌سازی گره · F1 بالا روی BGL</td><td>نیاز به برچسب · تنظیم دقیق کامل · بدون PEFT · بدون zero-shot</td></tr>
+          <tr class="star-row"><td>★۶</td><td>LogFiT (2024، IEEE TNSM Q1)</td><td>Q1 منتشرشده · بدون parser · بدون برچسب · ۳ مجموعه داده · بازتولیدپذیر</td><td>بدون LoRA/QLoRA · بدون تعمیم برون‌سیستمی · بدون کالیبراسیون · بدون SLM decoder</td></tr>
+          <tr><td>۷</td><td>LogPrompt-Liu (2024، ICPC)</td><td>zero-shot واقعی · تفسیرپذیر · ۹ مجموعه داده · +55.9% نسبت به با نظارت</td><td>نیاز به GPT-4 (هزینه/حریم خصوصی) · بدون SLM/PEFT · بدون امتناع</td></tr>
+          <tr><td>۸</td><td>LogPrompt-Yang (2023، IPCCC)</td><td>prompt-tuning PLM · مدیریت عدم تعادل · کاهش برچسب</td><td>ارزیابی محدود · بدون تعمیم برون‌سیستمی · بدون SLM</td></tr>
+          <tr><td>۹</td><td>LogGPT-Han (2023، IEEE BigData)</td><td>RL شکاف هدف را حل می‌کند · نوآوری decoder-only · PPO با Top-K reward</td><td>GPT-2 قدیمی · کلید-محور · RL شکننده · بدون PEFT · بدون تعمیم برون‌سیستمی</td></tr>
+          <tr><td>۱۰</td><td>LogGPT-Qi (2023، ISSREW)</td><td>کاوش اولیه LLM-as-detector · تفسیرپذیری · مجموعه داده Spirit</td><td>وابسته به ChatGPT · مقدماتی · فقط ۳ مجموعه داده · بدون SLM</td></tr>
+          <tr class="star-row"><td>★۱۱</td><td>LogLLM (2024، arXiv)</td><td>بدون parser · BERT+Llama ترکیبی · QLoRA · ۴ مجموعه داده · مقاوم در برابر انحراف قالب</td><td>حافظه زیاد (Llama-7B) · تعمیم برون‌سیستمی محور اصلی نیست · بدون کالیبراسیون</td></tr>
+          <tr class="star-row"><td>★۱۲</td><td>LogTinyLLM (2025، arXiv)</td><td>SLM (1.1-1.5B) + LoRA/آداپتور · +18pp نسبت به LogBERT · LLM های کوچک مدرن مقایسه شدند</td><td>فقط Thunderbird · بدون تعمیم برون‌سیستمی · بدون QLoRA · بدون کالیبراسیون · پیش‌چاپ</td></tr>
+          <tr class="star-row"><td>★۱۳</td><td>PEFT برای LAD — Lim و همکاران (2025، PAKDD)</td><td>مطالعه کنترل‌شده LoRA در مقابل ReFT · encoder در مقابل decoder · F1≈0.998 · peer-reviewed</td><td>Llama-3 (8B) مرزی · بدون تعمیم برون‌سیستمی · بدون کالیبراسیون</td></tr>
+          <tr class="star-row"><td>★۱۴</td><td>AdaptiveLog (2026، ACM TOSEM Q1)</td><td>همکاری LLM+SLM · هدایت آگاه از عدم‌قطعیت · ۶ وظیفه · Q1 منتشرشده</td><td>آستانه‌های هدایت مجموعه‌داده-خاص · وابسته به GPT-3.5/4 · بدون کالیبراسیون رسمی</td></tr>
+          <tr><td>۱۵</td><td>DP-FlogTinyLLM (2026، arXiv)</td><td>SLM + LoRA + حریم خصوصی دیفرانسیل فدراسیونی · تضمین (ε,δ)-DP</td><td>فقط ۲ مجموعه داده · پیش‌چاپ · بدون تعمیم برون‌سیستمی · بدون کالیبراسیون</td></tr>
+          <tr class="star-row"><td>★۱۶</td><td>MetaLog (2024، ICSE)</td><td>متا-یادگیری برون‌سیستمی · ۴ مجموعه داده جفتی · ۱٪ برچسب = F1+80%</td><td>نیاز به ۱٪ برچسب · بدون SLM/PEFT · بدون کالیبراسیون · آموزش گران</td></tr>
+          <tr class="star-row"><td>★۱۷</td><td>ZeroLog (2025، arXiv)</td><td>انتقال برون‌سیستمی بدون‌برچسب · تطبیق دامنه خصمانه</td><td>بدون backbone LLM · پیش‌چاپ · بدون کالیبراسیون · بدون لاگ‌های امنیتی</td></tr>
+          <tr><td>۱۸</td><td>FusionLog/GeneralLog (2025، arXiv)</td><td>ادغام دانش عمومی + اختصاصی · متا-یادگیری · شکاف واقعی را شناسایی می‌کند</td><td>پیش‌چاپ · بدون LLM/SLM · بدون کالیبراسیون · ماتریس جزئی</td></tr>
+          <tr><td>۱۹</td><td>Bridging the Gap (2026، IEEE)</td><td>انتقال مبتنی بر LLM · تمرکز بر سیستم جدید · بررسی صریح شکاف</td><td>بازتولید محدود · بدون SLM-PEFT · بدون کالیبراسیون</td></tr>
+          <tr><td>۲۰</td><td>Few-to-Zero-Label MetaLog (2025، arXiv)</td><td>پل میان few-label و zero-label · نظرسنجی ۳۱۲-نفره متخصص</td><td>پیش‌چاپ · بدون LLM/SLM PEFT · بدون کالیبراسیون</td></tr>
+          <tr><td>۲۱</td><td>ADALog (2025، arXiv)</td><td>آستانه‌بندی صدک تطبیقی · بدون parser · دانه‌بندی لاگ‌منفرد · ارزیابی Spirit</td><td>BERT encoder-only · بدون SLM-decoder · بدون LoRA/QLoRA · فقط درون-دامنه</td></tr>
+          <tr><td>۲۲</td><td>LogParser-LLM (2024، ACM KDD)</td><td>KDD منتشرشده · F1 90.6% روی ۱۴ مجموعه داده LogPub · کارآمد</td><td>parser است نه تشخیص‌دهنده ناهنجاری · نیاز به GPT-4 · حساس به دانه‌بندی</td></tr>
+          <tr><td>۲۳</td><td>LLMParser (2024، ICSE)</td><td>۴ LLM × ۱۶ مجموعه داده · SLM (Flan-T5) · یافته‌های ضدشهودی</td><td>فقط تجزیه · بدون ارزیابی تشخیص ناهنجاری downstream</td></tr>
+          <tr><td>۲۴</td><td>معیارسنجی LAD مبتنی بر LLM (2026، arXiv)</td><td>معیارسنجی ۴ مجموعه داده ۳ خانواده · SLCP · تحلیل هزینه-تأخیر-خرابی</td><td>پیش‌چاپ · تعمیم برون‌سیستمی محور اصلی نیست · بدون SLM PEFT</td></tr>
+          <tr class="star-row"><td>★۲۵</td><td>مرور سیستماتیک AIOps-LAD (2025، Q1)</td><td>مرور Q1 · طبقه‌بندی · شناسایی شکاف · SLM+PEFT و RAG را اولویت می‌دهد</td><td>فقط مرور · پوشش محدود ۲۰۲۶ · کالیبراسیون به‌اختصار · پوشش محدود لاگ امنیتی</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:0.78rem;color:var(--text-muted);margin-top:0.5rem;">
+      ★ مقالات برجسته — مستقیماً مرتبط‌ترین برای مشارکت Q1 برنامه‌ریزی‌شده
+    </p>
+  </section>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- SECTION: Concluding Remarks               -->
+  <!-- ══════════════════════════════════════════ -->
+  <section id="conclusion">
+    <div class="sec-div div-conc"></div>
+    <div class="sec-header">
+      <div class="sec-pill pill-conc">🎯 نتیجه‌گیری</div>
+      <h2>۵. ملاحظات نهایی برای برنامه‌ریزی مقاله Q1</h2>
+    </div>
+
+    <div class="info-card">
+      <p>
+        برای یک مقاله Q1 که یک سیستم عملیاتی نیز ارائه دهد، قابل‌دفاع‌ترین مشارکت ترکیبی
+        شکاف‌های (الف) تا (و) را در یک طراحی واحد ادغام می‌کند:
+      </p>
+    </div>
+
+    <div class="proposal-box">
+      <p>
+        <strong>🏗️ مشارکت پیشنهادی:</strong><br><br>
+        یک مدل زبانی کوچک زیر ۸ میلیارد پارامتر (Qwen-2.5-1.5B، Phi-3.5-mini یا Llama-3.2-3B)
+        با QLoRA روی یک سیستم منبع (مثلاً HDFS یا BGL) تنظیم دقیق می‌شود،
+        روی چندین سیستم هدف دیده‌نشده (Thunderbird، Spirit، OpenStack) در یک تنظیم کاملاً بدون‌برچسب ارزیابی می‌شود،
+        با کالیبراسیون صریح (مقیاس‌بندی دما، گزارش ECE، نمودارهای قابلیت اطمینان)
+        و پیش‌بینی انتخابی (امتناع با کنترل ریسک با هدف ریسک α) —
+        همه روی سخت‌افزار GPU عادی (یک کارت ۲۴ گیگابایتی VRAM) معیارسنجی می‌شود
+        و علاوه بر این روی حداقل یک مجموعه داده لاگ نفوذ برچسب‌دار (AIT-LDS یا LANL Unified Host and Network Events) اعتبارسنجی می‌شود.
+      </p>
+    </div>
+
+    <div class="info-card" style="margin-top:1rem;">
+      <p>چنین مطالعه‌ای همزمان:</p>
+      <ul style="margin-top:0.5rem; padding-right:1.25rem;">
+        <li style="position:relative; padding-right:1rem; margin-bottom:0.4rem; font-size:0.87rem; color:#374151;">
+          <span style="position:absolute;right:0;color:var(--accent-dark);">▸</span>
+          MetaLog (مقاله ۱۶) و ZeroLog (مقاله ۱۷) را با افزودن backbone SLM مدرن گسترش می‌دهد.
+        </li>
+        <li style="position:relative; padding-right:1rem; margin-bottom:0.4rem; font-size:0.87rem; color:#374151;">
+          <span style="position:absolute;right:0;color:var(--accent-dark);">▸</span>
+          LogTinyLLM (مقاله ۱۲) و PEFT-for-LAD (مقاله ۱۳) را با افزودن ارزیابی برون‌سیستمی گسترش می‌دهد.
+        </li>
+        <li style="position:relative; padding-right:1rem; margin-bottom:0.4rem; font-size:0.87rem; color:#374151;">
+          <span style="position:absolute;right:0;color:var(--accent-dark);">▸</span>
+          AdaptiveLog (مقاله ۱۴) را با جایگزینی heuristic های logit-based با پیش‌بینی انتخابی کالیبره‌شده رسمی گسترش می‌دهد.
+        </li>
+        <li style="position:relative; padding-right:1rem; margin-bottom:0.4rem; font-size:0.87rem; color:#374151;">
+          <span style="position:absolute;right:0;color:var(--accent-dark);">▸</span>
+          LogFiT (مقاله ۶) — لنگر Q1-منتشرشده فعلی — را با پذیرش SLM های decoder-only با QLoRA و یک پروتکل برون‌سیستمی + کالیبره‌شده + پیش‌بینی انتخابی گسترش می‌دهد.
+        </li>
+        <li style="position:relative; padding-right:1rem; font-size:0.87rem; color:#374151;">
+          <span style="position:absolute;right:0;color:var(--accent-dark);">▸</span>
+          یک محور ارزیابی جدید (لاگ‌های امنیتی/نفوذ با امتناع) باز می‌کند که توسط LogPrompt، LogLLM یا هیچ‌کدام از خطوط پایه برون‌سیستمی پیش‌چاپ پرداخته نشده.
+        </li>
+      </ul>
+    </div>
+
+    <div class="sec-header" style="margin-top:1.5rem;">
+      <div class="sec-pill pill-conc">🎯 مجلات هدف</div>
+      <h2>مجلات هدف</h2>
+      <p>مجلاتی که با این محدوده همسو هستند و اخیراً مقالات تشخیص ناهنجاری لاگ را پذیرفته‌اند:</p>
+    </div>
+
+    <div class="venue-wrap">
+      <table class="venue-table">
+        <thead>
+          <tr>
+            <th>مجله</th>
+            <th>تناسب با مشارکت ما</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>IEEE Transactions on Network and Service Management (TNSM)</strong></td><td>همسویی مستقیم — LogFiT اینجا منتشر شده</td></tr>
+          <tr><td><strong>IEEE Transactions on Information Forensics and Security (TIFS)</strong></td><td>تناسب قوی اگر ارزیابی لاگ امنیتی گنجانده شود</td></tr>
+          <tr><td><strong>IEEE Transactions on Dependable and Secure Computing (TDSC)</strong></td><td>تناسب عالی برای پیش‌بینی انتخابی + امنیت</td></tr>
+          <tr><td><strong>IEEE Transactions on Reliability</strong></td><td>تناسب برای قاب‌بندی قابلیت اطمینان عملیاتی</td></tr>
+          <tr><td><strong>ACM Transactions on Software Engineering and Methodology (TOSEM)</strong></td><td>AdaptiveLog اینجا منتشر شده</td></tr>
+          <tr><td><strong>ACM Transactions on Knowledge Discovery from Data (TKDE)</strong></td><td>تناسب برای زاویه تجربی / معیارسنجی</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="text-align:center;font-size:0.85rem;color:var(--text-muted);margin-top:1.5rem;padding:1rem;border-top:1px solid var(--border);">
+      — پایان مرور ادبیات —
+    </p>
+  </section>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- SECTION: Glossary / واژگان               -->
+  <!-- ══════════════════════════════════════════ -->
+  <section id="glossary">
+    <div class="sec-div div-gloss"></div>
+    <div class="sec-header">
+      <div class="sec-pill pill-gloss">📚 واژگان</div>
+      <h2>واژگان تخصصی</h2>
+      <p>تمام اصطلاحات تخصصی و نیمه‌تخصصی این مرور ادبیات — همراه با معنی و توضیحات</p>
+    </div>
+
+    <div class="gloss-grid">
+
+      <!-- ── معماری‌ها و مدل‌ها ── -->
+      <div class="gloss-card c1">
+        <div class="gloss-fa">تشخیص ناهنجاری لاگ</div>
+        <div class="gloss-en">Log Anomaly Detection · LAD</div>
+        <div class="gloss-def">حوزه‌ای از هوش مصنوعی که هدف آن شناسایی خودکار رویدادهای غیرعادی، خرابی‌ها یا حملات امنیتی در لاگ‌های سیستم‌های کامپیوتری است. لاگ‌ها رشته‌های متنی هستند که رویدادهای سیستم را ثبت می‌کنند.</div>
+      </div>
+
+      <div class="gloss-card c2">
+        <div class="gloss-fa">مدل زبانی بزرگ</div>
+        <div class="gloss-en">Large Language Model · LLM</div>
+        <div class="gloss-def">مدلی عصبی با میلیاردها پارامتر که روی داده‌های متنی عظیم آموزش دیده و توانایی درک و تولید متن طبیعی دارد. مثال: GPT-4، Llama، Gemini.</div>
+      </div>
+
+      <div class="gloss-card c3">
+        <div class="gloss-fa">مدل زبانی کوچک</div>
+        <div class="gloss-en">Small Language Model · SLM</div>
+        <div class="gloss-def">LLM با کمتر از ۸ میلیارد پارامتر که روی GPU های عادی قابل اجرا است. مثال: TinyLlama-1.1B، Phi-3.5-mini، Qwen-2.5-1.5B. برخلاف LLM های بزرگ، SLM ها بدون API پرهزینه قابل استقرار محلی هستند.</div>
+      </div>
+
+      <div class="gloss-card c4">
+        <div class="gloss-fa">ترانسفورمر</div>
+        <div class="gloss-en">Transformer</div>
+        <div class="gloss-def">معماری پایه اکثر مدل‌های زبانی مدرن (2017، Vaswani و همکاران). بر پایه مکانیزم self-attention بنا شده که به مدل اجازه می‌دهد وابستگی‌های بلند‌مدت در متن را یاد بگیرد. پایه BERT، GPT و تمام LLM های مدرن.</div>
+      </div>
+
+      <div class="gloss-card c1">
+        <div class="gloss-fa">بِرت</div>
+        <div class="gloss-en">BERT — Bidirectional Encoder Representations from Transformers</div>
+        <div class="gloss-def">مدل زبانی encoder-only گوگل (2018) که متن را در هر دو جهت (چپ و راست) پردازش می‌کند. با یادگیری خودنظارتی (پیش‌بینی توکن پوشیده) پیش‌آموزش می‌بیند. خط پایه اصلی در LogBERT، LAnoBERT و LogFiT.</div>
+      </div>
+
+      <div class="gloss-card c2">
+        <div class="gloss-fa">LSTM — شبکه حافظه کوتاه‌مدت بلندمدت</div>
+        <div class="gloss-en">Long Short-Term Memory</div>
+        <div class="gloss-def">نوعی شبکه عصبی بازگشتی (RNN) که برای مدیریت وابستگی‌های بلندمدت در دنباله‌ها طراحی شده. معماری اصلی DeepLog و LogAnomaly. در مقایسه با Transformer در دنباله‌های بسیار طولانی ضعیف‌تر عمل می‌کند.</div>
+      </div>
+
+      <div class="gloss-card c3">
+        <div class="gloss-fa">جی‌پی‌تی / GPT</div>
+        <div class="gloss-en">Generative Pre-trained Transformer</div>
+        <div class="gloss-def">خانواده‌ای از مدل‌های زبانی decoder-only که توسط OpenAI توسعه یافته. برخلاف BERT که encoder-only است، GPT متن را از چپ به راست (یا در زبان فارسی از راست به چپ) تولید می‌کند. GPT-2 در LogGPT-Han استفاده شده.</div>
+      </div>
+
+      <div class="gloss-card c5">
+        <div class="gloss-fa">لاما</div>
+        <div class="gloss-en">Llama — Large Language Model Meta AI</div>
+        <div class="gloss-def">خانواده‌ای از LLM های متن‌باز توسعه‌یافته توسط Meta AI. نسخه‌های Llama-3.2-1B/3B در محدوده SLM قرار می‌گیرند. در LogLLM از Llama-7B استفاده شده که در مرز «مدل کوچک» قرار دارد.</div>
+      </div>
+
+      <!-- ── روش‌های PEFT ── -->
+      <div class="gloss-card c6">
+        <div class="gloss-fa">تنظیم دقیق پارامتر-کارآمد</div>
+        <div class="gloss-en">Parameter-Efficient Fine-Tuning · PEFT</div>
+        <div class="gloss-def">دسته‌ای از روش‌های تنظیم دقیق که تنها بخش کوچکی از پارامترهای مدل را به‌روزرسانی می‌کنند — نه همه آن‌ها. هزینه محاسباتی را به شدت کاهش می‌دهد در حالی که عملکرد مشابه تنظیم دقیق کامل حفظ می‌شود. شامل: LoRA، QLoRA، آداپتور، Prefix Tuning، ReFT.</div>
+      </div>
+
+      <div class="gloss-card c1">
+        <div class="gloss-fa">تطبیق رتبه پایین</div>
+        <div class="gloss-en">LoRA — Low-Rank Adaptation</div>
+        <div class="gloss-def">محبوب‌ترین روش PEFT. به جای آموزش همه وزن‌ها، دو ماتریس با رتبه پایین (r) به لایه‌های انتخابی اضافه می‌کند. فقط این دو ماتریس آموزش می‌بینند. رتبه r = 4، 8 یا 16 معمول است. تعداد پارامترهای آموزش‌پذیر را تا ۱۰۰۰ برابر کاهش می‌دهد.</div>
+      </div>
+
+      <div class="gloss-card c2">
+        <div class="gloss-fa">LoRA کوانتیزه</div>
+        <div class="gloss-en">QLoRA — Quantized LoRA</div>
+        <div class="gloss-def">ترکیب LoRA با کوانتیزاسیون ۴ بیتی مدل پایه. وزن‌های مدل پایه به ۴ بیت فشرده می‌شوند اما آموزش با دقت کامل انجام می‌شود. استفاده از Llama-7B روی یک GPU 24GB را ممکن می‌کند. در LogLLM استفاده شده.</div>
+      </div>
+
+      <div class="gloss-card c3">
+        <div class="gloss-fa">آداپتور</div>
+        <div class="gloss-en">Adapter</div>
+        <div class="gloss-def">یک روش PEFT که لایه‌های کوچک (bottleneck) بین لایه‌های موجود مدل اضافه می‌کند. فقط این لایه‌های اضافه‌شده آموزش می‌بینند. در مقایسه با LoRA معمولاً پارامترهای بیشتری دارد. در LogTinyLLM با LoRA مقایسه شده.</div>
+      </div>
+
+      <div class="gloss-card c4">
+        <div class="gloss-fa">تنظیم دقیق بازنمایی</div>
+        <div class="gloss-en">ReFT — Representation Fine-Tuning</div>
+        <div class="gloss-def">روشی نوین از PEFT که به جای تغییر وزن‌های مدل، مداخله در فضای بازنمایی (hidden states) انجام می‌دهد. در مطالعه Lim و همکاران (PAKDD 2025) از LoRA بهتر عمل کرده و F1 ≈ 0.998 روی لاگ‌ها به دست آورده.</div>
+      </div>
+
+      <div class="gloss-card c5">
+        <div class="gloss-fa">تنظیم دقیق پریفیکس</div>
+        <div class="gloss-en">Prefix Tuning</div>
+        <div class="gloss-def">روشی از PEFT که یک دنباله توکن‌های «مجازی» (prefix) به ابتدای ورودی اضافه می‌کند و فقط embedding این توکن‌ها آموزش می‌بیند. مدل پایه ثابت می‌ماند. برای وظایف متنوع کارآمد است.</div>
+      </div>
+
+      <div class="gloss-card c6">
+        <div class="gloss-fa">پرامپت‌تیونینگ</div>
+        <div class="gloss-en">Prompt Tuning</div>
+        <div class="gloss-def">مشابه Prefix Tuning اما ساده‌تر — فقط embedding های ابتدایی پرامپت آموزش می‌بینند. در مقاله LogPrompt-Yang به عنوان یک روش PEFT برای لاگ‌ها استفاده شده.</div>
+      </div>
+
+      <!-- ── مفاهیم یادگیری ماشین ── -->
+      <div class="gloss-card c1">
+        <div class="gloss-fa">متا-یادگیری</div>
+        <div class="gloss-en">Meta-Learning / MAML</div>
+        <div class="gloss-def">یادگیری «یاد گرفتن» — آموزش مدل برای سریع تطبیق با وظایف جدید با داده‌های بسیار کم. MAML (Model-Agnostic Meta-Learning) محبوب‌ترین الگوریتم است. در MetaLog برای تعمیم برون‌سیستمی با ۱٪ برچسب هدف استفاده شده.</div>
+      </div>
+
+      <div class="gloss-card c2">
+        <div class="gloss-fa">تطبیق دامنه خصمانه</div>
+        <div class="gloss-en">Adversarial Domain Adaptation</div>
+        <div class="gloss-def">تکنیکی که یک مدل را آموزش می‌دهد تا ویژگی‌هایی استخراج کند که دامنه‌های منبع و هدف قابل تمایز نباشند — با استفاده از یک شبکه تشخیص‌دهنده دامنه. در ZeroLog برای انتقال بدون‌برچسب استفاده شده.</div>
+      </div>
+
+      <div class="gloss-card c3">
+        <div class="gloss-fa">یادگیری تقویتی</div>
+        <div class="gloss-en">Reinforcement Learning · RL</div>
+        <div class="gloss-def">پارادایمی از یادگیری ماشین که در آن یک agent با انجام اعمال و دریافت پاداش/جریمه یاد می‌گیرد. در LogGPT-Han از PPO (Proximal Policy Optimization) برای هماهنگ‌سازی هدف آموزش و استنتاج استفاده شده.</div>
+      </div>
+
+      <div class="gloss-card c4">
+        <div class="gloss-fa">یادگیری فدراسیونی</div>
+        <div class="gloss-en">Federated Learning</div>
+        <div class="gloss-def">چارچوبی برای آموزش مدل بدون اشتراک‌گذاری داده خام. هر کلاینت مدل را روی داده محلی خود آموزش می‌دهد و تنها وزن‌های به‌روزشده به سرور مرکزی ارسال می‌شود. در DP-FlogTinyLLM برای محیط‌های حساس به حریم خصوصی استفاده شده.</div>
+      </div>
+
+      <div class="gloss-card c5">
+        <div class="gloss-fa">حریم خصوصی دیفرانسیل</div>
+        <div class="gloss-en">Differential Privacy · DP</div>
+        <div class="gloss-def">یک چارچوب ریاضی برای اطمینان از اینکه خروجی الگوریتم اطلاعات حساس فردی را فاش نمی‌کند. با افزودن نویز کنترل‌شده به گرادیان‌ها (DP-SGD) تضمین (ε,δ)-DP می‌دهد. در DP-FlogTinyLLM پیاده‌سازی شده.</div>
+      </div>
+
+      <div class="gloss-card c6">
+        <div class="gloss-fa">یادگیری خودنظارتی</div>
+        <div class="gloss-en">Self-Supervised Learning</div>
+        <div class="gloss-def">آموزش مدل بدون برچسب انسانی با ایجاد وظایف یادگیری از داده خود. مثال: پیش‌بینی توکن پوشیده (MLM در BERT)، پیش‌بینی توکن بعدی (GPT). در LogFiT، LogBERT و LAnoBERT استفاده شده.</div>
+      </div>
+
+      <!-- ── اصطلاحات خاص لاگ ── -->
+      <div class="gloss-card c1">
+        <div class="gloss-fa">تجزیه لاگ</div>
+        <div class="gloss-en">Log Parsing</div>
+        <div class="gloss-def">فرایند تبدیل پیام‌های لاگ خام به قالب‌های ساختاریافته. مثلاً لاگ «Error reading file /etc/passwd at line 42» به قالب «Error reading file &lt;*&gt; at line &lt;NUM&gt;» تبدیل می‌شود. ابزارهای معروف: Drain، Spell، AEL.</div>
+      </div>
+
+      <div class="gloss-card c2">
+        <div class="gloss-fa">کلید لاگ / شناسه قالب</div>
+        <div class="gloss-en">Log Key / Template ID</div>
+        <div class="gloss-def">یک شناسه عددی یا متنی اختصاص‌یافته به هر قالب لاگ پس از تجزیه. به جای متن کامل، مدل‌های اولیه مثل DeepLog و LogBERT روی این شناسه‌ها کار می‌کردند. مشکل اصلی: از دست رفتن اطلاعات معنایی غنی متن.</div>
+      </div>
+
+      <div class="gloss-card c3">
+        <div class="gloss-fa">پنجره لغزان</div>
+        <div class="gloss-en">Sliding Window</div>
+        <div class="gloss-def">تکنیکی برای تقسیم دنباله‌های لاگ طولانی به پنجره‌های ثابت اندازه که با یک گام مشخص جابجا می‌شوند. هر پنجره به عنوان یک نمونه آموزشی یا آزمایشی در نظر گرفته می‌شود. از DeepLog (2017) به اکثر کارهای بعدی به ارث رسیده.</div>
+      </div>
+
+      <div class="gloss-card c4">
+        <div class="gloss-fa">انحراف قالب</div>
+        <div class="gloss-en">Template Drift</div>
+        <div class="gloss-def">تغییر تدریجی یا ناگهانی در فرمت لاگ‌های سیستم به دلیل به‌روزرسانی نرم‌افزار. مدل‌هایی که روی قالب‌های قدیمی آموزش دیده‌اند ممکن است با قالب‌های جدید عملکرد ضعیفی داشته باشند. LogFiT و LogLLM مقاومت در برابر این مشکل را آزمایش کرده‌اند.</div>
+      </div>
+
+      <div class="gloss-card c5">
+        <div class="gloss-fa">مدل‌سازی زبانی پوشیده</div>
+        <div class="gloss-en">Masked Language Modeling · MLM</div>
+        <div class="gloss-def">وظیفه پیش‌آموزش BERT: بخشی از توکن‌های ورودی پوشانده می‌شوند و مدل باید آن‌ها را پیش‌بینی کند. برای تشخیص ناهنجاری لاگ، کاهش احتمال پیش‌بینی توکن‌های لاگ غیرعادی به عنوان سیگنال ناهنجاری استفاده می‌شود.</div>
+      </div>
+
+      <div class="gloss-card c6">
+        <div class="gloss-fa">AIOps</div>
+        <div class="gloss-en">Artificial Intelligence for IT Operations</div>
+        <div class="gloss-def">کاربرد هوش مصنوعی و یادگیری ماشین در عملیات فناوری اطلاعات برای خودکارسازی تشخیص مشکل، پاسخ به حوادث و مدیریت زیرساخت. شامل تشخیص ناهنجاری لاگ، ردیابی علت ریشه، تحلیل عملکرد و دیگر وظایف عملیاتی است.</div>
+      </div>
+
+      <!-- ── مجموعه‌های داده ── -->
+      <div class="gloss-card c1">
+        <div class="gloss-fa">HDFS</div>
+        <div class="gloss-en">Hadoop Distributed File System Logs</div>
+        <div class="gloss-def">پرکاربردترین مجموعه داده در این حوزه. لاگ‌های سیستم فایل توزیع‌شده Hadoop با برچسب‌های ناهنجاری در سطح session. شامل ~۱۱ میلیون رویداد لاگ. ناهنجاری‌ها بلوک‌های داده خراب یا از دست رفته هستند.</div>
+      </div>
+
+      <div class="gloss-card c2">
+        <div class="gloss-fa">BGL</div>
+        <div class="gloss-en">Blue Gene/L Supercomputer Logs</div>
+        <div class="gloss-def">لاگ‌های یک ابرکامپیوتر BlueGene/L از لابراتوار ملی لارنس لیورمور. شامل ~۴.۷ میلیون پیام لاگ. ناهنجاری‌ها با تگ «ALERT» مشخص شده‌اند و نشان‌دهنده خرابی‌های سخت‌افزاری هستند.</div>
+      </div>
+
+      <div class="gloss-card c3">
+        <div class="gloss-fa">Thunderbird</div>
+        <div class="gloss-en">Thunderbird Supercomputer Logs</div>
+        <div class="gloss-def">لاگ‌های یک ابرکامپیوتر Thunderbird از سانديا لابراتوری. شامل ~۲۱۱ میلیون رویداد. چالش‌برانگیزترین مجموعه داده به دلیل عدم تعادل شدید کلاس (ناهنجاری‌ها بسیار نادر). هدف اصلی LogTinyLLM.</div>
+      </div>
+
+      <div class="gloss-card c4">
+        <div class="gloss-fa">Spirit / OpenStack</div>
+        <div class="gloss-en">Spirit Supercomputer / OpenStack Logs</div>
+        <div class="gloss-def">Spirit: لاگ‌های یک ابرکامپیوتر دیگر — کمتر از سه مجموعه داده اصلی استفاده می‌شود. OpenStack: لاگ‌های یک سیستم ابری متن‌باز — در DeepLog برای ارزیابی سیستم دیگر استفاده شده. هر دو برای ارزیابی تعمیم مهم هستند.</div>
+      </div>
+
+      <!-- ── معیارها و ارزیابی ── -->
+      <div class="gloss-card c5">
+        <div class="gloss-fa">دقت، فراخوانی و F1</div>
+        <div class="gloss-en">Precision, Recall, F1-score</div>
+        <div class="gloss-def">معیارهای اصلی ارزیابی تشخیص ناهنجاری: <strong>دقت</strong> = نسبت ناهنجاری‌های درست تشخیص داده‌شده به کل تشخیص‌های داده‌شده؛ <strong>فراخوانی</strong> = نسبت ناهنجاری‌های درست تشخیص داده‌شده به کل ناهنجاری‌های واقعی؛ <strong>F1</strong> = میانگین هارمونیک دقت و فراخوانی.</div>
+      </div>
+
+      <div class="gloss-card c6">
+        <div class="gloss-fa">کالیبراسیون مدل</div>
+        <div class="gloss-en">Model Calibration</div>
+        <div class="gloss-def">اطمینان از اینکه احتمال اطمینان خروجی مدل با احتمال واقعی درستی همخوانی دارد. مثلاً اگر مدل برای ۱۰۰ پیش‌بینی احتمال ۸۰٪ اعلام کند، باید واقعاً ۸۰ تای آن‌ها درست باشد. در هیچ‌کدام از ۲۵ مقاله به درستی پرداخته نشده.</div>
+      </div>
+
+      <div class="gloss-card c1">
+        <div class="gloss-fa">خطای کالیبراسیون مورد انتظار</div>
+        <div class="gloss-en">Expected Calibration Error · ECE</div>
+        <div class="gloss-def">معیار عددی کالیبراسیون مدل — مقدار پایین‌تر بهتر است. با مقایسه احتمالات پیش‌بینی‌شده و دقت واقعی در فواصل مختلف احتمال محاسبه می‌شود. هیچ‌کدام از ۲۵ مقاله مرور‌شده ECE روی انتقال برون‌سیستمی گزارش نداده‌اند.</div>
+      </div>
+
+      <div class="gloss-card c2">
+        <div class="gloss-fa">مقیاس‌بندی دما</div>
+        <div class="gloss-en">Temperature Scaling</div>
+        <div class="gloss-def">ساده‌ترین روش پس-پردازش برای کالیبراسیون مدل. خروجی logit مدل را بر یک دما T تقسیم می‌کند. T>1 پیش‌بینی‌های بیش از حد اطمینان را نرم‌تر می‌کند. روشی کارآمد که در هیچ‌کدام از مقالات LAD مرور‌شده اعمال نشده.</div>
+      </div>
+
+      <div class="gloss-card c3">
+        <div class="gloss-fa">پیش‌بینی انتخابی</div>
+        <div class="gloss-en">Selective Prediction / Abstention</div>
+        <div class="gloss-def">توانایی مدل برای «امتناع از پیش‌بینی» وقتی اطمینان کافی ندارد. به جای یک پیش‌بینی ممکن اشتباه، مدل می‌تواند برای بررسی انسانی علامت‌گذاری کند. تنها AdaptiveLog شکلی از این را پیاده‌سازی کرده (اما به LLM واگذار می‌کند نه انسان).</div>
+      </div>
+
+      <div class="gloss-card c4">
+        <div class="gloss-fa">بدون‌نمونه / چند‌نمونه</div>
+        <div class="gloss-en">Zero-shot / Few-shot</div>
+        <div class="gloss-def"><strong>Zero-shot</strong>: مدل می‌تواند وظایف جدید را بدون هیچ نمونه آموزشی از آن وظیفه انجام دهد. <strong>Few-shot</strong>: مدل با تنها چند نمونه (۱-۱۰) تطبیق می‌یابد. LogPrompt-Liu zero-shot واقعی را برای LAD نشان داد.</div>
+      </div>
+
+      <!-- ── مهندسی پرامپت ── -->
+      <div class="gloss-card c5">
+        <div class="gloss-fa">مهندسی پرامپت</div>
+        <div class="gloss-en">Prompt Engineering</div>
+        <div class="gloss-def">هنر طراحی ورودی‌های متنی (پرامپت) برای به دست آوردن بهترین خروجی از LLM ها. تکنیک‌ها شامل: زنجیره تفکر (CoT)، یادگیری درون‌زمینه (ICL)، خودپرامپت و بسیاری موارد دیگر. در LogPrompt-Liu تا ۳۸۰٪ بهبود عملکرد نشان داده شد.</div>
+      </div>
+
+      <div class="gloss-card c6">
+        <div class="gloss-fa">زنجیره تفکر</div>
+        <div class="gloss-en">Chain-of-Thought · CoT</div>
+        <div class="gloss-def">تکنیک پرامپت که از LLM می‌خواهد استدلال خود را گام به گام توضیح دهد. «بیا قدم به قدم فکر کنیم...» عملکرد روی وظایف استدلال پیچیده را به شدت بهبود می‌دهد. در LogPrompt-Liu برای تفسیرپذیری استفاده شده.</div>
+      </div>
+
+      <div class="gloss-card c1">
+        <div class="gloss-fa">یادگیری درون‌زمینه</div>
+        <div class="gloss-en">In-Context Learning · ICL</div>
+        <div class="gloss-def">توانایی LLM برای یادگیری از چند نمونه درون پرامپت، بدون به‌روزرسانی وزن‌ها. مثال‌های نمایشی در پرامپت قرار می‌گیرند و مدل از آن‌ها الگو می‌آموزد. در AdaptiveLog از یادگیری ۵-shot برای موارد سخت استفاده شده.</div>
+      </div>
+
+      <!-- ── تعمیم برون‌سیستمی ── -->
+      <div class="gloss-card c2">
+        <div class="gloss-fa">تعمیم برون‌سیستمی</div>
+        <div class="gloss-en">Cross-System Generalization</div>
+        <div class="gloss-def">توانایی مدل برای تشخیص ناهنجاری در سیستمی که روی آن آموزش ندیده. بزرگ‌ترین شکاف در ادبیات موجود. مدل روی HDFS آموزش می‌بیند و روی Thunderbird آزمایش می‌شود — بدون هیچ داده برچسب‌دار از Thunderbird.</div>
+      </div>
+
+      <div class="gloss-card c3">
+        <div class="gloss-fa">استقرار محلی</div>
+        <div class="gloss-en">On-Premise Deployment · On-Prem</div>
+        <div class="gloss-def">استقرار مدل روی سرورهای خود سازمان به جای استفاده از API های ابری. برای محیط‌های حساس به حریم خصوصی (بیمارستان‌ها، بانک‌ها، نهادهای دولتی) ضروری است. SLM ها به دلیل نیاز به منابع کمتر برای on-prem مناسب‌ترند.</div>
+      </div>
+
+      <!-- ── مجموعه‌های داده لاگ نفوذ ── -->
+      <div class="gloss-card c4">
+        <div class="gloss-fa">تشخیص نفوذ</div>
+        <div class="gloss-en">Intrusion Detection</div>
+        <div class="gloss-def">شناسایی دسترسی‌های غیرمجاز یا فعالیت‌های مخرب در سیستم‌های کامپیوتری. لاگ‌های مرتبط با نفوذ (auth.log، syslog) با الگوهای MITRE ATT&CK برچسب‌گذاری می‌شوند. این حوزه توسط هیچ‌کدام از ۲۵ مقاله به‌درستی پوشش داده نشده.</div>
+      </div>
+
+      <div class="gloss-card c5">
+        <div class="gloss-fa">بازیابی-تقویت‌شده</div>
+        <div class="gloss-en">Retrieval-Augmented Generation · RAG</div>
+        <div class="gloss-def">ترکیب یک مدل زبانی با یک پایگاه دانش قابل جستجو. در زمان استنتاج، مرتبط‌ترین اسناد بازیابی می‌شوند و به پرامپت اضافه می‌شوند. در مرور سیستماتیک (مقاله ۲۵) به عنوان یکی از امیدوارکننده‌ترین جهت‌های LAD شناسایی شده.</div>
+      </div>
+
+      <div class="gloss-card c6">
+        <div class="gloss-fa">پروتکل برون‌سیستمی</div>
+        <div class="gloss-en">Cross-System Protocol</div>
+        <div class="gloss-def">روش استاندارد برای ارزیابی انتقال برون‌سیستمی: تقسیم داده (تصادفی یا زمانی)، نوع معیار (سطح پنجره یا سطح جلسه)، parser مورد استفاده. عدم استانداردسازی این پروتکل یکی از چالش‌های اصلی مقایسه مقالات است.</div>
+      </div>
+
+      <div class="gloss-card c1">
+        <div class="gloss-fa">هوش مصنوعی برای عملیات IT</div>
+        <div class="gloss-en">AIOps</div>
+        <div class="gloss-def">یکپارچه‌سازی هوش مصنوعی، یادگیری ماشین و تحلیل داده‌های بزرگ در عملیات IT. هدف: خودکارسازی تشخیص مشکل، کاهش MTTR (میانگین زمان تعمیر) و بهبود قابلیت اطمینان سیستم. تشخیص ناهنجاری لاگ یکی از اصلی‌ترین کاربردهای AIOps است.</div>
+      </div>
+
+      <div class="gloss-card c2">
+        <div class="gloss-fa">template2vec</div>
+        <div class="gloss-en">Template-to-Vector</div>
+        <div class="gloss-def">روش نوآورانه LogAnomaly برای تبدیل قالب‌های لاگ به بردارهای معنایی با استفاده از embedding های آموزش‌دیده با مترادف‌ها و متضادها (dLCE). قالب‌های با مفهوم مشابه نزدیک هم قرار می‌گیرند و مدل می‌تواند قالب‌های دیده‌نشده را مدیریت کند.</div>
+      </div>
+
+      <div class="gloss-card c3">
+        <div class="gloss-fa">Deep SVDD</div>
+        <div class="gloss-en">Deep Support Vector Data Description</div>
+        <div class="gloss-def">روشی برای تشخیص ناهنجاری یک‌کلاسه. داده‌های نرمال به داخل یک کره در فضای ویژگی فشرده می‌شوند؛ نقاطی که خارج از کره قرار دارند ناهنجار تلقی می‌شوند. در LogBERT به عنوان یکی از دو loss خودنظارتی استفاده شده.</div>
+      </div>
+
+      <div class="gloss-card c4">
+        <div class="gloss-fa">پیش‌بینی توکن بعدی</div>
+        <div class="gloss-en">Next Token Prediction / Autoregressive</div>
+        <div class="gloss-def">وظیفه پیش‌آموزش مدل‌های decoder-only مثل GPT: با توجه به توکن‌های قبلی، توکن بعدی پیش‌بینی می‌شود. برای تشخیص ناهنجاری لاگ، احتمال پایین توکن‌های لاگ واقعی (در مقایسه با پیش‌بینی مدل) نشانه ناهنجاری است.</div>
+      </div>
+
+      <div class="gloss-card c5">
+        <div class="gloss-fa">کوانتیزاسیون</div>
+        <div class="gloss-en">Quantization</div>
+        <div class="gloss-def">فشرده‌سازی وزن‌های مدل از دقت FP32 (32 بیت) به دقت پایین‌تر مثل INT8 (8 بیت) یا NF4 (4 بیت). حافظه GPU را به شدت کاهش می‌دهد. QLoRA از 4-bit NormalFloat (NF4) برای وزن‌های مدل پایه استفاده می‌کند.</div>
+      </div>
+
+      <div class="gloss-card c6">
+        <div class="gloss-fa">بودجه حریم خصوصی</div>
+        <div class="gloss-en">Privacy Budget · (ε,δ)-DP</div>
+        <div class="gloss-def">در حریم خصوصی دیفرانسیل، ε (epsilon) کنترل می‌کند چقدر الگوریتم «اطلاعات فاش می‌کند» — مقدار کمتر حریم خصوصی بهتری دارد. δ (delta) احتمال نقض تضمین ε است. در DP-FlogTinyLLM این بودجه در طول آموزش فدراسیونی ردیابی می‌شود.</div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- ── Footer ── -->
+<footer>
+  <p>مرور ادبیات · تشخیص ناهنجاری لاگ با مدل‌های زبانی کوچک</p>
+  <p style="margin-top:0.3rem;opacity:.6;">ترجمه و بازنویسی فارسی · ۲۵ مقاله · ۹ شکاف پژوهشی · ۳۵ واژه تخصصی</p>
+</footer>
+
+<!-- ── Scroll to top ── -->
+<button class="to-top" id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+  /* accordion */
+  function toggle(head) {
+    const card = head.closest('.paper-card');
+    const isOpen = card.classList.contains('open');
+    // close all
+    document.querySelectorAll('.paper-card.open').forEach(c => c.classList.remove('open'));
+    if (!isOpen) card.classList.add('open');
+  }
+
+  /* scroll-to-top button */
+  const btn = document.getElementById('toTop');
+  window.addEventListener('scroll', () => {
+    btn.classList.toggle('show', window.scrollY > 400);
+  }, {passive: true});
+
+  /* active nav link on scroll */
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.sticky-nav a');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active'));
+        const active = document.querySelector(`.sticky-nav a[href="#${e.target.id}"]`);
+        if (active) {
+          active.classList.add('active');
+          active.scrollIntoView({behavior:'smooth', inline:'nearest', block:'nearest'});
+        }
+      }
+    });
+  }, {threshold: 0.25});
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

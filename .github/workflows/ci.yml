@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint-typecheck-test:
+    name: ${{ matrix.os }} / py${{ matrix.python-version }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ["3.11"]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: "pip"
+
+      - name: Upgrade pip
+        run: python -m pip install --upgrade pip
+
+      - name: Install (CPU, no torch heavy deps)
+        # CPU-only install of project: skip torch/bitsandbytes/transformers on CI
+        # so the lint+test job stays fast. GPU smoke tests run on a self-hosted
+        # runner introduced in Phase 7.
+        run: |
+          pip install ruff mypy pytest pytest-cov click pydantic pyyaml
+          pip install -e . --no-deps
+
+      - name: Ruff
+        run: ruff check src tests
+
+      - name: Ruff format check
+        run: ruff format --check src tests
+
+      - name: Mypy
+        run: mypy src/hylog/utils src/hylog/cli
+        # Full strict mypy expands as the package fills in.
+
+      - name: Pytest
+        run: pytest -q tests/unit/test_package.py tests/unit/test_utils tests/unit/test_cli

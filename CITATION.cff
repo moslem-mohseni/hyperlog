@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use HyLog in academic work, please cite it as follows."
+title: "HyLog: Hybrid Small-Language-Model Pipeline for Cross-System Log Anomaly Detection with Calibrated Uncertainty"
+abstract: >
+  HyLog is a hybrid encoder-decoder pipeline for log anomaly detection. A
+  frozen BERT encoder produces semantic embeddings of individual log lines, a
+  learned projector aligns them into the input space of a compact decoder-only
+  small language model (1-4 B parameters), and the decoder is fine-tuned with
+  QLoRA. The pipeline is evaluated under a strict leave-one-system-out
+  cross-system protocol and ships with post-hoc temperature-scaling
+  calibration and risk-coverage selective prediction.
+type: software
+authors:
+  - family-names: "Mohseni Khah"
+    given-names: "Moslem"
+    email: "farpod.ir@gmail.com"
+version: "0.0.1"
+license: MIT
+repository-code: "https://github.com/moslem-mohseni-khah/hylog-lad"
+keywords:
+  - log-anomaly-detection
+  - small-language-models
+  - qlora
+  - cross-system-generalization
+  - uncertainty-calibration
+  - selective-prediction
