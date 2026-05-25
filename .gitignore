@@ -103,6 +103,7 @@ configs/local/
 # contents are run-specific.
 reports/phase4/runs/
 reports/phase5/runs/
+reports/phase6/runs/
 
 # Upstream sources vendored for parity inspection only (Phase 2A).
 # Reclonable via scripts/feasibility_check.{ps1,sh}.

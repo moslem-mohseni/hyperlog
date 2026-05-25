@@ -1,0 +1,44 @@
+# A1 — head-to-head for novelty claim N4.
+#
+# Hybrid (encoder + projector + decoder) vs. standalone QLoRA decoder
+# of equal trainable parameter count. The standalone variant's LoRA
+# rank is auto-picked at runtime to match HyLogCore's trainable budget.
+
+axis:
+  name: A1_hybrid_vs_standalone
+  description: |
+    Hybrid HyLogCore vs. standalone QLoRA decoder of equal trainable
+    parameter count. The Phase-6 N4 head-to-head.
+  baseline_condition: hybrid_hylog_core
+  conditions:
+    - name: hybrid_hylog_core
+      description: Frozen BERT + depth-2 projector + Qwen-2.5-1.5B QLoRA (r=16) + head.
+      parameters:
+        architecture: hybrid
+        decoder: qwen2.5-1.5b
+        projector_depth: 2
+        lora_rank: 16
+        lora_target: ["q_proj", "k_proj", "v_proj", "o_proj"]
+
+    - name: standalone_qlora_decoder
+      description: Standalone Qwen-2.5-1.5B QLoRA decoder; rank auto-picked to match hybrid trainable count.
+      parameters:
+        architecture: standalone
+        decoder: qwen2.5-1.5b
+        lora_rank: auto_match
+        lora_target: ["q_proj", "k_proj", "v_proj", "o_proj"]
+
+run:
+  seeds: [42, 1337, 2024, 31415, 27182]
+  datasets: [hdfs, bgl, thunderbird]
+  primary_metric: f1
+  secondary_metrics: [precision, recall, auc_roc, auc_pr, mcc]
+
+statistics:
+  alternative: two-sided
+  holm_alpha: 0.05
+  cliffs_threshold: 0.33
+
+mlflow:
+  experiment: phase6-ablation-a1
+  tracking_uri: file:./mlruns

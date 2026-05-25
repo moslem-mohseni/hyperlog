@@ -1,0 +1,25 @@
+# A3 — LoRA target modules.
+
+axis:
+  name: A3_lora_target_modules
+  description: |
+    LoRA target modules ∈ {Q only, QV, QKVO}. Tests whether attaching
+    adapters to the K and O projections in addition to Q and V is
+    necessary for the cross-system signal.
+  baseline_condition: qkvo_full
+  conditions:
+    - name: q_only
+      description: q_proj only — minimal adapter footprint.
+      parameters: { lora_target: ["q_proj"] }
+    - name: qv
+      description: q_proj + v_proj — the LoRA-paper default.
+      parameters: { lora_target: ["q_proj", "v_proj"] }
+    - name: qkvo_full
+      description: Full Q/K/V/O — HyLog Phase-3 default.
+      parameters: { lora_target: ["q_proj", "k_proj", "v_proj", "o_proj"] }
+
+run:
+  seeds: [42, 1337, 2024, 31415, 27182]
+  datasets: [hdfs, bgl, thunderbird]
+  primary_metric: f1
+  secondary_metrics: [auc_roc, mcc]

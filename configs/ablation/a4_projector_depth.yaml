@@ -1,0 +1,26 @@
+# A4 — projector depth.
+
+axis:
+  name: A4_projector_depth
+  description: |
+    Projector depth ∈ {1, 2, 3}. depth=1 reproduces LogLLM exactly
+    (single nn.Linear). depth=2 is the HyLog Phase-3 default. depth=3
+    tests whether an additional hidden layer helps the cross-system
+    alignment.
+  baseline_condition: depth_2
+  conditions:
+    - name: depth_1
+      description: Pure Linear, parity with upstream LogLLM.
+      parameters: { projector_depth: 1 }
+    - name: depth_2
+      description: 2-layer MLP with GELU — HyLog default.
+      parameters: { projector_depth: 2 }
+    - name: depth_3
+      description: 3-layer MLP — tests over-parameterisation.
+      parameters: { projector_depth: 3 }
+
+run:
+  seeds: [42, 1337, 2024, 31415, 27182]
+  datasets: [hdfs, bgl, thunderbird]
+  primary_metric: f1
+  secondary_metrics: [auc_roc, mcc]

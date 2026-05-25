@@ -72,6 +72,7 @@ hylog-train = "hylog.cli.train:main"
 hylog-predict = "hylog.cli.predict:main"
 hylog-loso = "hylog.cli.loso:main"
 hylog-calibrate = "hylog.cli.calibrate:main"
+hylog-ablation = "hylog.cli.ablation:main"
 
 [project.urls]
 Homepage = "https://github.com/moslem-mohseni/hyperlog"
@@ -156,6 +157,9 @@ module = [
     "hylog.training.self_supervised",
     "hylog.cli.loso",
     "hylog.cli.calibrate",
+    "hylog.cli.ablation",
+    "hylog.evaluation.ablation",
+    "hylog.evaluation.cliffs_delta",
 ]
 disable_error_code = [
     "no-any-return",

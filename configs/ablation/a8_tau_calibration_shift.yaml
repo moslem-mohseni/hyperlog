@@ -1,0 +1,28 @@
+# A8 — τ-selection source vs. target system.
+
+axis:
+  name: A8_tau_calibration_shift
+  description: |
+    Cross-system calibration shift. HyLog's selective-prediction τ is
+    fitted on a held-out slice of the source-system calibration data
+    (zero-target-label protocol). A8 measures how much τ would change
+    if it were re-fitted on a small target-system slice — the
+    sensitivity to the shift that the production deployment must
+    tolerate.
+  baseline_condition: tau_from_source
+  conditions:
+    - name: tau_from_source
+      description: τ fitted on source calibration slice; honours zero-target-label.
+      parameters: { tau_fit_set: source }
+    - name: tau_from_target_5pct
+      description: τ fitted on 5 % of target-system labels (informational only).
+      parameters: { tau_fit_set: target, target_fraction: 0.05 }
+    - name: tau_from_target_full
+      description: τ fitted on the full target-system labels — oracle reference.
+      parameters: { tau_fit_set: target, target_fraction: 1.0 }
+
+run:
+  seeds: [42, 1337, 2024, 31415, 27182]
+  datasets: [hdfs, bgl, thunderbird]
+  primary_metric: aurc
+  secondary_metrics: [excess_aurc, coverage_at_risk_5pct]

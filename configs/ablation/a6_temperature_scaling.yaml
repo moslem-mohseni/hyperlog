@@ -1,0 +1,23 @@
+# A6 — calibration: with vs. without temperature scaling.
+
+axis:
+  name: A6_temperature_scaling
+  description: |
+    Compares the ECE of HyLog's outputs with and without the Phase-5
+    temperature-scaling calibrator applied. This is a pure ECE
+    comparison; F1 / AUC are unchanged by temperature scaling because
+    it is class-preserving.
+  baseline_condition: with_temperature_scaling
+  conditions:
+    - name: no_calibration
+      description: Raw softmax outputs.
+      parameters: { calibration: none }
+    - name: with_temperature_scaling
+      description: Guo-2017 temperature scaling on a held-out 5 % source slice.
+      parameters: { calibration: temperature_scaling }
+
+run:
+  seeds: [42, 1337, 2024, 31415, 27182]
+  datasets: [hdfs, bgl, thunderbird]
+  primary_metric: ece              # the headline metric for this axis
+  secondary_metrics: [mce, auc_roc, f1]

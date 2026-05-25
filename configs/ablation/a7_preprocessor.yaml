@@ -1,0 +1,24 @@
+# A7 — regex preprocessor vs. Drain templatisation.
+
+axis:
+  name: A7_preprocessor
+  description: |
+    HyLog uses the LogLLM-style parser-free regex preprocessor. A7
+    tests whether the heuristic Drain templatiser (He et al., ICWS '17)
+    changes downstream F1 in a statistically meaningful way. A null
+    result here defends the simpler regex pipeline; a positive result
+    would motivate adopting Drain.
+  baseline_condition: regex_logllm
+  conditions:
+    - name: regex_logllm
+      description: HyLog default — LogLLM regex set, parser-free.
+      parameters: { preprocessor: regex }
+    - name: drain_templates
+      description: Drain templatisation; arguments replaced with <*>.
+      parameters: { preprocessor: drain }
+
+run:
+  seeds: [42, 1337, 2024, 31415, 27182]
+  datasets: [hdfs, bgl, thunderbird]
+  primary_metric: f1
+  secondary_metrics: [auc_roc, mcc]

@@ -1,0 +1,33 @@
+# A2 — LoRA rank sweep.
+
+axis:
+  name: A2_lora_rank
+  description: |
+    LoRA rank ∈ {4, 8, 16, 32} on Qwen-2.5-1.5B. Baseline is r=16 (the
+    Phase-3 default). Tests whether larger rank yields meaningfully
+    better F1 vs. the parameter-efficiency cost.
+  baseline_condition: rank_16
+  conditions:
+    - name: rank_4
+      description: Minimal LoRA capacity.
+      parameters: { lora_rank: 4 }
+    - name: rank_8
+      description: Half the default capacity.
+      parameters: { lora_rank: 8 }
+    - name: rank_16
+      description: Phase-3 default.
+      parameters: { lora_rank: 16 }
+    - name: rank_32
+      description: Doubled capacity; tests over-parameterisation.
+      parameters: { lora_rank: 32 }
+
+run:
+  seeds: [42, 1337, 2024, 31415, 27182]
+  datasets: [hdfs, bgl, thunderbird]
+  primary_metric: f1
+  secondary_metrics: [auc_roc, mcc]
+
+statistics:
+  alternative: two-sided
+  holm_alpha: 0.05
+  cliffs_threshold: 0.33

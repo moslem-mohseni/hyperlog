@@ -1,0 +1,26 @@
+# A5 — encoder frozen vs. encoder LoRA-tuned.
+
+axis:
+  name: A5_encoder_lora
+  description: |
+    HyLog defaults to freezing the BERT encoder. A5 tests whether
+    attaching a LoRA adapter to the encoder improves cross-system
+    transfer at the cost of additional trainable parameters and the
+    risk of over-fitting on the source-system vocabulary.
+  baseline_condition: encoder_frozen
+  conditions:
+    - name: encoder_frozen
+      description: HyLog Phase-3 default — BERT encoder completely frozen.
+      parameters: { encoder_lora: false }
+    - name: encoder_lora_r4
+      description: LoRA adapter on BERT with r=4 (matches upstream LogLLM's encoder LoRA).
+      parameters: { encoder_lora: true, encoder_lora_rank: 4 }
+    - name: encoder_lora_r8
+      description: LoRA adapter on BERT with r=8.
+      parameters: { encoder_lora: true, encoder_lora_rank: 8 }
+
+run:
+  seeds: [42, 1337, 2024, 31415, 27182]
+  datasets: [hdfs, bgl, thunderbird]
+  primary_metric: f1
+  secondary_metrics: [auc_roc, mcc]
