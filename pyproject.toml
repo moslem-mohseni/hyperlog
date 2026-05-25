@@ -71,6 +71,7 @@ dev = [
 hylog-train = "hylog.cli.train:main"
 hylog-predict = "hylog.cli.predict:main"
 hylog-loso = "hylog.cli.loso:main"
+hylog-calibrate = "hylog.cli.calibrate:main"
 
 [project.urls]
 Homepage = "https://github.com/moslem-mohseni/hyperlog"
@@ -149,9 +150,12 @@ module = [
     "hylog.evaluation.statistical_tests",
     "hylog.evaluation.ood_distance",
     "hylog.evaluation.run_manifest",
+    "hylog.calibration.*",
+    "hylog.inference.selective",
     "hylog.training.domain_adversarial",
     "hylog.training.self_supervised",
     "hylog.cli.loso",
+    "hylog.cli.calibrate",
 ]
 disable_error_code = [
     "no-any-return",
