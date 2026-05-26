@@ -1,0 +1,2 @@
+# Generated figures land here at build time. scripts/build_figures.py
+# emits .pdf files from reports/*.json artefacts.

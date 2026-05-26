@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hylog"
-version = "0.0.1"
+version = "1.0.0"
 description = "Hybrid Small-Language-Model Pipeline for Cross-System Log Anomaly Detection with Calibrated Uncertainty"
 readme = "README.md"
 requires-python = ">=3.11"

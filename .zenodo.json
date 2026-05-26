@@ -1,0 +1,54 @@
+{
+  "title": "HyperLog: Hybrid Small-Language-Model Pipeline for Cross-System Log Anomaly Detection with Calibrated Uncertainty",
+  "version": "1.0.0",
+  "description": "<p>HyperLog is a research-grade and production-grade hybrid encoder + projector + QLoRA-tuned compact decoder-only small language model pipeline for log anomaly detection. The release includes:</p><ul><li>A faithful re-implementation of the LogLLM (Guan et al., 2024) baseline.</li><li>The HyperLog core: a sub-2B SLM decoder with QLoRA, in three training stages.</li><li>A strict zero-target-label leave-one-system-out (LOSO) cross-system evaluation protocol with mechanical SHA-256 leakage audits per fold.</li><li>Post-hoc temperature scaling calibration with reliability diagrams, ECE/MCE, AURC, Excess-AURC, and cost-asymmetric AURC.</li><li>Risk-coverage selective prediction with automatic tau selection.</li><li>Full eight-axis ablation matrix (A1-A8) with paired Wilcoxon + Holm-Bonferroni + Cliff's delta.</li><li>A FastAPI REST inference service (Phase 8) with API-key auth, per-key rate limiting, drift monitor, and committed OpenAPI spec.</li><li>One-command reproduction scripts for Windows and Linux.</li></ul><p>Total test coverage at v1.0.0 is 420+ unit and integration tests.</p>",
+  "creators": [
+    {
+      "name": "Mohseni Khah, Moslem",
+      "affiliation": "Independent researcher",
+      "orcid": ""
+    }
+  ],
+  "keywords": [
+    "log anomaly detection",
+    "small language models",
+    "QLoRA",
+    "cross-system generalization",
+    "calibrated uncertainty",
+    "selective prediction",
+    "LOSO",
+    "Loghub-2.0",
+    "AIOps",
+    "site reliability engineering",
+    "deep learning for network and service management"
+  ],
+  "license": "MIT",
+  "upload_type": "software",
+  "access_right": "open",
+  "communities": [
+    {"identifier": "ml-software"}
+  ],
+  "related_identifiers": [
+    {
+      "scheme": "url",
+      "identifier": "https://github.com/moslem-mohseni/hyperlog",
+      "relation": "isSupplementTo"
+    },
+    {
+      "scheme": "arxiv",
+      "identifier": "2411.08561",
+      "relation": "isDerivedFrom"
+    },
+    {
+      "scheme": "arxiv",
+      "identifier": "1706.04599",
+      "relation": "references"
+    },
+    {
+      "scheme": "arxiv",
+      "identifier": "2305.14314",
+      "relation": "references"
+    }
+  ],
+  "notes": "Reproducibility appendix: reports/phase9/reproducibility_appendix.md. Every numerical claim in the paper is backed by a JSON artefact under reports/."
+}

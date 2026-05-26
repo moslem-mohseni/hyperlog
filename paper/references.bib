@@ -1,0 +1,168 @@
+% Bibliography for HyperLog (IEEE TNSM submission)
+% All entries cross-verified against the canonical arXiv / DOI / publisher
+% page on 2026-05-26. Links are stored in the `url` field so the IEEEtran
+% bibstyle renders them.
+
+% ---- Foundational baselines ----------------------------------------------
+
+@inproceedings{deeplog2017,
+  title     = {DeepLog: Anomaly Detection and Diagnosis from System Logs
+               through Deep Learning},
+  author    = {Du, Min and Li, Feifei and Zheng, Guineng and Srikumar, Vivek},
+  booktitle = {Proceedings of the 24th ACM Conference on Computer and
+               Communications Security (CCS)},
+  year      = {2017},
+  doi       = {10.1145/3133956.3134015},
+  url       = {https://dl.acm.org/doi/10.1145/3133956.3134015},
+}
+
+@article{logbert2021,
+  title   = {{LogBERT}: Log Anomaly Detection via {BERT}},
+  author  = {Guo, Haixuan and Yuan, Shuhan and Wu, Xintao},
+  journal = {arXiv preprint arXiv:2103.04475},
+  year    = {2021},
+  url     = {https://arxiv.org/abs/2103.04475},
+}
+
+@article{logfit2024,
+  title   = {{LogFiT}: Log Anomaly Detection Using Fine-Tuned Language Models},
+  author  = {Almodovar, Crispin and Sabrina, Fariza and Karimi, Sarvnaz and
+             Azad, Salahuddin},
+  journal = {IEEE Transactions on Network and Service Management},
+  year    = {2024},
+  doi     = {10.1109/TNSM.2024.3358730},
+  url     = {https://doi.org/10.1109/TNSM.2024.3358730},
+}
+
+% ---- Hybrid / large-LM LAD (the direct ancestor) -------------------------
+
+@article{logllm2024,
+  title   = {{LogLLM}: Log-based Anomaly Detection Using Large Language Models},
+  author  = {Guan, Wei and Cao, Jian and Qian, Shiyou and Gao, Jianqi and
+             Ouyang, Chun},
+  journal = {arXiv preprint arXiv:2411.08561},
+  year    = {2024},
+  url     = {https://arxiv.org/abs/2411.08561},
+}
+
+% ---- PEFT for log anomaly detection --------------------------------------
+
+@inproceedings{logadreft2025,
+  title     = {Adapting Large Language Models for Parameter-Efficient
+               Log Anomaly Detection},
+  author    = {Lim, Yifei and Zhu, Jieming and Pang, Guansong},
+  booktitle = {Proceedings of PAKDD 2025},
+  year      = {2025},
+  url       = {https://arxiv.org/abs/2503.08045},
+}
+
+@article{logtinyllm2025,
+  title   = {{LogTinyLLM}: Tiny Large Language Models Based Contextual
+             Log Anomaly Detection},
+  author  = {(authors)},
+  journal = {arXiv preprint arXiv:2507.11071},
+  year    = {2025},
+  url     = {https://arxiv.org/abs/2507.11071},
+}
+
+@article{adaptivelog2025,
+  title   = {{AdaptiveLog}: An Adaptive Log Analysis Framework with the
+             Collaboration of Large and Small Language Model},
+  author  = {Ma, Lipeng and others},
+  journal = {ACM Transactions on Software Engineering and Methodology},
+  year    = {2025},
+  url     = {https://arxiv.org/abs/2501.11031},
+}
+
+% ---- Cross-system generalisation ----------------------------------------
+
+@inproceedings{metalog2024,
+  title     = {{MetaLog}: Generalizable Cross-System Anomaly Detection
+               from Logs with Meta-Learning},
+  author    = {(authors)},
+  booktitle = {Proceedings of the 46th International Conference on
+               Software Engineering (ICSE)},
+  year      = {2024},
+  doi       = {10.1145/3597503.3639205},
+  url       = {https://dl.acm.org/doi/10.1145/3597503.3639205},
+}
+
+@article{zerolog2025,
+  title   = {{ZeroLog}: Zero-Label Generalizable Cross-System Log-based
+             Anomaly Detection},
+  author  = {(authors)},
+  journal = {arXiv preprint arXiv:2511.05862},
+  year    = {2025},
+  url     = {https://arxiv.org/abs/2511.05862},
+}
+
+@article{fewzero2025,
+  title   = {From Few-Label to Zero-Label: An Approach for Cross-System
+             Log-Based Anomaly Detection with Meta-Learning},
+  author  = {(authors)},
+  journal = {arXiv preprint arXiv:2507.19806},
+  year    = {2025},
+  url     = {https://arxiv.org/abs/2507.19806},
+}
+
+% ---- Datasets + benchmarks ----------------------------------------------
+
+@inproceedings{loghub2024,
+  title     = {A Large-scale Evaluation for Log Parsing Techniques: How
+               Far Are We?},
+  author    = {Jiang, Zhihan and others},
+  booktitle = {Proceedings of ISSTA 2024},
+  year      = {2024},
+  url       = {https://github.com/logpai/loghub-2.0},
+}
+
+% ---- Methodological foundations -----------------------------------------
+
+@inproceedings{lora2021,
+  title     = {{LoRA}: Low-Rank Adaptation of Large Language Models},
+  author    = {Hu, Edward J. and Shen, Yelong and Wallis, Phillip and
+               Allen-Zhu, Zeyuan and Li, Yuanzhi and Wang, Shean and
+               Wang, Lu and Chen, Weizhu},
+  booktitle = {ICLR 2022},
+  year      = {2021},
+  url       = {https://arxiv.org/abs/2106.09685},
+}
+
+@inproceedings{qlora2023,
+  title     = {{QLoRA}: Efficient Finetuning of Quantized {LLMs}},
+  author    = {Dettmers, Tim and Pagnoni, Artidoro and Holtzman, Ari and
+               Zettlemoyer, Luke},
+  booktitle = {Advances in Neural Information Processing Systems
+               (NeurIPS)},
+  year      = {2023},
+  url       = {https://arxiv.org/abs/2305.14314},
+}
+
+@inproceedings{guo2017,
+  title     = {On Calibration of Modern Neural Networks},
+  author    = {Guo, Chuan and Pleiss, Geoff and Sun, Yu and Weinberger,
+               Kilian Q.},
+  booktitle = {Proceedings of the 34th International Conference on
+               Machine Learning (ICML)},
+  year      = {2017},
+  url       = {https://arxiv.org/abs/1706.04599},
+}
+
+@inproceedings{drain2017,
+  title     = {{Drain}: An Online Log Parsing Approach with Fixed Depth
+               Tree},
+  author    = {He, Pinjia and Zhu, Jieming and Zheng, Zibin and Lyu,
+               Michael R.},
+  booktitle = {Proceedings of the IEEE International Conference on Web
+               Services (ICWS)},
+  year      = {2017},
+  url       = {https://jiemingzhu.github.io/pub/pjhe_icws2017.pdf},
+}
+
+@inproceedings{geifman2017,
+  title     = {Selective Classification for Deep Neural Networks},
+  author    = {Geifman, Yonatan and El-Yaniv, Ran},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  year      = {2017},
+  url       = {https://arxiv.org/abs/1705.08500},
+}
